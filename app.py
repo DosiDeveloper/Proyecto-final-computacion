@@ -14,4 +14,28 @@ def load_dataset():
 
 raw_df = load_dataset()
 
+# No hay datos duplicados, pero se eliminan por si acaso
+df = raw_df.drop_duplicates()
+
+# Eliminacion de las columnas img_link y product_link dado que existen actualmente en el server de Amazon
+df = df.drop(columns=["img_link", "product_link"])
+
+# Parse de los precios
+df["discounted_price"] = (df["discounted_price"].str.replace(
+    "₹", "")).str.replace(",", "").astype(float)
+df["actual_price"] = (df["actual_price"].str.replace(
+    "₹", "")).str.replace(",", "").astype(float)
+
+# Parse de los porcentajes de descuento
+df["discount_percentage"] = df["discount_percentage"].str.replace("%", "").astype(int)
+
+# Parse de rating
+df["rating"] = pd.to_numeric(df["rating"], errors="coerce")
+df["rating"] = df["rating"].fillna(df["rating"].dropna().median())
+
+df["rating_count"] = df["rating_count"].str.replace(",", "").fillna(
+    df["rating_count"].dropna().str.replace(",", "").astype(int).median()).astype(int)
+
+# Recalculo de los descuentos
+df["discounted_price"] = df["actual_price"] - (df["actual_price"] * (df["discount_percentage"]/100))
 
