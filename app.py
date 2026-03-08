@@ -1,3 +1,4 @@
+from math import log
 import os
 import streamlit as st
 import pandas as pd
@@ -38,4 +39,9 @@ df["rating_count"] = df["rating_count"].str.replace(",", "").fillna(
 
 # Recalculo de los descuentos
 df["discounted_price"] = df["actual_price"] - (df["actual_price"] * (df["discount_percentage"]/100))
+
+df["category"] = df["category"].str.split(r"[|,]", regex=True)
+
+list_category = set()
+df["category"].apply(lambda x: list_category.update(x))
 
