@@ -45,3 +45,17 @@ df["category"] = df["category"].str.split(r"[|,]", regex=True)
 list_category = set()
 df["category"].apply(lambda x: list_category.update(x))
 
+filtered_df = df.copy()
+
+with st.sidebar:
+    filtered_category = st.multiselect("Categorias", list_category, placeholder="Selecciones una categoria")
+    if filtered_category != []:
+        filtered_df = filtered_df[filtered_df["category"].apply(lambda x : not set(x).isdisjoint(filtered_category))]
+        
+    filtered_rating_start, filtered_rating_end = st.slider(
+        "Eliga el rating", filtered_df["rating"].min(), filtered_df["rating"].max(), value=(filtered_df["rating"].min(), filtered_df["rating"].max()))
+    filtered_df = filtered_df.query(
+        "@filtered_rating_start <= rating and @filtered_rating_end >= rating")
+    
+    filtered_rating_count_start, filtered_rating_end = st.slider(
+        "Eliga la cantidad de reviews", filtered_df["rating_count"].min(), filtered_df["rating_count"].max(), value=(filtered_df["rating_count"].min(), filtered_df["rating_count"].max()))
