@@ -1,4 +1,3 @@
-from math import log
 import os
 import streamlit as st
 import pandas as pd
@@ -41,6 +40,14 @@ df["rating_count"] = df["rating_count"].str.replace(",", "").fillna(
 df["discounted_price"] = df["actual_price"] - (df["actual_price"] * (df["discount_percentage"]/100))
 
 df["category"] = df["category"].str.split(r"[|,]", regex=True)
+
+# eliminando outlier
+q1_actual_price = df["actual_price"].quantile(.25)
+q3_actual_price = df["actual_price"].quantile(.75)
+iqr_actual_price = q3_actual_price - q1_actual_price
+lim_inf_actual_price = q1_actual_price - 1.5 * iqr_actual_price
+lim_sup_actual_price = q3_actual_price + 1.5 * iqr_actual_price
+df = df.query("actual_price >= @lim_inf_actual_price and actual_price <= @lim_sup_actual_price")
 
 list_category = set()
 df["category"].apply(lambda x: list_category.update(x))
