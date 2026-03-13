@@ -47,7 +47,8 @@ knitr::opts_chunk$set(
   fig.pos = "H",
   out.extra = ""
 )
-```{r, include=FALSE}
+```
+```{r include=FALSE}
 # Cargar librerías necesarias
 library(tidyverse)
 library(knitr)
@@ -102,7 +103,7 @@ df_sin_atipicos <- df_limpio %>%
 # Verificacion de registros
 nrow(df_sin_atipicos)
 summary(df_sin_atipicos) 
-  
+  view(df_sin_atipicos)
   
 ```
 
@@ -141,14 +142,16 @@ Justificación del trabajo de investigación\
  
 \subsection{Objetivo General}
 \begin{itemize}
-  \item{Describir objetivo general del trabajo de investigación}
+  \item{Evaluar como la estrategia de descuentos influyen en la percepción de calidad y en la polarización del discurso del consumidor en Amazon Sales}
 \end{itemize}
 
 \subsection{Objetivos Específicos}
 \begin{itemize}
-  \item{Describir objetivo 1 del trabajo de investigación}
-  \item{Describir objetivo 2 del trabajo de investigación}
-  \item{Describir objetivo 3 del trabajo de investigación}
+  \item{Describir la distribución de las calificaciones para identificar la presencia de polarización en las opiniones de los usuarios.}
+  \item{Comparar el promedio de rating en función de los rangos del porcentaje de descuento para determinar si a mayor descuento existe una tendencia a calificar con mayor indulgencia.}
+  \item{Cuantificar la relación entre la cantidad de interacción  y el precio final del producto para medir el nivel de participación del usuario según el costo.}
+   \item{Identificar la frecuencia de términos asociados a "valor por dinero" en los review_title de productos con calificaciones altas pero descuentos agresivos.}
+}
 \end{itemize}
 
 
