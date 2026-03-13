@@ -17,5 +17,5 @@ Evaluar cómo la estrategia de descuentos influyen en la percepción de calidad 
 * Describir la distribución de las calificaciones para identificar la presencia de polarización en las opiniones de los usuarios.
 * Comparar el promedio de rating en función de los rangos del porcentaje de descuento para determinar si a mayor descuento existe una tendencia a calificar con mayor indulgencia.
 * Cuantificar la relación entre la cantidad de interacción  y el precio final del producto para medir el nivel de participación del usuario según el costo.
-* Identificar la frecuencia de términos asociados a "valor por dinero" en los review_title de productos con calificaciones altas pero descuentos agresivos.
+* Identificar la frecuencia de términos asociados a la relacion calidad-precio en las reseñas de productos con calificaciones altas pero con mayores descuentos.
 
