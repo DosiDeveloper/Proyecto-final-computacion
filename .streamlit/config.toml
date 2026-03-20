@@ -1,0 +1,26 @@
+[client]
+showErrorDetails = "none"
+
+[theme]
+base="light"
+borderColor = "#ff9900"
+
+[theme.light]
+
+baseRadius = "medium"
+primaryColor = "#ff9900"
+backgroundColor = "#f2f2f2"
+textColor = "#12130F"
+secondaryBackgroundColor = "#f3ece1"
+
+[theme.dark]
+
+baseRadius = "medium"
+primaryColor = "#ff9900"
+textColor = "#f2f2f2"
+backgroundColor = "#0a0a09"
+secondaryBackgroundColor = "#232f3e"
+
+
+[theme.sidebar]
+showWidgetBorder=true
