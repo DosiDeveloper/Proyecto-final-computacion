@@ -89,7 +89,7 @@ with st.sidebar:
         "Categorias", sorted(list_category), placeholder="Selecciones una categoria")
     if filtered_category != []:
         filtered_df = filtered_df[filtered_df["category"].apply(
-            lambda x: not set(x).isdisjoint(filtered_category))]
+            lambda x: not set(filtered_category).isdisjoint(x))]
     if not len(filtered_df["category"]) > 2:
         st.write("Muy pocas filas para filtrar")
     else:
@@ -112,7 +112,7 @@ with tab_resume:
 
 
 with tab_graph:
-    graph_tab(filtered_df)
+    graph_tab(filtered_df, filtered_category)
 
 with tab_df:
     df_tab(filtered_df)
