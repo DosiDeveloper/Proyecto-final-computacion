@@ -218,13 +218,17 @@ Desarrollo\ La investigación adopta un enfoque cuantitativo de tipo descriptivo
 
 Descripción\ Para este estudio se utilizó el conjunto de datos denominado Amazon_sales.cvs, el cual recopila información detallada sobre transacciones y valoraciones de usuarios en la plataforma. Para el desarrollo de los objetivos planteados, se han seleccionado variables de naturaleza numérica y textual, tales como el precio original (actual_price), el precio con rebaja (discounted_price), el porcentaje de descuento aplicado(discount_percentage), la calificación otorgada (rating) y el volumen de participación (rating_count). 
 
-\subsection{Item 2}
+\section{Procesamiento y Análisis de datos}
 
-Descripción\
+Descripción\ El tratamiento de la información se llevó a cabo mediante el lenguaje de programación R, empleando las librerías tidyverse, con especial énfasis en dplyr para la manipulación de datos y ggplot2 para la generación de evidencia visual. El proceso se realizó en las siguientes etapas:
 
-\subsubsection{Item 2.2}
+\begin{itemize}
+  \item {Limpieza de datos: Se procede con la normalización de las variables, eliminando caracteres especiales de las columnas de moneda y gestionando registros con valores ausentes en las métricas de satisfacción. Se recalcula los porcentajes en la variable de descuento del precio y se filtran los valores atipicos del precio actual se para garantizar la integridad de los resultados. }
+  \item{Análisis Descriptivo: Se ejecutan cálculos de tendencia central y dispersión, como la media, la mediana y la desviación estándar, con el fin de identificar la variabilidad del umbral de exigencia del consumidor frente a distintos niveles de precio.}
+  \item{Visualización: Se desarrollan histogramas para detectar la polarización de opiniones, diagramas de caja para segmentar la satisfacción por niveles de descuento y gráficos de dispersión que ilustran la densidad de la relación entre costo y calificación.}
+  \item{Tabulación: Generación de tablas formateadas que resuman las métricas de engagement y las agrupaciones de satisfacción (Alta, Regular y Baja).}
+\end{itemize}
 
-Descripción\
 
 \subsection{Item n}
 
