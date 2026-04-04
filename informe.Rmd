@@ -107,12 +107,7 @@ summary(df_sin_atipicos)
   
 ```
 
-# Cargar librerías necesarias
-library(tidyverse)
-library(knitr)
-library(kableExtra)
-library(scales)
-```
+
 
 \chapter*{Introducción}
 
@@ -148,9 +143,8 @@ Justificación del trabajo de investigación\
 \subsection{Objetivos Específicos}
 \begin{itemize}
   \item{Describir la distribución de las calificaciones para identificar la presencia de polarización en las opiniones de los usuarios.}
-  \item{Comparar el promedio de rating en función de los rangos del porcentaje de descuento para determinar si a mayor descuento existe una tendencia a calificar con mayor indulgencia.}
-  \item{Cuantificar la relación entre la cantidad de interacción  y el precio final del producto para medir el nivel de participación del usuario según el costo.}
-   \item{Identificar la frecuencia de términos asociados a la relacion calidad-precio en las reseñas de productos con calificaciones altas pero con mayores descuentos.}
+  \item{Comparar el promedio de rating en función de los rangos del porcentaje de descuento para determinar si a mayor descuento existe una tendencia a calificar con menor rigurosidad.}
+   \item{Establecer agrupaciones de satisfacción basadas en el rating para determinar cómo estas categorías influyen en la variabilidad del precio actual y en el posicionamiento de las ventas.}
 }
 \end{itemize}
 
@@ -159,7 +153,7 @@ Justificación del trabajo de investigación\
 
 \subsection{Horizontal}
 
-Describir la cobertura Horizontal del trabajo de investigación\
+Describir la cobertura Horizontal del trabajo de investigación
 
 \begin{table}[ht]
 \centering
@@ -214,15 +208,15 @@ Descripción de la definición n\
 
 
 \chapter{Marco Metódico}
-En esta sección se presentan las metodologías y/o test necesarios relacionados con la práctica divulgada en el marco teórico, así como las fuentes de datos.
+Acontinuación se detalla la metodologia utilzada para abordar el presente estudio. En este apartado se exponen de manera estructurada los procedimientos estadísticos, las técnicas de procesamiento de datos y los criterios de segmentación que permiten operativizar los conceptos discutidos previamente en el marco teórico.
  
-\section{Bases metódicas utilizadas en el trabajo de investigación}
+\section{Enfoque y Tipo de Investigación}
 
-Desarrollo\
+Desarrollo\ La investigación adopta un enfoque cuantitativo de tipo descriptivo-correlacional.El estudio está orientado a desglosar la interacción entre variables críticas como el precio y la satisfacción del cliente. Se busca determinar si existen patrones de comportamiento sistemáticos en la evaluación de productos, analizando cómo el incentivo económico del descuento altera la percepción de calidad del usuario. Este diseño permite observar la fuerza de asociación entre las métricas sin necesidad de establecer una relación de causa y efecto estricta.
 
-\subsection{Item 1}
+\section{Fuente de Datos}
 
-Descripción\
+Descripción\ Para este estudio se utilizó el conjunto de datos denominado Amazon_sales.cvs, el cual recopila información detallada sobre transacciones y valoraciones de usuarios en la plataforma. Para el desarrollo de los objetivos planteados, se han seleccionado variables de naturaleza numérica y textual, tales como el precio original (actual_price), el precio con rebaja (discounted_price), el porcentaje de descuento aplicado(discount_percentage), la calificación otorgada (rating) y el volumen de participación (rating_count). 
 
 \subsection{Item 2}
 
