@@ -6,7 +6,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-amazon_palette = ['#ff9900', '#f3ece1', '#12130F', '#232f3e', '#f2f2f2']
+amazon_palette = ['#00A8E1', '#ff9900', '#f3ece1', '#12130F', '#232f3e', '#f2f2f2']
 
 @st.fragment
 def resume_tab(filtered_df: pd.DataFrame, df: pd.DataFrame, rating_filter):
