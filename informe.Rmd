@@ -99,11 +99,6 @@ limite_superior <- Q3 + 1.5 * IQR_val
 df_sin_atipicos <- df_limpio %>%
   filter(actual_price >= limite_inferior & actual_price <= limite_superior) 
 
-
-# Verificacion de registros
-nrow(df_sin_atipicos)
-summary(df_sin_atipicos) 
-  view(df_sin_atipicos)
   
 ```
 
@@ -238,7 +233,42 @@ Descripción\
 
 {\small Este capítulo presenta los resultados obtenidos al aplicar las metodologías descritas en el capítulo anterior, así como del análisis estadístico descriptivo de las variables estudiadas y las ventajas y desventajas al aplicar dichos tests.}
 
-\section{Presentación de resultados 1}
+\section{Polarización de Opiniones}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(knitr)
+library(kableExtra)
+library(ggplot2)
+library(dplyr)
+
+calcular_moda <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+# Calculos estadisticos
+media_r <- mean(df_sin_atipicos$rating, na.rm = TRUE)
+mediana_r <- median(df_sin_atipicos$rating, na.rm = TRUE)
+moda_r <- calcular_moda(df_sin_atipicos$rating)
+desviacion_r <- sd(df_sin_atipicos$rating, na.rm = TRUE)
+minimo_r <- min(df_sin_atipicos$rating, na.rm = TRUE)
+maximo_r <- max(df_sin_atipicos$rating, na.rm = TRUE)
+total_registros <- nrow(df_sin_atipicos)
+
+# Creacion de  Data Frame con los resultados 
+tabla_resumen <- data.frame(
+  Métrica = c("Total Productos", "Media", "Mediana", "Moda", "Desviación Estándar", "Mínimo", "Máximo"),
+  Valor = c(total_registros, 
+            round(media_r, 2), 
+            round(mediana_r, 2), 
+            round(moda_r, 2),
+            round(desviacion_r, 2), 
+            round(minimo_r, 2), 
+            round(maximo_r, 2))
+)
+
+
+```
 
 Descripción\
 
