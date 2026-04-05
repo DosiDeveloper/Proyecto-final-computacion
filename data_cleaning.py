@@ -32,6 +32,9 @@ df["discounted_price"] = df["actual_price"] - \
 
 df["category"] = df["category"].str.split(r"[|,]", regex=True)
 
+list_category = set()
+df["category"].apply(lambda x: list_category.update(x))
+
 # eliminando outlier
 q1_actual_price = df["actual_price"].quantile(.25)
 q3_actual_price = df["actual_price"].quantile(.75)
