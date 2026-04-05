@@ -16,7 +16,7 @@ st.column_config.NumberColumn(format="localized")
 @st.cache_data
 def load_dataset():
     try:
-        load_df = pd.read_csv(os.path.abspath("11. Amazon Sales.csv"))
+        load_df = pd.read_csv(os.path.abspath("Cleaned Amazon Sales.csv"))
         return load_df
     except FileNotFoundError as e:
         st.error("El dataset no se ha encontrado", icon=":material/error")
