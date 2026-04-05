@@ -27,3 +27,5 @@ No obstante, la fiabilidad de estas señales no opera por sí sola, sino que se 
 	
 Cuando desplazamos el análisis hacia el precio actual, sin sesgos por ofertas, entra en juego el criterio de exigencia del usuario. Bajo este contexto, los productos con un mayor costo generan en el consumidor un rol más estricto; cualquier mínima discrepancia entre la calidad esperada y la obtenida se traduce en una penalización más severa en el rating, lo que conduce a una heterogeneidad de opiniones. De igual forma ocurre con los productos más económicos: el beneficio monetario hace que el usuario reduzca sus niveles de exigencia. En ambos casos, el juicio del consumidor se rige según la Teoría de la desconfirmación de expectativas.
 
+---
+[Deploy del dashboard](https://dashboard-amzon-sales.streamlit.app/)
