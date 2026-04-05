@@ -333,9 +333,29 @@ resumen_d <- df_sin_atipicos %>%
     Desv_Est = round(sd(rating, na.rm = TRUE), 2)
   )
 
+# Tabla resumen de estadisticas 
+resumen_d %>%
+  kable(col.names = c("Rango de Descuento", "Productos", "Media", "Mediana", "Moda", "D.E."),
+        caption = "Análisis de Satisfacción por Intervalos de Descuento (20%)",
+        align = "lccccc") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE) %>%
+  row_spec(0, bold = TRUE, color = "white", background = "#2c3e50")
+
+#Gráfico de cajas para comparar distribuciones
+ggplot(df_sin_atipicos, aes(x = rango_descuento, y = rating, fill = rango_descuento)) +
+  geom_boxplot(alpha = 0.6, outlier.color = "red", outlier.alpha = 0.5) +
+  scale_fill_brewer(palette = "YlGnBu") + 
+  labs(title = "Distribución del Rating por Intervalos de Descuento",
+       subtitle = "Evaluación de la indulgencia del consumidor en rangos del 20%",
+       x = "Porcentaje de Descuento",
+       y = "Rating") +
+  theme_minimal() +
+  theme(legend.position = "none",
+        axis.text.x = element_text(angle = 45, hjust = 1)) 
+
 ```
 
-Descripción\
+Descripción\**Análisis:**  
 
 \section{Presentación de resultados n}
 
