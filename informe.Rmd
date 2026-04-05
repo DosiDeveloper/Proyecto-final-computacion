@@ -294,7 +294,46 @@ ggplot(df_sin_atipicos, aes(x = rating)) +
 
 Descripción\ **Análisis:** La calificación promedio de un producto es de 4.08 y su mediana de 4.10 mostrando una concentración en la parte superior de la escala. El histograma muestra una distribución unimodal con un ligero sesgo negativo, donde la mayor cantidad de productos se agrupa por encima de las 4 estrellas. El hecho que la desviación estandar sea tan baja confirma que existe un consenso generalizado sobre la calidad de los artículos, descartando la presencia de una división crítica o polarización en la percepción de los usuarios dentro de esta muestra.
 
-\section{Presentación de resultados 2}
+\section{Comparación de Rating por Nivel de Descuento}
+
+```{r, echo=FALSE, results='asis', message=FALSE, warning=FALSE}
+library(dplyr)
+library(knitr)
+library(kableExtra)
+library(ggplot2)
+
+# calculo de moda
+moda2 <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+# Creacion de rangos por descuento 
+df_sin_atipicos <- df_sin_atipicos %>%
+  mutate(rango_descuento = case_when(
+    discount_percentage == 0 ~ "Sin Descuento (0%)",
+    discount_percentage > 0 & discount_percentage <= 0.20 ~ "1% - 20%",
+    discount_percentage > 0.20 & discount_percentage <= 0.40 ~ "21% - 40%",
+    discount_percentage > 0.40 & discount_percentage <= 0.60 ~ "41% - 60%",
+    discount_percentage > 0.60 & discount_percentage <= 0.80 ~ "61% - 80%",
+    discount_percentage > 0.80 ~ "Más de 80%"
+  )) %>%
+  mutate(rango_descuento = factor(rango_descuento, 
+                           levels = c("Sin Descuento (0%)", "1% - 20%", "21% - 40%", 
+                                      "41% - 60%", "61% - 80%", "Más de 80%")))
+
+# Estadisticas por rango
+resumen_d <- df_sin_atipicos %>%
+  group_by(rango_descuento) %>%
+  summarize(
+    N = n(),
+    Media = round(mean(rating, na.rm = TRUE), 2),
+    Mediana = round(median(rating, na.rm = TRUE), 2),
+    Moda = moda2(rating),
+    Desv_Est = round(sd(rating, na.rm = TRUE), 2)
+  )
+
+```
 
 Descripción\
 
