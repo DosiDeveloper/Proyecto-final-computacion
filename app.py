@@ -1,12 +1,13 @@
-import logging
 import os
 import streamlit as st
+from streamlit_theme import st_theme
 import pandas as pd
 
 from fragments import df_tab, graph_tab, resume_tab
+from data_cleaning import list_category
 
 # config
-st.set_page_config(layout="wide", page_title="Analisis de Ventas Amazon",)
+st.set_page_config(layout="wide", page_title="Análisis de Ventas Amazon",)
 st.column_config.NumberColumn(format="localized")
 
 # cargar en cache el dataset
@@ -21,56 +22,17 @@ def load_dataset():
         st.error("El dataset no se ha encontrado", icon=":material/error")
 
 
-raw_df = load_dataset()
-
-# No hay datos duplicados, pero se eliminan por si acaso
-df = raw_df.drop_duplicates()
-
-# Eliminacion de las columnas img_link y product_link dado que existen actualmente en el server de Amazon
-df = df.drop(columns=["img_link", "product_link", "review_id",
-             "user_name", "user_id", "review_title", "review_content"])
-
-# Parse de los precios
-df["discounted_price"] = (df["discounted_price"].str.replace(
-    "₹", "")).str.replace(",", "").astype(float)
-df["actual_price"] = (df["actual_price"].str.replace(
-    "₹", "")).str.replace(",", "").astype(float)
-
-# Parse de los porcentajes de descuento
-df["discount_percentage"] = df["discount_percentage"].str.replace(
-    "%", "").astype(int)
-
-# Parse de rating
-df["rating"] = pd.to_numeric(df["rating"], errors="coerce")
-df["rating"] = df["rating"].fillna(df["rating"].dropna().median())
-
-df["rating_count"] = df["rating_count"].str.replace(",", "").fillna(
-    df["rating_count"].dropna().str.replace(",", "").astype(int).median()).astype(int)
-
-# Recalculo de los descuentos
-df["discounted_price"] = df["actual_price"] - \
-    (df["actual_price"] * (df["discount_percentage"]/100))
-
-df["category"] = df["category"].str.split(r"[|,]", regex=True)
-
-# eliminando outlier
-q1_actual_price = df["actual_price"].quantile(.25)
-q3_actual_price = df["actual_price"].quantile(.75)
-iqr_actual_price = q3_actual_price - q1_actual_price
-lim_inf_actual_price = q1_actual_price - 1.5 * iqr_actual_price
-lim_sup_actual_price = q3_actual_price + 1.5 * iqr_actual_price
-df = df.query(
-    "actual_price >= @lim_inf_actual_price and actual_price <= @lim_sup_actual_price")
-
-list_category = set()
-df["category"].apply(lambda x: list_category.update(x))
+df = load_dataset()
+df["category"] = df["category"].map(
+    lambda x: eval(x) if isinstance(x, str) else x)
 
 filtered_df = df.copy()
 
-# UI
-
 col1, col2 = st.columns([1, 5], vertical_alignment="center")
-if st.context.theme.type == "light":
+
+actual_theme = st_theme()
+
+if actual_theme is not None and actual_theme.get("base") == "light":
     st.logo("./static/Amazon_logo_black.png", size="large",
             icon_image="./static/Amazon_icon_black.png")
     col1.container(horizontal_alignment="center").image(
@@ -80,30 +42,37 @@ else:
             icon_image="./static/Amazon_icon_white.png")
     col1.container(horizontal_alignment="center").image(
         "./static/Amazon_logo_white.png", width=300)
+
 col2.title("Analisis de Amazon Sales", text_alignment="center")
 st.space("small")
 percentage_level = ["0-20%", "20-40%", "40-60%", "60-80%", "80-100%"]
-rating_label = ["malisimo", "malo", "regular", "bueno", "muy bueno"]
+rating_label = ["Muy malo", "Malo", "Regular", "Bueno", "Muy bueno"]
 
 
 with st.sidebar:
     st.subheader("Filtros")
     filtered_category = st.multiselect(
-        "Categorias", sorted(list_category), placeholder="Selecciones una categoria")
+        "Categorias", sorted(list_category), placeholder="Seleccione una categoria")
     # filtros basicos
-    filtered_df["discount_percentage_group"] = pd.cut(filtered_df["discount_percentage"], bins=[-1, 20, 40, 60, 80, 100], labels=percentage_level)
-    filtered_discount_qcut = st.multiselect("Filtro de porcentaje de descuento por level", percentage_level)
-    filtered_df = filtered_df[filtered_df["discount_percentage_group"].isin(filtered_discount_qcut)] if len(filtered_discount_qcut) > 0 else filtered_df
-    
-    filtered_df["rating_group"] = pd.qcut(filtered_df["rating"], 5, labels = rating_label)    
-    filtered_rating_qcut = st.multiselect("Filtro de rating por level", rating_label )
-    filtered_df = filtered_df[filtered_df["rating_group"].isin(filtered_rating_qcut)] if len(filtered_rating_qcut) > 0 else filtered_df
+    filtered_df["discount_percentage_group"] = pd.cut(
+        filtered_df["discount_percentage"], bins=[-1, 20, 40, 60, 80, 100], labels=percentage_level)
+    filtered_discount_qcut = st.multiselect(
+        "Filtro de porcentaje de descuento por intervalo", percentage_level,  placeholder="Seleccione un intervalo de descuento")
+    filtered_df = filtered_df[filtered_df["discount_percentage_group"].isin(
+        filtered_discount_qcut)] if len(filtered_discount_qcut) > 0 else filtered_df
+
+    filtered_df["rating_group"] = pd.qcut(
+        filtered_df["rating"], 5, labels=rating_label)
+    filtered_rating_qcut = st.multiselect(
+        "Filtro de rating por nivel", rating_label,  placeholder="Seleccione un nivel de rating")
+    filtered_df = filtered_df[filtered_df["rating_group"].isin(
+        filtered_rating_qcut)] if len(filtered_rating_qcut) > 0 else filtered_df
     # filtros "avanzados"
     if filtered_category != []:
-            filtered_df = filtered_df[filtered_df["category"].apply(
-                lambda x: not set(filtered_category).isdisjoint(x))]
+        filtered_df = filtered_df[filtered_df["category"].apply(
+            lambda x: not set(filtered_category).isdisjoint(x))]
     if not len(filtered_df["category"]) > 2:
-            st.warning("Muy pocas filas para filtrar")
+        st.warning("Muy pocas filas para filtrar")
     elif st.checkbox("Filtros avanzados"):
         filtered_rating_start, filtered_rating_end = st.slider(
             "Eliga el rating", filtered_df["rating"].min(), filtered_df["rating"].max(), value=(filtered_df["rating"].min(), filtered_df["rating"].max()))
@@ -117,16 +86,16 @@ with st.sidebar:
 
 
 tab_resume, tab_graph, tab_df = st.tabs(
-    [":globe_with_meridians: Resumen", ":chart_with_upwards_trend: Grafico", ":blue_book: Ver tabla"])
+    [":globe_with_meridians: Resumen", ":chart_with_upwards_trend: Gráfico", ":blue_book: Ver tabla"])
 
 with tab_resume:
     resume_tab(filtered_df, df, rating_filter=filtered_rating_qcut)
-    st.link_button("Informe del proyecto", "https://github.com/DosiDeveloper/Proyecto-final-computacion/blob/master/informe.pdf", icon=":material/info:")
+    st.link_button("Informe del proyecto",
+                   "https://github.com/DosiDeveloper/Proyecto-final-computacion/blob/master/informe.pdf", icon=":material/info:")
 
 
 with tab_graph:
-    graph_tab(filtered_df, filtered_category)
+    graph_tab(filtered_df)
 
 with tab_df:
     df_tab(filtered_df)
-
