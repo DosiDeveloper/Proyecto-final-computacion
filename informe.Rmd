@@ -267,10 +267,32 @@ tabla_resumen <- data.frame(
             round(maximo_r, 2))
 )
 
+# Creacion de la tabla con los resultados de las estadisticas descriptivas
+tabla_resumen %>%
+  kable(col.names = c("Estadístico", "Resultado"), 
+        caption = "Estadísticas Descriptivas del Rating de Productos",
+        align = "lc") %>% 
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), 
+                full_width = FALSE, 
+                position = "center")
+
+#Histograma del rating
+
+ggplot(df_sin_atipicos, aes(x = rating)) +
+  geom_histogram(binwidth = 0.5, fill = "steelblue", color = "white") +
+  labs(title = "Distribución de Calificaciones (Ratings)",
+       subtitle = "Análisis de polarización y sesgo de selección",
+       x = "Calificación (1-5 Estrellas)",
+       y = "Cantidad de Productos") +
+  theme_minimal() +
+  #línea roja para la media
+  geom_vline(aes(xintercept = mean(rating, na.rm = TRUE)), 
+             color = "red", linetype = "dashed", size = 1)
+
 
 ```
 
-Descripción\
+Descripción\ **Análisis:** La calificación promedio de un producto es de 4.08 y su mediana de 4.10 mostrando una concentración en la parte superior de la escala. El histograma muestra una distribución unimodal con un ligero sesgo negativo, donde la mayor cantidad de productos se agrupa por encima de las 4 estrellas. El hecho que la desviación estandar sea tan baja confirma que existe un consenso generalizado sobre la calidad de los artículos, descartando la presencia de una división crítica o polarización en la percepción de los usuarios dentro de esta muestra.
 
 \section{Presentación de resultados 2}
 
