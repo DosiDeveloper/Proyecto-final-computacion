@@ -71,7 +71,7 @@ df_limpio <- df %>%
     rating = as.numeric(rating), 
     rating_count = as.numeric(gsub(",", "",  rating_count)),
   # Convercion de porcentaje (ej. 50%) a decimal (0.50)
-    discount_percentage = as.numeric(gsub("%", "", discount_percentage))/100,
+    discount_percentage = as.numeric(gsub("%", "", discount_percentage))/100
     ) 
   # Recalculo de porcentajes
   df_limpio <- df_limpio %>%
@@ -355,11 +355,30 @@ ggplot(df_sin_atipicos, aes(x = rango_descuento, y = rating, fill = rango_descue
 
 ```
 
-Descripción\**Análisis:**  
+Descripción\ **Análisis:**  
 
-\section{Presentación de resultados n}
+\section{Gráfico de dispersión entre el precio actual y el rating}
 
-Descripción\
+```{r, echo=FALSE, fig.align='center', message=FALSE, warning=FALSE, out.width=80%}
+
+#segmentación del rating en rangos de puntaje
+df_sin_atipicos$rango_satisfaccion <- ifelse(df_sin_atipicos$rating >= 4.5, "Alta", ifelse(df_sin_atipicos$rating >= 3.5, "Regular", "Baja"))
+
+#convertir en un factor para darle una jerarquía
+df_sin_atipicos$rango_satisfaccion <- factor(df_sin_atipicos$rango_satisfaccion, levels = c("Baja", "Regular", "Alta"))
+
+#creacion del grafico de dispersion
+ggplot(df_sin_atipicos, aes(x= actual_price, y= rating, color = rango_satisfaccion)) + geom_jitter(alpha = 1.0, size= 1.5) + theme_light() +
+  scale_color_manual(values = c("Baja"= "#00008B", "Regular"= "#FFB90F", "Alta"= "#FF1493")) + #para escoger manualmente los colores de la segmentacion del rating
+  labs(title = "Dispersión entre el precio actual y el Rating",
+       x = "Precio Actual",
+       y = "Rating") + 
+  theme(legend.position = "bottom")
+
+```
+
+
+Descripción\ **Análisis:** En el gráfico se puede visualizar una concentración considerablemente alta en los valores que tienden a una calificación regular, por encima de los 4 puntos de satisfacción, y estan por debajo de un precio de 2.500. Ya habiendo calculado anteriormente los índices estadísticos descriptivos en base al Rating, sabemos que el promedio de satisfacción es de 4.08, la desviación estándar es de aproximadamente 0.30, mediana de 4.1 y un coeficiente de variacion (CV) aproximadamente del 7.3, nos da a entender que la distribución presenta una leve asimetria negativa por la relación que tiene la media al ser menor que la mediana, sugiriendo que los valores estan comprimidos en el limite superior de la escala, al tener un CV tan pequeño y una media y mediana muy similares.
 
 \chapter{Conclusiones y Recomendaciones}
 
