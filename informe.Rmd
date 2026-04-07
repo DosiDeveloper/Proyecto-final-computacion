@@ -361,7 +361,7 @@ Descripción\ **Análisis:** Se observar en la tabla y el gráfico de cajas, que
 
 \section{Gráfico de dispersión entre el precio actual y el rating}
 
-```{r, echo=FALSE, fig.align='center', message=FALSE, warning=FALSE, out.width=80%}
+```{r, echo=FALSE, fig.align='center', message=FALSE, warning=FALSE, out.width= "80%"}
 
 #segmentación del rating en rangos de puntaje
 df_sin_atipicos$rango_satisfaccion <- ifelse(df_sin_atipicos$rating >= 4.5, "Alta", ifelse(df_sin_atipicos$rating >= 3.5, "Regular", "Baja"))
@@ -381,6 +381,23 @@ ggplot(df_sin_atipicos, aes(x= actual_price, y= rating, color = rango_satisfacci
 
 
 Descripción\ **Análisis:** En el gráfico se puede visualizar una concentración considerablemente alta en los valores que tienden a una calificación regular, por encima de los 4 puntos de satisfacción, y estan por debajo de un precio de 2.500. Ya habiendo calculado anteriormente los índices estadísticos descriptivos en base al Rating, sabemos que el promedio de satisfacción es de 4.08, la desviación estándar es de aproximadamente 0.30, mediana de 4.1 y un coeficiente de variacion (CV) aproximadamente del 7.3, nos da a entender que la distribución presenta una leve asimetria negativa por la relación que tiene la media al ser menor que la mediana, sugiriendo que los valores estan comprimidos en el limite superior de la escala, al tener un CV tan pequeño y una media y mediana muy similares.
+
+\section{Análisis del volumen de interacción en base a los rangos de satisfacción}
+
+```{r, echo=FALSE, fig.align='center', message=FALSE, warning=FALSE, out.width= "80%"}
+#se agrupa la cuenta de la interacción en cada rango de satisfacción
+
+volumen_interacción <- df_sin_atipicos %>% 
+group_by(rango_satisfaccion) %>% 
+summarise(volumen_interacción = sum(rating_count))  
+
+#se hace un gráfico de columnas para visualizar el volumen de interacción
+ggplot(volumen_interacción, aes(x = rango_satisfaccion, y = volumen_interacción)) + geom_col(fill = "Orange", color = "black")  + scale_y_continuous(labels = label_number(big.mark = ".", decimal.mark = ",")) + theme_minimal() + labs(title = "Volumen de interacción entre cada rango de satisfacción", x = "Rango de satisfacción", y = "Interacciones")
+
+```
+
+Descripción\ **Análisis:** En relación con el anterior gráfico de dispersión, en este podemos observar que la acumulación del rating en el rango "Regular" se debe a que la mayor cantidad de reseñas o interacciones las tiene el mismo. Desde una perspectiva descriptiva esto se puede ver como una nube que oculta lo que está tras ella, al condensarse tanta poblacion en un mismo rango alcanzando grandes volúmenes, todos los cálculos y parámetros van a tender a esos valores, manteniéndose más estables en la plataforma que otros, como lo pueden ser los que pertenecen a los rangos "Alto" y "Bajo", sugiriendo que estos productos pueden ser de un consumo menos "masivo" o que probablemente por el hecho de la permanencia de esos productos no han podido deslumbrar ante lo que los oculta.
+
 
 \chapter{Conclusiones y Recomendaciones}
 
