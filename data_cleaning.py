@@ -26,14 +26,9 @@ df["rating"] = df["rating"].fillna(df["rating"].dropna().median())
 df["rating_count"] = df["rating_count"].str.replace(",", "").fillna(
     df["rating_count"].dropna().str.replace(",", "").astype(int).median()).astype(int)
 
-# Recalculo de los descuentos
-df["discounted_price"] = df["actual_price"] - \
-    (df["actual_price"] * (df["discount_percentage"]/100))
 
 df["category"] = df["category"].str.split(r"[|,]", regex=True)
 
-list_category = set()
-df["category"].apply(lambda x: list_category.update(x))
 
 # eliminando outlier
 q1_actual_price = df["actual_price"].quantile(.25)
@@ -44,4 +39,12 @@ lim_sup_actual_price = q3_actual_price + 1.5 * iqr_actual_price
 df = df.query(
     "actual_price >= @lim_inf_actual_price and actual_price <= @lim_sup_actual_price")
 
-df.to_csv("Cleaned Amazon Sales.csv", index=False);
+list_category = set()
+df["category"].apply(lambda x: list_category.update(x))
+
+# Recalculo de los descuentos
+df["discounted_price"] = df["actual_price"] - \
+    (df["actual_price"] * (df["discount_percentage"]/100))
+
+if __name__ == "__main__":
+    df.to_csv("Cleaned Amazon Sales.csv", index=False)

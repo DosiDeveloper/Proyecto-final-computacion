@@ -16,15 +16,15 @@ st.column_config.NumberColumn(format="localized")
 @st.cache_data
 def load_dataset():
     try:
-        load_df = pd.read_csv(os.path.abspath("Cleaned Amazon Sales.csv"))
-        return load_df
+        load_df_clean = pd.read_csv(os.path.abspath("Cleaned Amazon Sales.csv"))
+        load_df_clean["category"] = load_df_clean["category"].map(
+            lambda x: eval(x) if isinstance(x, str) else x)
+        return load_df_clean
     except FileNotFoundError as e:
         st.error("El dataset no se ha encontrado", icon=":material/error")
 
 
 df = load_dataset()
-df["category"] = df["category"].map(
-    lambda x: eval(x) if isinstance(x, str) else x)
 
 filtered_df = df.copy()
 
@@ -45,6 +45,7 @@ else:
 
 col2.title("Analisis de Amazon Sales", text_alignment="center")
 st.space("small")
+
 percentage_level = ["0-20%", "20-40%", "40-60%", "60-80%", "80-100%"]
 rating_label = ["Muy malo", "Malo", "Regular", "Bueno", "Muy bueno"]
 
@@ -83,6 +84,16 @@ with st.sidebar:
             "Eliga la cantidad de reviews", filtered_df["rating_count"].min(), filtered_df["rating_count"].max(), value=(filtered_df["rating_count"].min(), filtered_df["rating_count"].max()))
         filtered_df = filtered_df.query(
             "@filtered_rating_count_start <= rating_count and @filtered_rating_count_end >= rating_count")
+        
+        filtered_actual_price_start, filtered_actual_price_end = st.slider(
+            "Eliga el precio real (INR)", filtered_df["actual_price"].min(), filtered_df["actual_price"].max(), value=(filtered_df["actual_price"].min(), filtered_df["actual_price"].max()))
+        filtered_df = filtered_df.query(
+            "@filtered_actual_price_start <= actual_price and @filtered_actual_price_end >= actual_price")
+        
+        filtered_discounted_price_start, filtered_discounted_price_end = st.slider(
+            "Eliga el precio con descuento (INR)", filtered_df["discounted_price"].min(), filtered_df["discounted_price"].max(), value=(filtered_df["discounted_price"].min(), filtered_df["discounted_price"].max()))
+        filtered_df = filtered_df.query(
+            "@filtered_discounted_price_start <= discounted_price and @filtered_discounted_price_end >= discounted_price")
 
 
 tab_resume, tab_graph, tab_df = st.tabs(
