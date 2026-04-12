@@ -1,6 +1,6 @@
 ---
 # --- Metadatos Básicos ---
-title: "Analisis de Amazon Sales"
+title: "Análisis de las calificaciones de los usuarios en función de los descuentos aplicados para determinar su impacto en el posicionamiento de mercado en la plataforma de Amazon Sales"
 author:
    - Douglas Barreto
    - Laura Montes
@@ -33,7 +33,8 @@ output:
 
 # --- Resumen (Abstract) ---
 abstract: |
-  Resumen del trabajo de investigación...
+   Este trabajo analiza como las estrategias de descuentos influyen en la percepción de calidad y en la polarización del discurso del consumidor en Amazon Sales. Mediante un enfoque cuantitativo de alcance descriptivo-correlacional, se analizó un conjunto de datos de ventas de la plataforma, el cual fue sometido a un riguroso proceso de limpieza y depuración de valores atípicos. El análisis y la visualización de resultados se fundamentaron en técnicas de estadística descriptiva, empleando diagramas de caja, gráficos de dispersión e histogramas para identificar patrones de comportamiento. Los hallazgos concluyen que      
+
 ---
 
 ```{r setup, include=FALSE}
@@ -116,14 +117,14 @@ El análisis crítico de un consumidor a través de reseñas es deteriorado por 
 	
 El objetivo investigativo se centrará en un análisis comparativo a distintas distribuciones segmentadas del rating, con el fin de hallar patrones de comportamiento, siendo así, la identificación de anomalías con procedimientos estadísticos descriptivos; como dispersión en las calificaciones y frecuencia de términos críticos o interacciones como lo son las reseñas, permitiendo observar si el porcentaje del descuento y en el precio existe algún tipo de correlación, las cuáles en base a lo demostrado podría sugerir una discrepancia entre el rating y la crítica descriptiva.
 
-Argumento final. Debido a esto, se plantea las siguientes preguntas de investigación:\
+En razón a lo antes expuesto, la investigación propuesta busca dar respuesta a las siguientes interrogantes:\
 
 
-\textbf{1.}	Pregunta1\
+\textbf{1.}\ ¿De qué manera se distribuyen las calificaciones de los usuarios y en qué medida esta distribución revela una polarización en la percepción del producto?
 
-\textbf{2.}	Pregunta2\
-
-\textbf{3.}	Pregunta3\
+  \textbf{2.}\ ¿Existe una correlación significativa entre el porcentaje de descuento aplicado y el promedio de calificación que sugiera que los usuarios son menos exigentes al evaluar productos adquiridos a menor precio?
+  
+\textbf{3.}\ ¿De qué manera el nivel de satisfacción del usuario, segmentado por rangos de calificación, condiciona el comportamiento del precio actual y el éxito en el posicionamiento de ventas de los productos?
 
 
 \section{Justificación}
@@ -144,27 +145,6 @@ Justificación del trabajo de investigación\
    \item{Establecer agrupaciones de satisfacción basadas en el rating para determinar cómo estas categorías influyen en la variabilidad del precio actual y en el posicionamiento de las ventas.}
 
 \end{itemize}
-
-
-\section{Cobertura}
-
-\subsection{Horizontal}
-
-Describir la cobertura Horizontal del trabajo de investigación
-
-
-\subsection{Vertical}
-
-Describir la cobertura Vertical del trabajo de investigación
-
-
-\section{Periodo de Referencia}
-
-Describir la fuente y el Periodo de Referencia utilizado en el trabajo de investigación
-
-\section{Variables}
-
-Describir la variable en estudio en el trabajo de investigación
 
 \chapter{Marco Teórico}
 
@@ -196,27 +176,23 @@ Acontinuación se detalla la metodologia utilzada para abordar el presente estud
  
 \section{Enfoque y Tipo de Investigación}
 
-Desarrollo\ La investigación adopta un enfoque cuantitativo de tipo descriptivo-correlacional.El estudio está orientado a desglosar la interacción entre variables críticas como el precio y la satisfacción del cliente. Se busca determinar si existen patrones de comportamiento sistemáticos en la evaluación de productos, analizando cómo el incentivo económico del descuento altera la percepción de calidad del usuario. Este diseño permite observar la fuerza de asociación entre las métricas sin necesidad de establecer una relación de causa y efecto estricta.
+\ La investigación adopta un enfoque cuantitativo de tipo descriptivo-correlacional. El estudio está orientado a desglosar la interacción entre variables críticas como el precio y la satisfacción del cliente. Se busca determinar si existen patrones de comportamiento sistemáticos en la evaluación de productos, analizando cómo el incentivo económico del descuento altera la percepción de calidad del usuario. Este diseño permite observar la fuerza de asociación entre las métricas sin necesidad de establecer una relación de causa y efecto estricta.
 
 \section{Fuente de Datos}
 
-Descripción\ Para este estudio se utilizó el conjunto de datos denominado Amazon_sales.cvs, el cual recopila información detallada sobre transacciones y valoraciones de usuarios en la plataforma. Para el desarrollo de los objetivos planteados, se han seleccionado variables de naturaleza numérica y textual, tales como el precio original (actual_price), el precio con rebaja (discounted_price), el porcentaje de descuento aplicado(discount_percentage), la calificación otorgada (rating) y el volumen de participación (rating_count). 
+\ Para este estudio se utilizó el conjunto de datos denominado Amazon_sales.cvs, el cual recopila información detallada sobre transacciones y valoraciones de usuarios en la plataforma. Para el desarrollo de los objetivos planteados, se han seleccionado variables de naturaleza numérica y textual, tales como el precio original (actual_price), el precio con rebaja (discounted_price), el porcentaje de descuento aplicado(discount_percentage), la calificación otorgada (rating) y el volumen de participación (rating_count). 
 
 \section{Procesamiento y Análisis de datos}
 
-Descripción\ El tratamiento de la información se llevó a cabo mediante el lenguaje de programación R, empleando las librerías tidyverse, con especial énfasis en dplyr para la manipulación de datos y ggplot2 para la generación de evidencia visual. El proceso se realizó en las siguientes etapas:
+\ El tratamiento de la información se llevó a cabo mediante el lenguaje de programación R, empleando las librerías tidyverse, con especial énfasis en dplyr para la manipulación de datos y ggplot2 para la generación de evidencia visual. El proceso se realizó en las siguientes etapas:
 
 \begin{itemize}
-  \item {Limpieza de datos: Se procede con la normalización de las variables, eliminando caracteres especiales de las columnas de moneda y gestionando registros con valores ausentes en las métricas de satisfacción. Se recalcula los porcentajes en la variable de descuento del precio y se filtran los valores atipicos del precio actual se para garantizar la integridad de los resultados. }
+  \item {Limpieza de datos: Se procede con la depuración de las variables, eliminando caracteres especiales de las columnas de moneda y gestionando registros con valores ausentes en las métricas de satisfacción. Se recalcula los porcentajes en la variable de descuento del precio y se filtran los valores atipicos del precio actual para garantizar la integridad de los resultados. }
   \item{Análisis Descriptivo: Se ejecutan cálculos de tendencia central y dispersión, como la media, la mediana y la desviación estándar, con el fin de identificar la variabilidad del umbral de exigencia del consumidor frente a distintos niveles de precio.}
   \item{Visualización: Se desarrollan histogramas para detectar la polarización de opiniones, diagramas de caja para segmentar la satisfacción por niveles de descuento y gráficos de dispersión que ilustran la densidad de la relación entre costo y calificación.}
-  \item{Tabulación: Generación de tablas formateadas que resuman las métricas de engagement y las agrupaciones de satisfacción (Alta, Regular y Baja).}
+  \item{Tabulación: Generación de tablas que resuman las métricas de engagement y las agrupaciones de satisfacción (Alta, Regular y Baja).}
 \end{itemize}
 
-
-\subsection{Item n}
-
-Descripción\
 
 \chapter{Análisis de Resultados}
 
@@ -236,12 +212,12 @@ calcular_moda <- function(x) {
 }
 
 # Calculos estadisticos
-media_r <- mean(df_sin_atipicos$rating, na.rm = TRUE)
-mediana_r <- median(df_sin_atipicos$rating, na.rm = TRUE)
+media_r <- mean(df_sin_atipicos$rating)
+mediana_r <- median(df_sin_atipicos$rating)
 moda_r <- calcular_moda(df_sin_atipicos$rating)
-desviacion_r <- sd(df_sin_atipicos$rating, na.rm = TRUE)
-minimo_r <- min(df_sin_atipicos$rating, na.rm = TRUE)
-maximo_r <- max(df_sin_atipicos$rating, na.rm = TRUE)
+desviacion_r <- sd(df_sin_atipicos$rating)
+minimo_r <- min(df_sin_atipicos$rating)
+maximo_r <- max(df_sin_atipicos$rating)
 cv_r <- (desviacion_r/media_r)*100
 total_registros <- nrow(df_sin_atipicos)
 
@@ -283,7 +259,7 @@ ggplot(df_sin_atipicos, aes(x = rating)) +
 
 ```
 
-**Análisis:** La calificación promedio de un producto es de 4.08 y su mediana de 4.10 mostrando una concentración en la parte superior de la escala. El histograma muestra una distribución unimodal con un ligero sesgo negativo, donde la mayor cantidad de productos se agrupa por encima de las 4 estrellas. El hecho que la desviación estandar sea tan baja confirma que existe un consenso generalizado sobre la calidad de los artículos, descartando la presencia de una división crítica o polarización en la percepción de los usuarios dentro de esta muestra.
+**Análisis:** La calificación promedio de un producto es de `r round(media_r,2)` y su mediana de `r round(mediana_r,2)` mostrando una concentración en la parte superior de la escala. El histograma muestra una distribución unimodal con un ligero sesgo negativo, donde la mayor cantidad de productos se agrupa por encima de las 4 estrellas. El hecho que la desviación estandar sea tan baja confirma que existe un consenso generalizado sobre la calidad de los artículos, descartando la presencia de una división crítica o polarización en la percepción de los usuarios dentro de esta muestra.
 
 \section{Comparación de Rating por Nivel de Descuento}
 
@@ -314,10 +290,10 @@ resumen_d <- df_sin_atipicos %>%
   group_by(rango_descuento) %>%
   summarize(
     N = n(),
-    Media = round(mean(rating, na.rm = TRUE), 2),
-    Mediana = round(median(rating, na.rm = TRUE), 2),
+    Media = round(mean(rating), 2),
+    Mediana = round(median(rating), 2),
     Moda = moda2(rating),
-    Desv_Est = round(sd(rating, na.rm = TRUE), 2)
+    Desv_Est = round(sd(rating), 2)
   )
 
 # Calculo de la  correlación
@@ -329,14 +305,16 @@ resumen_d %>%
   kable(col.names = c("Rango de Descuento", "Productos", "Media", "Mediana", "Moda", "D.E."),
         caption = "Análisis de Satisfacción por Intervalos de Descuento",
         align = "lccccc") %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE) %>%
-  row_spec(0, bold = TRUE, color = "white", background = "#2c3e50")
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE, position = "center")
+ 
 
 
 #Gráfico de cajas para comparar distribuciones
 ggplot(df_sin_atipicos, aes(x = rango_descuento, y = rating, fill = rango_descuento)) +
   geom_boxplot(alpha = 0.6, outlier.color = "red", outlier.alpha = 0.5) +
-  scale_fill_brewer(palette = "YlGnBu") + 
+  scale_fill_manual(values = c( "Sin Descuento (0%)" = "#e47911", "1% - 20%" = "#FF9900", 
+  "21% - 40%" = "#FFB300", "41% - 60%" = "#FFD814","61% - 80%" = "#FFE04F", "Más de 80%" = "#FFFF80" 
+  ))  + 
   labs(title = "Distribución del Rating por Intervalos de Descuento",
        x = "Porcentaje de Descuento",
        y = "Rating") +
@@ -346,7 +324,7 @@ ggplot(df_sin_atipicos, aes(x = rango_descuento, y = rating, fill = rango_descue
 
 ```
 
-**Análisis:** Se observa en la tabla y el gráfico de cajas, que hay una tendencia decreciente ligera pero constante en el rating promedio a medida que aumenta el porcentaje de descuento. Los productos sin descuento lideran la satisfacción con una media de 4.24, los rangos de descuento intermedios por otra parte presentan la mayor cantidad de valores atípicos y mayor desviación estándar, lo que refleja una opinión más crítica por parte de los compradores en este segmento. Contrario a la hipótesis de una menor rigurosidad a mayor descuento, donde se esperaría que el rating subiera porque el cliente esta satisfecho con el ahorro, los datos muestran que los productos con descuentos superiores al 80% tienen el promedio más bajo. Con el coeficiente de correlacion se puede comprobar entonces como el rating y el descuento presentan una relacion inversa. 
+**Análisis:** Se observa en la tabla y el gráfico de cajas, que hay una tendencia decreciente ligera pero constante en el rating promedio a medida que aumenta el porcentaje de descuento. Los productos sin descuento lideran la satisfacción con una media de `r round( resumen_d$Media[resumen_d$rango_descuento == "Sin Descuento (0%)"], 2)`, los rangos de descuento intermedios por otra parte presentan la mayor cantidad de valores atípicos y mayor desviación estándar, lo que refleja una opinión más crítica por parte de los compradores en este segmento. Contrario a la hipótesis de una menor rigurosidad a mayor descuento, donde se esperaría que el rating subiera porque el cliente esta satisfecho con el ahorro, los datos muestran que los productos con descuentos superiores al 80% tienen el promedio más bajo. Con el coeficiente de correlacion se puede comprobar entonces como el rating y el descuento presentan una relacion inversa. 
 
 \section{Gráfico de dispersión entre el precio actual y el rating}
 
@@ -360,7 +338,7 @@ df_sin_atipicos$rango_satisfaccion <- factor(df_sin_atipicos$rango_satisfaccion,
 
 #creacion del grafico de dispersion
 ggplot(df_sin_atipicos, aes(x= actual_price, y= rating, color = rango_satisfaccion)) + geom_jitter(alpha = 1.0, size= 1.5) + theme_light() +
-  scale_color_manual(values = c("Baja"= "#FF4500", "Regular"= "#EEB422", "Alta"= "#8B4513")) + #para escoger manualmente los colores de la segmentacion del rating
+  scale_color_manual(values = c("Baja"= "#FF4500", "Regular"= "#EEB422", "Alta"= "#8B4513")) +
   labs(title = "Dispersión entre el precio actual y el Rating",
        x = "Precio Actual",
        y = "Rating") + 
@@ -369,7 +347,7 @@ ggplot(df_sin_atipicos, aes(x= actual_price, y= rating, color = rango_satisfacci
 ```
 
 
-**Análisis:** En el gráfico se puede visualizar una concentración considerablemente alta en los valores que tienden a una calificación regular, por encima de los 4 puntos de satisfacción, y estan por debajo de un precio de 2.500. Ya habiendo calculado anteriormente los índices estadísticos descriptivos en base al Rating, sabemos que el promedio de satisfacción es de 4.08, la desviación estándar es de aproximadamente 0.30, mediana de 4.1 y un coeficiente de variacion (CV) aproximadamente del 7.3, nos da a entender que la distribución presenta una leve asimetria negativa por la relación que tiene la media al ser menor que la mediana, sugiriendo que los valores estan comprimidos en el limite superior de la escala, al tener un CV tan pequeño y una media y mediana muy similares.
+**Análisis:** En el gráfico se puede visualizar una concentración considerablemente alta en los valores que tienden a una calificación regular, por encima de los 4 puntos de satisfacción, y estan por debajo de un precio de 2.500. Ya habiendo calculado anteriormente los índices estadísticos descriptivos en base al Rating, sabemos que el promedio de satisfacción es de `r round(media_r,2)`, la desviación estándar es de aproximadamente `r round(desviacion_r,2)`, mediana de `r round(mediana_r,2)` y un coeficiente de variacion (CV) aproximadamente del `r round(cv_r,2)`, nos da a entender que la distribución presenta una leve asimetria negativa por la relación que tiene la media al ser menor que la mediana, sugiriendo que los valores estan comprimidos en el limite superior de la escala, al tener un CV tan pequeño y una media y mediana muy similares.
 
 \section{Análisis del volumen de interacción en base a los rangos de satisfacción}
 
@@ -381,7 +359,7 @@ group_by(rango_satisfaccion) %>%
 summarise(volumen_interacción = sum(rating_count))  
 
 #se hace un gráfico de columnas para visualizar el volumen de interacción
-ggplot(volumen_interacción, aes(x = rango_satisfaccion, y = volumen_interacción)) + geom_col(fill = "Orange", color = "black")  + scale_y_continuous(labels = label_number(big.mark = ".", decimal.mark = ",")) + theme_minimal() + labs(title = "Volumen de interacción entre cada rango de satisfacción", x = "Rango de satisfacción", y = "Interacciones")
+ggplot(volumen_interacción, aes(x = rango_satisfaccion, y = volumen_interacción)) + geom_col(fill = "#FF9900", color = "white")  + scale_y_continuous(labels = label_number(big.mark = ".", decimal.mark = ",")) + theme_minimal() + labs(title = "Volumen de interacción entre cada rango de satisfacción", x = "Rango de satisfacción", y = "Interacciones")
 
 ```
 
@@ -408,15 +386,15 @@ Por otra parte, la cantidad de datos elevados que se hallan en el umbral "Regula
 
 \chapter{Conclusiones y Recomendaciones}
 
-\textbf{1.-} Conclusion 1 del trabajo de investigación.\
+\textbf{1.-}\ Dando respuesta a la primera interrogante de la investigacion tras analizar la distribución de las calificaciones en el conjunto de datos de Amazon Sales, se concluye que no existe una polarización crítica en el discurso del consumidor, sino un marcado sesgo positivo como se pudo observar en la acumulación de puntajes en el extremo superior del histograma. Esto demuestra que el sistema de reseñas de Amazon actúa como un filtro de confianza más que como un espacio de crítica exhaustiva. Este sugiere la presencia de un sesgo de selección, donde los usuarios que deciden participar en el sistema de calificaciones son mayoritariamente aquellos cuya expectativa fue satisfecha o superada, omitiendo registrar experiencias mediocres o negativas que generarían una distribución más equitativa o bimodal. 
 
 \textbf{Recomendación} 
-Recomendación 1 del trabajo de investigación.\
+\ Se recomienda diseñar estrategias de recolección de datos que motiven a los compradores con experiencias "regulares" y "malas" a dejar su opinión. Al capturar la opinión de este segmento, la plataforma obtendría una base de datos más equilibrada, permitiendo identificar fallas sutiles en los productos que actualmente quedan ocultas bajo el alto promedio de calificaciones, pero que a largo plazo podrían afectar la retención de clientes Esto permitiría equilibrar el sesgo de positividad y obtener una visión más realista del rendimiento de los productos .
 
-\textbf{2.-} Conclusion 2 del trabajo de investigación.\
+\textbf{2.-}\ Se concluye que, contrario a la hipótesis de una menor rigurosidad por parte del consumidor ante los descuentos, existe una relación inversa leve entre el ahorro económico y la satisfacción percibida. Los datos demuestran que los productos con mayores descuentos presentan los niveles de satisfacción más bajos de la muestra. Este fenómeno sugiere que descuentos excesivamente agresivos podrían estar asociados a productos que no cumplen plenamente con las expectativas de calidad o que generan una percepción de 'menor valor real' en el usuario. En definitiva, el descuento no actúa como un amortiguador de la crítica; por el contrario, los productos a precio completo o con rebajas mínimas son los que logran mantener los estándares de calificación más altos y consistentes.
 
 \textbf{Recomendación} 
-Recomendación 2 del trabajo de investigación.\
+\ Se recomienda investigar por qué los productos con descuentos muy altos tienen las notas más bajas. Es necesario revisar si estos artículos presentan defectos o si la calidad es inferior a lo esperado. Al entender esto, se pueden evitar ofertas que aunque parecen atractivas por el precio, terminan generando clientes insatisfechos y dañando la imagen del proveedor.
 
 \textbf{n.-} Conclusion n del trabajo de investigación.\
 
