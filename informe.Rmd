@@ -196,7 +196,7 @@ Acontinuación se detalla la metodologia utilzada para abordar el presente estud
 
 \chapter{Análisis de Resultados}
 
-{\small Este capítulo presenta los resultados obtenidos al aplicar las metodologías descritas en el capítulo anterior, así como del análisis estadístico descriptivo de las variables estudiadas y las ventajas y desventajas al aplicar dichos tests.}
+\small A continuación, se presenta la interpretación de los resultados alcanzados mediante la aplicación de las metodologías detalladas previamente. El análisis se centra en caracterizar la distribución de los datos y en identificar las relaciones estadísticas de mayor relevancia, proporcionando una base sólida para comprender la dinámica de las calificaciones y los precios en el conjunto de datos estudiado.
 
 \section{Polarización de Opiniones}
 
@@ -225,13 +225,13 @@ total_registros <- nrow(df_sin_atipicos)
 tabla_resumen <- data.frame(
   Métrica = c("Total de Productos", "Media", "Mediana", "Moda", "Desviación Estándar", "Coeficiente de Variación","Mínimo", "Máximo"),
   Valor = c(total_registros, 
-            round(media_r, 2), 
-            round(mediana_r, 2), 
-            round(moda_r, 2),
-            round(desviacion_r, 2), 
-            round (cv_r, 2),
-            round(minimo_r, 2), 
-            round(maximo_r, 2))
+            round(media_r, 3), 
+            round(mediana_r, 3), 
+            round(moda_r, 3),
+            round(desviacion_r, 3), 
+            round (cv_r, 3),
+            round(minimo_r, 3), 
+            round(maximo_r, 3))
 )
 
 # Creacion de la tabla con los resultados de las estadisticas descriptivas
@@ -259,7 +259,7 @@ ggplot(df_sin_atipicos, aes(x = rating)) +
 
 ```
 
-**Análisis:** La calificación promedio de un producto es de `r round(media_r,2)` y su mediana de `r round(mediana_r,2)` mostrando una concentración en la parte superior de la escala. El histograma muestra una distribución unimodal con un ligero sesgo negativo, donde la mayor cantidad de productos se agrupa por encima de las 4 estrellas. El hecho que la desviación estandar sea tan baja confirma que existe un consenso generalizado sobre la calidad de los artículos, descartando la presencia de una división crítica o polarización en la percepción de los usuarios dentro de esta muestra.
+**Análisis:** La calificación promedio de un producto es de `r round(media_r,3)` y su mediana de `r round(mediana_r,3)` mostrando una concentración en la parte superior de la escala. El histograma muestra una distribución unimodal con un ligero sesgo negativo, donde la mayor cantidad de productos se agrupa por encima de las 4 estrellas. El hecho que la desviación estandar sea tan baja confirma que existe un consenso generalizado sobre la calidad de los artículos, descartando la presencia de una división crítica o polarización en la percepción de los usuarios dentro de esta muestra.
 
 \section{Comparación de Rating por Nivel de Descuento}
 
@@ -290,10 +290,10 @@ resumen_d <- df_sin_atipicos %>%
   group_by(rango_descuento) %>%
   summarize(
     N = n(),
-    Media = round(mean(rating), 2),
-    Mediana = round(median(rating), 2),
+    Media = round(mean(rating), 3),
+    Mediana = round(median(rating), 3),
     Moda = moda2(rating),
-    Desv_Est = round(sd(rating), 2)
+    Desv_Est = round(sd(rating), 3)
   )
 
 # Calculo de la  correlación
@@ -324,7 +324,7 @@ ggplot(df_sin_atipicos, aes(x = rango_descuento, y = rating, fill = rango_descue
 
 ```
 
-**Análisis:** Se observa en la tabla y el gráfico de cajas, que hay una tendencia decreciente ligera pero constante en el rating promedio a medida que aumenta el porcentaje de descuento. Los productos sin descuento lideran la satisfacción con una media de `r round( resumen_d$Media[resumen_d$rango_descuento == "Sin Descuento (0%)"], 2)`, los rangos de descuento intermedios por otra parte presentan la mayor cantidad de valores atípicos y mayor desviación estándar, lo que refleja una opinión más crítica por parte de los compradores en este segmento. Contrario a la hipótesis de una menor rigurosidad a mayor descuento, donde se esperaría que el rating subiera porque el cliente esta satisfecho con el ahorro, los datos muestran que los productos con descuentos superiores al 80% tienen el promedio más bajo. Con el coeficiente de correlacion se puede comprobar entonces como el rating y el descuento presentan una relacion inversa. 
+**Análisis:** Se observa en la tabla y el gráfico de cajas, que hay una tendencia decreciente ligera pero constante en el rating promedio a medida que aumenta el porcentaje de descuento. Los productos sin descuento lideran la satisfacción con una media de `r round( resumen_d$Media[resumen_d$rango_descuento == "Sin Descuento (0%)"], 3)`, los rangos de descuento intermedios por otra parte presentan la mayor cantidad de valores atípicos y mayor desviación estándar, lo que refleja una opinión más crítica por parte de los compradores en este segmento. Contrario a la hipótesis de una menor rigurosidad a mayor descuento, donde se esperaría que el rating subiera porque el cliente esta satisfecho con el ahorro, los datos muestran que los productos con descuentos superiores al 80% tienen el promedio más bajo. Con el coeficiente de correlacion se puede comprobar entonces como el rating y el descuento presentan una relacion inversa. 
 
 \section{Gráfico de dispersión entre el precio actual y el rating}
 
@@ -347,7 +347,7 @@ ggplot(df_sin_atipicos, aes(x= actual_price, y= rating, color = rango_satisfacci
 ```
 
 
-**Análisis:** En el gráfico se puede visualizar una concentración considerablemente alta en los valores que tienden a una calificación regular, por encima de los 4 puntos de satisfacción, y estan por debajo de un precio de 2.500. Ya habiendo calculado anteriormente los índices estadísticos descriptivos en base al Rating, sabemos que el promedio de satisfacción es de `r round(media_r,2)`, la desviación estándar es de aproximadamente `r round(desviacion_r,2)`, mediana de `r round(mediana_r,2)` y un coeficiente de variacion (CV) aproximadamente del `r round(cv_r,2)`, nos da a entender que la distribución presenta una leve asimetria negativa por la relación que tiene la media al ser menor que la mediana, sugiriendo que los valores estan comprimidos en el limite superior de la escala, al tener un CV tan pequeño y una media y mediana muy similares.
+**Análisis:** En el gráfico se puede visualizar una concentración considerablemente alta en los valores que tienden a una calificación regular, por encima de los 4 puntos de satisfacción, y estan por debajo de un precio de 2.500. Ya habiendo calculado anteriormente los índices estadísticos descriptivos en base al Rating, sabemos que el promedio de satisfacción es de `r round(media_r,3)`, la desviación estándar es de aproximadamente `r round(desviacion_r,3)`, mediana de `r round(mediana_r,3)` y un coeficiente de variacion (CV) aproximadamente del `r round(cv_r,3)`, nos da a entender que la distribución presenta una leve asimetria negativa por la relación que tiene la media al ser menor que la mediana, sugiriendo que los valores estan comprimidos en el limite superior de la escala, al tener un CV tan pequeño y una media y mediana muy similares.
 
 \section{Análisis del volumen de interacción en base a los rangos de satisfacción}
 
