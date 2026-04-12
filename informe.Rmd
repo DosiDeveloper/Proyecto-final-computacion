@@ -109,10 +109,12 @@ df_sin_atipicos <- df_limpio %>%
 Introducción del trabajo de investigación
 
 \chapter{Planteamiento del Problema}
-Describir planteamiento del problema\
-  En el ámbito del comercio electrónico o incluso en redes sociales, los criterios superficiales como el promedio de calificaciones en un producto, se asume convencionalmente como un indicador de éxito y satisfacción del usuario, sin embargo, el hecho de una calificación considerablemente “buena” ignora el sesgo intrínseco en las personas a la hora de puntuar.
-	El análisis crítico de un consumidor a través de reseñas es deteriorado por un sesgo de selección, es decir, se ven altamente motivados a la interacción sincera únicamente cuando su experiencia con el producto fue muy gratificante, o por el contrario, muy deficiente, así ocultando el rendimiento real del producto. En este campo también se incluye el operamiento de estrategias de descuento, se asocia con cambios en la percepción del consumidor para su compra inmediata; se dice que a mayor descuento del producto genera mayor satisfacción en el usuario y un mayor umbral de interacción.
-	El objetivo investigativo se centrará en un análisis comparativo a distintas distribuciones del rating bajo distintos niveles de descuentos, con el fin de hallar patrones de comportamiento, siendo así, la identificación de anomalías con procedimientos estadísticos descriptivos; como dispersión en las calificaciones y frecuencia de términos críticos o interacciones como lo son las reseñas, permitiendo observar si el porcentaje del descuento y en el precio existe algún tipo de correlación, las cuáles en base a lo demostrado podría sugerir una discrepancia entre el rating y la crítica descriptiva.
+
+En el ámbito del comercio electrónico o incluso en redes sociales, los criterios superficiales como el promedio de calificaciones en un producto, se asume convencionalmente como un indicador de éxito y satisfacción del usuario, sin embargo, el hecho de una calificación considerablemente “buena” ignora el sesgo intrínseco en las personas a la hora de puntuar.
+  
+El análisis crítico de un consumidor a través de reseñas es deteriorado por un sesgo de selección, es decir, se ven altamente motivados a la interacción sincera únicamente cuando su experiencia con el producto fue muy gratificante, o por el contrario, muy deficiente, así ocultando el rendimiento real del producto. En este campo también se incluye el operamiento de estrategias de descuento, se asocia con cambios en la percepción del consumidor para su compra inmediata; se dice que a mayor descuento del producto genera mayor satisfacción en el usuario y un mayor umbral de interacción.
+	
+El objetivo investigativo se centrará en un análisis comparativo a distintas distribuciones segmentadas del rating, con el fin de hallar patrones de comportamiento, siendo así, la identificación de anomalías con procedimientos estadísticos descriptivos; como dispersión en las calificaciones y frecuencia de términos críticos o interacciones como lo son las reseñas, permitiendo observar si el porcentaje del descuento y en el precio existe algún tipo de correlación, las cuáles en base a lo demostrado podría sugerir una discrepancia entre el rating y la crítica descriptiva.
 
 Argumento final. Debido a esto, se plantea las siguientes preguntas de investigación:\
 
@@ -140,7 +142,7 @@ Justificación del trabajo de investigación\
   \item{Describir la distribución de las calificaciones para identificar la presencia de polarización en las opiniones de los usuarios.}
   \item{Comparar el promedio de rating en función de los rangos del porcentaje de descuento para determinar si a mayor descuento existe una tendencia a calificar con menor rigurosidad.}
    \item{Establecer agrupaciones de satisfacción basadas en el rating para determinar cómo estas categorías influyen en la variabilidad del precio actual y en el posicionamiento de las ventas.}
-}
+
 \end{itemize}
 
 
@@ -150,21 +152,6 @@ Justificación del trabajo de investigación\
 
 Describir la cobertura Horizontal del trabajo de investigación
 
-\begin{table}[ht]
-\centering
-\caption{Variables consideradas} 
-\resizebox{10cm}{!} {
-\begin{tabular}{ccc}
-  \hline
-\ \ \ \ \ NOMBRE DE LA VARIABLE \\ 
-  \hline
-   VARIABLE 1 \\ 
-VARIABLE 2\\ 
-VARIABLE n\\ 
-   \hline
-\end{tabular}
-}
-\end{table}
 
 \subsection{Vertical}
 
@@ -181,9 +168,11 @@ Describir la variable en estudio en el trabajo de investigación
 
 \chapter{Marco Teórico}
 
-  El riesgo de que un usuario de Amazon reciba un producto de mala calidad o defectuoso está presente. La asimetría de la información aborda situaciones en las que una de las dos partes (emisor y receptor) posee información que el otro desconoce; debido a este factor, el comprador se ve obligado a depender de reseñas que sirven como señalizadores que la misma empresa hace visibles para reducir la incertidumbre. Para superar esta asimetría, las señales deben garantizar que solo se envíe información que refleje atributos o capacidades reales del producto. En sintonía con las reseñas de Amazon, la «prueba social» es el fenómeno por el cual, si el comprador observa que muchos usuarios adquirieron el producto y otorgaron una buena puntuación, percibe que el riesgo de error es menor.
-  No obstante, la fiabilidad de estas señales no opera por sí sola, sino que se ve apoyada en la percepción económica del usuario aplicada durante el proceso de compra. En este contexto, el efecto anclaje (anchoring) toma un papel fundamental, ya que es un sesgo cognitivo en el que la primera información que percibe una persona condiciona la toma de sus decisiones. Al mostrar un precio inicial tachado y hacer énfasis en el costo posterior al descuento, el producto se vuelve más llamativo, e impulsa la compra por una percepción de ahorro más que por el valor intrínseco del bien. La utilidad de la transacción puede llegar a dominar la percepción general, provocando que el usuario otorgue calificaciones elevadas no necesariamente por la excelencia del producto, sino como un reflejo del bienestar derivado del ahorro percibido.
-  Cuando desplazamos el análisis hacia el precio actual, sin sesgos por ofertas, entra en juego el criterio de exigencia del usuario. Bajo este contexto, los productos con un mayor costo generan en el consumidor un rol más estricto; cualquier mínima discrepancia entre la calidad esperada y la obtenida se traduce en una penalización más severa en el rating, lo que conduce a una heterogeneidad de opiniones. De igual forma ocurre con los productos más económicos: el beneficio monetario hace que el usuario reduzca sus niveles de exigencia. En ambos casos, el juicio del consumidor se rige según la Teoría de la desconfirmación de expectativas.
+El riesgo de que un usuario de Amazon reciba un producto de mala calidad o defectuoso está presente. La asimetría de la información aborda situaciones en las que una de las dos partes (emisor y receptor) posee información que el otro desconoce; debido a este factor, el comprador se ve obligado a depender de reseñas que sirven como señalizadores que la misma empresa hace visibles para reducir la incertidumbre. Para superar esta asimetría, las señales deben garantizar que solo se envíe información que refleje atributos o capacidades reales del producto. En sintonía con las reseñas de Amazon, la prueba social es el fenómeno por el cual, si el comprador observa que muchos usuarios adquirieron el producto y otorgaron una buena puntuación, percibe que el riesgo de error es menor.
+
+No obstante, la fiabilidad de estas señales no opera por sí sola, sino que se ve apoyada en la percepción económica del usuario aplicada durante el proceso de compra. En este contexto, el efecto anclaje (anchoring) toma un papel fundamental, ya que es un sesgo cognitivo en el que la primera información que percibe una persona condiciona la toma de sus decisiones. Al mostrar un precio inicial tachado y hacer énfasis en el costo posterior al descuento, el producto se vuelve más llamativo, e impulsa la compra por una percepción de ahorro más que por el valor intrínseco del bien. La utilidad de la transacción puede llegar a dominar la percepción general, provocando que el usuario otorgue calificaciones elevadas no necesariamente por la excelencia del producto, sino como un reflejo del bienestar derivado del ahorro percibido.
+
+Cuando desplazamos el análisis hacia el precio actual, sin sesgos por ofertas, entra en juego el criterio de exigencia del usuario. Bajo este contexto, los productos con un mayor costo generan en el consumidor un rol más estricto; cualquier mínima discrepancia entre la calidad esperada y la obtenida se traduce en una penalización más severa en el rating, lo que conduce a una heterogeneidad de opiniones. De igual forma ocurre con los productos más económicos: el beneficio monetario hace que el usuario reduzca sus niveles de exigencia. En ambos casos, el juicio del consumidor se rige según la Teoría de la desconfirmación de expectativas.
 
 \section{Bases Teóricas}
 
@@ -281,7 +270,7 @@ tabla_resumen %>%
 #Histograma del rating
 
 ggplot(df_sin_atipicos, aes(x = rating)) +
-  geom_histogram(binwidth = 0.5, fill = "steelblue", color = "white") +
+  geom_histogram(binwidth = 0.5, fill = "#FF9900", color = "white") +
   labs(title = "Distribución de Calificaciones (Ratings)",
        subtitle = "Análisis de polarización y sesgo de selección",
        x = "Calificación (1-5 Estrellas)",
@@ -294,7 +283,7 @@ ggplot(df_sin_atipicos, aes(x = rating)) +
 
 ```
 
-Descripción\ **Análisis:** La calificación promedio de un producto es de 4.08 y su mediana de 4.10 mostrando una concentración en la parte superior de la escala. El histograma muestra una distribución unimodal con un ligero sesgo negativo, donde la mayor cantidad de productos se agrupa por encima de las 4 estrellas. El hecho que la desviación estandar sea tan baja confirma que existe un consenso generalizado sobre la calidad de los artículos, descartando la presencia de una división crítica o polarización en la percepción de los usuarios dentro de esta muestra.
+**Análisis:** La calificación promedio de un producto es de 4.08 y su mediana de 4.10 mostrando una concentración en la parte superior de la escala. El histograma muestra una distribución unimodal con un ligero sesgo negativo, donde la mayor cantidad de productos se agrupa por encima de las 4 estrellas. El hecho que la desviación estandar sea tan baja confirma que existe un consenso generalizado sobre la calidad de los artículos, descartando la presencia de una división crítica o polarización en la percepción de los usuarios dentro de esta muestra.
 
 \section{Comparación de Rating por Nivel de Descuento}
 
@@ -357,11 +346,11 @@ ggplot(df_sin_atipicos, aes(x = rango_descuento, y = rating, fill = rango_descue
 
 ```
 
-Descripción\ **Análisis:** Se observar en la tabla y el gráfico de cajas, que hay una tendencia decreciente ligera pero constante en el rating promedio a medida que aumenta el porcentaje de descuento. Los productos sin descuento lideran la satisfacción con una media de 4.24, los rangos de descuento intermedios por otra parte presentan la mayor cantidad de valores atípicos y mayor desviación estándar, lo que refleja una opinión más crítica por parte de los compradores en este segmento. Contrario a la hipótesis de una menor rigurosidad a mayor descuento, donde se esperaría que el rating subiera porque el cliente esta satisfecho con el ahorro, los datos muestran que los productos con descuentos superiores al 80% tienen el promedio más bajo. Con el coeficiente de correlacion se puede comprobar entonces como el rating y el descuento presentan una relacion inversa. 
+**Análisis:** Se observa en la tabla y el gráfico de cajas, que hay una tendencia decreciente ligera pero constante en el rating promedio a medida que aumenta el porcentaje de descuento. Los productos sin descuento lideran la satisfacción con una media de 4.24, los rangos de descuento intermedios por otra parte presentan la mayor cantidad de valores atípicos y mayor desviación estándar, lo que refleja una opinión más crítica por parte de los compradores en este segmento. Contrario a la hipótesis de una menor rigurosidad a mayor descuento, donde se esperaría que el rating subiera porque el cliente esta satisfecho con el ahorro, los datos muestran que los productos con descuentos superiores al 80% tienen el promedio más bajo. Con el coeficiente de correlacion se puede comprobar entonces como el rating y el descuento presentan una relacion inversa. 
 
 \section{Gráfico de dispersión entre el precio actual y el rating}
 
-```{r, echo=FALSE, fig.align='center', message=FALSE, warning=FALSE, out.width= "80%"}
+```{r, echo=FALSE, fig.align='center', message=FALSE, warning=FALSE, out.width= "100%", fig.width=10, fig.height=7}
 
 #segmentación del rating en rangos de puntaje
 df_sin_atipicos$rango_satisfaccion <- ifelse(df_sin_atipicos$rating >= 4.5, "Alta", ifelse(df_sin_atipicos$rating >= 3.5, "Regular", "Baja"))
@@ -371,7 +360,7 @@ df_sin_atipicos$rango_satisfaccion <- factor(df_sin_atipicos$rango_satisfaccion,
 
 #creacion del grafico de dispersion
 ggplot(df_sin_atipicos, aes(x= actual_price, y= rating, color = rango_satisfaccion)) + geom_jitter(alpha = 1.0, size= 1.5) + theme_light() +
-  scale_color_manual(values = c("Baja"= "#00008B", "Regular"= "#FFB90F", "Alta"= "#FF1493")) + #para escoger manualmente los colores de la segmentacion del rating
+  scale_color_manual(values = c("Baja"= "#FF4500", "Regular"= "#EEB422", "Alta"= "#8B4513")) + #para escoger manualmente los colores de la segmentacion del rating
   labs(title = "Dispersión entre el precio actual y el Rating",
        x = "Precio Actual",
        y = "Rating") + 
@@ -380,11 +369,11 @@ ggplot(df_sin_atipicos, aes(x= actual_price, y= rating, color = rango_satisfacci
 ```
 
 
-Descripción\ **Análisis:** En el gráfico se puede visualizar una concentración considerablemente alta en los valores que tienden a una calificación regular, por encima de los 4 puntos de satisfacción, y estan por debajo de un precio de 2.500. Ya habiendo calculado anteriormente los índices estadísticos descriptivos en base al Rating, sabemos que el promedio de satisfacción es de 4.08, la desviación estándar es de aproximadamente 0.30, mediana de 4.1 y un coeficiente de variacion (CV) aproximadamente del 7.3, nos da a entender que la distribución presenta una leve asimetria negativa por la relación que tiene la media al ser menor que la mediana, sugiriendo que los valores estan comprimidos en el limite superior de la escala, al tener un CV tan pequeño y una media y mediana muy similares.
+**Análisis:** En el gráfico se puede visualizar una concentración considerablemente alta en los valores que tienden a una calificación regular, por encima de los 4 puntos de satisfacción, y estan por debajo de un precio de 2.500. Ya habiendo calculado anteriormente los índices estadísticos descriptivos en base al Rating, sabemos que el promedio de satisfacción es de 4.08, la desviación estándar es de aproximadamente 0.30, mediana de 4.1 y un coeficiente de variacion (CV) aproximadamente del 7.3, nos da a entender que la distribución presenta una leve asimetria negativa por la relación que tiene la media al ser menor que la mediana, sugiriendo que los valores estan comprimidos en el limite superior de la escala, al tener un CV tan pequeño y una media y mediana muy similares.
 
 \section{Análisis del volumen de interacción en base a los rangos de satisfacción}
 
-```{r, echo=FALSE, fig.align='center', message=FALSE, warning=FALSE, out.width= "80%"}
+```{r, echo=FALSE, fig.align='center', message=FALSE, warning=FALSE, out.width= "80%", fig.height=6}
 #se agrupa la cuenta de la interacción en cada rango de satisfacción
 
 volumen_interacción <- df_sin_atipicos %>% 
@@ -396,7 +385,25 @@ ggplot(volumen_interacción, aes(x = rango_satisfaccion, y = volumen_interacció
 
 ```
 
-Descripción\ **Análisis:** En relación con el anterior gráfico de dispersión, en este podemos observar que la acumulación del rating en el rango "Regular" se debe a que la mayor cantidad de reseñas o interacciones las tiene el mismo. Desde una perspectiva descriptiva esto se puede ver como una nube que oculta lo que está tras ella, al condensarse tanta poblacion en un mismo rango alcanzando grandes volúmenes, todos los cálculos y parámetros van a tender a esos valores, manteniéndose más estables en la plataforma que otros, como lo pueden ser los que pertenecen a los rangos "Alto" y "Bajo", sugiriendo que estos productos pueden ser de un consumo menos "masivo" o que probablemente por el hecho de la permanencia de esos productos no han podido deslumbrar ante lo que los oculta.
+**Análisis:** En relación con el anterior gráfico de dispersión, en este podemos observar que la acumulación del rating en el rango "Regular" se debe a que la mayor cantidad de reseñas o interacciones las tiene el mismo. Desde una perspectiva descriptiva esto se puede ver como una nube que oculta lo que está tras ella, al condensarse tanta poblacion en un mismo rango alcanzando grandes volúmenes, todos los cálculos y parámetros van a tender a esos valores, manteniéndose más estables en la plataforma que otros, como lo pueden ser los que pertenecen a los rangos "Alto" y "Bajo", sugiriendo que estos productos pueden ser de un consumo menos "masivo" o que probablemente por el hecho de la permanencia de esos productos no han podido deslumbrar ante lo que los oculta.
+
+\section{Satisfacción vs Precio actual}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6}
+
+ggplot(df_sin_atipicos, aes(x = rango_satisfaccion, y = actual_price, fill = rango_satisfaccion)) +
+  geom_boxplot(alpha = 0.7, outlier.color = "red") +
+  scale_fill_manual(values = c("Baja" = "#E47911", "Regular" = "#FF9900", "Alta" = "#FFD814")) +
+  labs(title = "Variabilidad del Precio según Satisfacción",
+       x = "Rango de Satisfacción",
+       y = "Precio Actual") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+**Análisis:** El diagrama de cajas nos permite visualizar cómo están distribuidos los costos asociados a cada rango de satisfacción. Un punto resaltante es el hecho de que la linea divisora (mediana) de la caja "Alta" está levemente por encima de la mediana de los demás, aunque la diferencia no es abismal nos quiere decir que la excelencia en Amazon se paga un poco más cara, sin embargo, se observa que la misma caja es más grande que las demás, es decir, los precios tienden a variar más entre lo barato y lo caro, por ende, en ese umbral de satisfacción el mercado no está tan estandarizado o no es tan uniforme en lo que respecta a precios de los productos.
+
+Por otra parte, la cantidad de datos elevados que se hallan en el umbral "Regular", se debe evidentemente a que ahí está la mayor concentración de reseñas, esto no quiere decir que esa distribución en específico predomine por ellos, por el contrario, la caja es la más comprimida hacia abajo en comparación de las otras dos, dando a entender que la inmensa mayoría de los productos se agrupan en lo barato, no obstante, existe un subgrupo de outliers en ese rango que a pesar de sus precios carísimos no logran pasar una calificación superior. Al contrastar la caja "Baja" y "Regular", vemos que son bastante similares, lo que cambia en este renglón es que los productos malos suelen ser en su mayoría de bajo costo, esto lo confirmamos debido a que no hay tantos outliers fuera de esa caja, lo cual tiene sentido, si alguien paga una cantidad de dinero muy alta y el producto es muy malo, la plataforma suele hacer que "desaparezca" o que no tenga visualización ante los usuarios de la plataforma
 
 
 \chapter{Conclusiones y Recomendaciones}
