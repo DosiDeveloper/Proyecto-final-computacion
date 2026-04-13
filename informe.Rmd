@@ -1,6 +1,6 @@
 ---
 # --- Metadatos Básicos ---
-title: "Análisis de las calificaciones de los usuarios en función de los descuentos aplicados para determinar su impacto en el posicionamiento de mercado en la plataforma de Amazon Sales"
+title: "Análisis del uso de estrategias de descuentos  y su influyencia en la percepción de calidad y en la polarización del discurso del consumidor en Amazon Sales "
 author:
    - Douglas Barreto
    - Laura Montes
@@ -133,7 +133,7 @@ En razón a lo antes expuesto, la investigación propuesta busca dar respuesta a
 
 A pesar de la masividad del comercio electrónico, se halla una gran brecha en la compresión de como interactúan cognitivamente en el usuario las señales como el precio y los descuentos, caracterizado por la asimetría de información del entorno, el consumidor se encuentra dependiente a estos incentivos los cuales sirven como un filtro de información y evitar el riesgo de una mala compra.
 
-La investigación se ve justificada debido a querer comprender el hecho de que el descuento no solo es un simple ahorro de dinero, sino una señal de información, surgiendo el porqué de que ciertos niveles de precios pueden llegar a sesgar a críticas mas severas o complacientes en el usuario
+La investigación se ve justificada debido a que se busca comprender como el descuento no solo es un simple ahorro de dinero, sino una señal de información, surgiendo el porqué de que ciertos niveles de precios pueden llegar a sesgar a críticas mas severas o complacientes en el usuario
 
 Finalmente, la práctica de herramientas de programación como R para la depuración y análisis de datos justifica el rigor metodológico para traducir una grande base de datos, en razones, decisiones estratégicas y tendencias comerciales.\
 
@@ -197,7 +197,7 @@ A continuación se detalla la metodologia utilzada para abordar el presente estu
 
 \section{Fuente de Datos}
 
-\ Para este estudio se utilizó el conjunto de datos denominado Amazon_sales.cvs, el cual recopila información detallada sobre transacciones y valoraciones de usuarios en la plataforma. Para el desarrollo de los objetivos planteados, se han seleccionado variables de naturaleza numérica y textual, tales como el precio original (actual_price), el precio con rebaja (discounted_price), el porcentaje de descuento aplicado(discount_percentage), la calificación otorgada (rating) y el volumen de participación (rating_count). 
+\ Para este estudio se utilizó el conjunto de datos denominado `Amazon_sales.csv`, el cual recopila información detallada sobre transacciones y valoraciones de usuarios en la plataforma. Para el desarrollo de los objetivos planteados, se han seleccionado variables de naturaleza numérica, tales como el precio original (`actual_price`), el precio con rebaja (`discounted_price`), el porcentaje de descuento aplicado(`discount_percentage`), la calificación otorgada (`rating`) y el volumen de participación (`rating_count`). 
 
 \section{Procesamiento y Análisis de datos}
 
@@ -206,8 +206,9 @@ A continuación se detalla la metodologia utilzada para abordar el presente estu
 \begin{itemize}
   \item {Limpieza de datos: Se procede con la depuración de las variables, eliminando caracteres especiales de las columnas de moneda y gestionando registros con valores ausentes en las métricas de satisfacción. Se recalcula los porcentajes en la variable de descuento del precio y se filtran los valores atipicos del precio actual para garantizar la integridad de los resultados. }
   \item{Análisis Descriptivo: Se ejecutan cálculos de tendencia central y dispersión, como la media, la mediana y la desviación estándar, con el fin de identificar la variabilidad del umbral de exigencia del consumidor frente a distintos niveles de precio.}
+  \item{Tipificación y Normalización: Se realiza la normalización de los histogramas para que el área bajo la curva equivalga a 1, transformando la frecuencia absoluta en densidad de probabilidad. Posteriormente, utilizando la media y la desviación estándar de las variables, se procede con la tipificación de los datos para superponer la campana de Gauss sobre el histograma.}
   \item{Visualización: Se desarrollan histogramas para detectar la polarización de opiniones, diagramas de caja para segmentar la satisfacción por niveles de descuento y gráficos de dispersión que ilustran la densidad de la relación entre costo y calificación.}
-  \item{Tabulación: Generación de tablas que resuman las métricas de engagement y las agrupaciones de satisfacción (Alta, Regular y Baja).}
+  \item{Tabulación: Generación de tablas que resuman las estadisticas del rating, los rangos de descuento y las agrupaciones de satisfacción (Alta, Regular y Baja).}
 \end{itemize}
 
 
@@ -235,18 +236,16 @@ moda_r <- calcular_moda(df_sin_atipicos$rating)
 desviacion_r <- sd(df_sin_atipicos$rating)
 minimo_r <- min(df_sin_atipicos$rating)
 maximo_r <- max(df_sin_atipicos$rating)
-cv_r <- (desviacion_r/media_r)*100
 total_registros <- nrow(df_sin_atipicos)
 
 # Creacion de  Data Frame con los resultados 
 tabla_resumen <- data.frame(
-  Métrica = c("Total de Productos", "Media", "Mediana", "Moda", "Desviación Estándar", "Coeficiente de Variación","Mínimo", "Máximo"),
+  Métrica = c("Total de Productos", "Media", "Mediana", "Moda", "Desviación Estándar","Mínimo", "Máximo"),
   Valor = c(total_registros, 
             round(media_r, 3), 
             round(mediana_r, 3), 
             round(moda_r, 3),
-            round(desviacion_r, 3), 
-            round (cv_r, 3),
+            round(desviacion_r, 3),
             round(minimo_r, 3), 
             round(maximo_r, 3))
 )
@@ -320,7 +319,7 @@ cat("**Coeficiente de Correlación de Pearson:** ", round(cor_val, 2))
 # Tabla resumen de estadisticas 
 resumen_d %>%
   kable(col.names = c("Rango de Descuento", "Productos", "Media", "Mediana", "Moda", "D.E."),
-        caption = "Análisis de Satisfacción por Intervalos de Descuento",
+        caption = "Satisfacción por Intervalos de Descuento",
         align = "lccccc") %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE, position = "center")
  
@@ -348,17 +347,31 @@ ggplot(df_sin_atipicos, aes(x = rango_descuento, y = rating, fill = rango_descue
 ```{r, echo=FALSE, fig.align='center', message=FALSE, warning=FALSE, out.width= "100%", fig.width=10, fig.height=7}
 
 #segmentación del rating en rangos de puntaje
-df_sin_atipicos$rango_satisfaccion <- ifelse(df_sin_atipicos$rating >= 4.5, "Alta", ifelse(df_sin_atipicos$rating >= 3.5, "Regular", "Baja"))
-
-#convertir en un factor para darle una jerarquía
-df_sin_atipicos$rango_satisfaccion <- factor(df_sin_atipicos$rango_satisfaccion, levels = c("Baja", "Regular", "Alta"))
+df_sin_atipicos$rango_satisfaccion <- cut(
+  df_sin_atipicos$rating, 
+  breaks = c(0, 1, 2, 3, 4, 5), 
+  labels = c("Muy malo", "Malo", "Regular", "Bueno", "Muy bueno"),
+  include.lowest = TRUE,
+  right = FALSE          
+)
 
 #creacion del grafico de dispersion
-ggplot(df_sin_atipicos, aes(x= actual_price, y= rating, color = rango_satisfaccion)) + geom_jitter(alpha = 1.0, size= 1.5) + theme_light() +
-  scale_color_manual(values = c("Baja"= "#FF4500", "Regular"= "#EEB422", "Alta"= "#8B4513")) +
-  labs(title = "Dispersion entre el precio actual y el Rating",
-       x = "Precio Actual",
-       y = "Rating") + 
+ggplot(df_sin_atipicos, aes(x = actual_price, y = rating, color = rango_satisfaccion)) +
+  geom_jitter(alpha = 1.0, size = 1.5) + # Jitter evita que los puntos exactos se solapen
+  theme_light() +
+  scale_color_manual(values = c(
+    "Muy malo" = "#FFE04F", 
+    "Malo"     = "#FF8C00", 
+    "Regular"  = "#EEB422", 
+    "Bueno"    = "#FF4500", 
+    "Muy bueno"= "#8B4513"
+  )) +
+  labs(
+    title = "Dispersión entre el precio actual y el Rating",
+    x = "Precio Actual",
+    y = "Rating",
+    color = "Rango de Satisfacción"
+  ) +
   theme(legend.position = "bottom")
 
 ```
@@ -369,6 +382,33 @@ ggplot(df_sin_atipicos, aes(x= actual_price, y= rating, color = rango_satisfacci
 \section{Análisis del volumen de interacción en base a los rangos de satisfacción}
 
 ```{r, echo=FALSE, fig.align='center', message=FALSE, warning=FALSE, out.width= "80%", fig.height=6}
+#Creacion de dataframe con rangos de satisfaccion
+resumen_satisfaccion <- df_sin_atipicos %>%
+  group_by(rango_satisfaccion) %>%
+  summarise(Cantidad = n()) %>%
+  ungroup() # Muy importante quitar el agrupamiento aquí
+
+# 2. Después añadimos los intervalos (fuera del summarise)
+resumen_satisfaccion <- resumen_satisfaccion %>%
+  mutate(Intervalo = case_when(
+    rango_satisfaccion == "Muy malo"  ~ "[0, 1)",
+    rango_satisfaccion == "Malo"      ~ "[1, 2)",
+    rango_satisfaccion == "Regular"   ~ "[2, 3)",
+    rango_satisfaccion == "Bueno"     ~ "[3, 4)",
+    rango_satisfaccion == "Muy bueno" ~ "[4, 5]",
+  )) %>%
+  select(rango_satisfaccion, Intervalo, Cantidad)
+
+#Tabla de rangos de satisfaccion
+resumen_satisfaccion %>%
+  kable(col.names = c("Rango de Satisfacción", "Intervalo de Rating", "Cantidad de Productos"),
+        caption = "Distribución de Productos por Rango de Satisfacción",
+        align = "clc") %>%
+  kable_styling(bootstrap_options = c("hover", "condensed"), 
+                full_width = FALSE, 
+                position = "center")
+
+
 #se agrupa la cuenta de la interacción en cada rango de satisfacción
 
 volumen_interaccion <- df_sin_atipicos %>% 
@@ -388,7 +428,8 @@ ggplot(volumen_interaccion, aes(x = fct_reorder(rango_satisfaccion, volumen_inte
 
 ggplot(df_sin_atipicos, aes(x = rango_satisfaccion, y = actual_price, fill = rango_satisfaccion)) +
   geom_boxplot(alpha = 0.7, outlier.color = "red") +
-  scale_fill_manual(values = c("Baja" = "#E47911", "Regular" = "#FF9900", "Alta" = "#FFD814")) +
+  scale_fill_manual(values = c("Muy malo" = "#FF4500", "Malo" = "#FF8C00", "Regular" = "#EEB422", 
+  "Bueno" = "#FFE04F", "Muy bueno" = "#8B4513")) +
   labs(title = "Variabilidad del Precio según Satisfacción",
        x = "Rango de Satisfacción",
        y = "Precio Actual") +
@@ -408,21 +449,15 @@ Por otra parte, la cantidad de datos elevados que se hallan en el umbral "Regula
 \textbf{Recomendación} 
 \ Se recomienda diseñar estrategias de recolección de datos que motiven a los compradores con experiencias "regulares" y "malas" a dejar su opinión. Al capturar la opinión de este segmento, la plataforma obtendría una base de datos más equilibrada, permitiendo identificar fallas sutiles en los productos que actualmente quedan ocultas bajo el alto promedio de calificaciones, pero que a largo plazo podrían afectar la retención de clientes Esto permitiría equilibrar el sesgo de positividad y obtener una visión más realista del rendimiento de los productos .
 
-\textbf{2.-}\ Se concluye que, contrario a la hipótesis de una menor rigurosidad por parte del consumidor ante los descuentos, existe una relación inversa leve entre el ahorro económico y la satisfacción percibida. Los datos demuestran que los productos con mayores descuentos presentan los niveles de satisfacción más bajos de la muestra. Este fenómeno sugiere que descuentos excesivamente agresivos podrían estar asociados a productos que no cumplen plenamente con las expectativas de calidad o que generan una percepción de 'menor valor real' en el usuario. En definitiva, el descuento no actúa como un amortiguador de la crítica; por el contrario, los productos a precio completo o con rebajas mínimas son los que logran mantener los estándares de calificación más altos y consistentes.
+\textbf{2.-}\ Se concluye que, contrario a la hipótesis de una menor rigurosidad por parte del consumidor ante los descuentos, existe una relación inversa leve entre el ahorro económico y la satisfacción percibida. Los datos demuestran que los productos con mayores descuentos presentan los niveles de satisfacción más bajos de la muestra. Este fenómeno sugiere que descuentos excesivamente agresivos podrían estar asociados a productos que no cumplen plenamente con las expectativas de calidad o que generan una percepción de menor valor real en el usuario. En definitiva, el descuento no actúa como un amortiguador de la crítica; por el contrario, los productos a precio completo o con rebajas mínimas son los que logran mantener los estándares de calificación más altos y consistentes.
 
 \textbf{Recomendación} 
 \ Se recomienda investigar por qué los productos con descuentos muy altos tienen las notas más bajas. Es necesario revisar si estos artículos presentan defectos o si la calidad es inferior a lo esperado. Al entender esto, se pueden evitar ofertas que aunque parecen atractivas por el precio, terminan generando clientes insatisfechos y dañando la imagen del proveedor.
 
-\textbf{n.-} Conclusion n del trabajo de investigación.\
+\textbf{3.-} Conclusion n del trabajo de investigación.\
 
 \textbf{Recomendación} Recomendación n del trabajo de investigación.\
 
 \appendix
 \renewcommand{\thechapter}{\Alph{chapter}}
-
-\chapter{Anexo A}
-
-\chapter{Anexo B}
-
-\chapter{Anexo C}
 
