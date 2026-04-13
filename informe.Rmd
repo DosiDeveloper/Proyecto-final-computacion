@@ -357,7 +357,7 @@ df_sin_atipicos$rango_satisfaccion <- cut(
 
 #creacion del grafico de dispersion
 ggplot(df_sin_atipicos, aes(x = actual_price, y = rating, color = rango_satisfaccion)) +
-  geom_jitter(alpha = 1.0, size = 1.5) + # Jitter evita que los puntos exactos se solapen
+  geom_jitter(alpha = 1.0, size = 1.5) + 
   theme_light() +
   scale_color_manual(values = c(
     "Muy malo" = "#FFE04F", 
@@ -377,7 +377,7 @@ ggplot(df_sin_atipicos, aes(x = actual_price, y = rating, color = rango_satisfac
 ```
 
 
-**Análisis:** En el gráfico se puede visualizar que en el rango de "Alta" satisfacción, su distribución está a lo largo de todo el eje X, asumiendo que en ese subgrupo los precios varían mucho a comparación de los productos que abarcan el rango de "Regular". Siendo estos mismos productos económicos (considerablemente por debajo de los 2500) los más abundantes de su distribución, logrando calificaciones desde 4.5 a 5, lo que nos sugiere desde un principio que un precio muy elevado no es una condición necesaria para tener un rating de excelencia. A medida de que el precio actual va superando los 5000 se observa que los productos del rango "Bajo" desaparecen casi por completo, revelando que en ese umbral cuando los precios son bajos es presente el riesgo de que se pueda obtener un producto excelente o uno malo, y que a precios más altos la distribución se va comprimiendo más en la parte superior, llegando a tener como calificación mínima al menos de "Regular", desapareciendo las calificaciones bajas.
+**Análisis:** En el gráfico se puede visualizar que en el rango de "Alta" satisfacción, su distribución está a lo largo de todo el eje X, asumiendo que en ese subgrupo los precios varían mucho a comparación de los productos que abarcan el rango de "Regular". Siendo estos mismos productos económicos (considerablemente por debajo de las 2500 rupias) los más abundantes de su distribución, logrando calificaciones desde 4.5 a 5, lo que nos sugiere desde un principio que un precio muy elevado no es una condición necesaria para tener un rating de excelencia. A medida de que el precio actual va superando las 5000 rupias se observa que los productos del rango "Bajo" desaparecen casi por completo, revelando que en ese umbral cuando los precios son bajos es presente el riesgo de que se pueda obtener un producto excelente o uno malo, y que a precios más altos la distribución se va comprimiendo más en la parte superior, llegando a tener como calificación mínima al menos de "Regular", desapareciendo las calificaciones bajas.
 
 \section{Análisis del volumen de interacción en base a los rangos de satisfacción}
 
@@ -386,9 +386,9 @@ ggplot(df_sin_atipicos, aes(x = actual_price, y = rating, color = rango_satisfac
 resumen_satisfaccion <- df_sin_atipicos %>%
   group_by(rango_satisfaccion) %>%
   summarise(Cantidad = n()) %>%
-  ungroup() # Muy importante quitar el agrupamiento aquí
+  ungroup() 
 
-# 2. Después añadimos los intervalos (fuera del summarise)
+# intervalos del rango
 resumen_satisfaccion <- resumen_satisfaccion %>%
   mutate(Intervalo = case_when(
     rango_satisfaccion == "Muy malo"  ~ "[0, 1)",
@@ -447,16 +447,16 @@ Por otra parte, la cantidad de datos elevados que se hallan en el umbral "Regula
 \textbf{1.-}\ Dando respuesta a la primera interrogante de la investigacion tras analizar la distribución de las calificaciones en el conjunto de datos de Amazon Sales, se concluye que no existe una polarización crítica en el discurso del consumidor, sino un marcado sesgo positivo como se pudo observar en la acumulación de puntajes en el extremo superior del histograma. Esto demuestra que el sistema de reseñas de Amazon actúa como un filtro de confianza más que como un espacio de crítica exhaustiva. Este sugiere la presencia de un sesgo de selección, donde los usuarios que deciden participar en el sistema de calificaciones son mayoritariamente aquellos cuya expectativa fue satisfecha o superada, omitiendo registrar experiencias mediocres o negativas que generarían una distribución más equitativa o bimodal. 
 
 \textbf{Recomendación} 
-\ Se recomienda diseñar estrategias de recolección de datos que motiven a los compradores con experiencias "regulares" y "malas" a dejar su opinión. Al capturar la opinión de este segmento, la plataforma obtendría una base de datos más equilibrada, permitiendo identificar fallas sutiles en los productos que actualmente quedan ocultas bajo el alto promedio de calificaciones, pero que a largo plazo podrían afectar la retención de clientes Esto permitiría equilibrar el sesgo de positividad y obtener una visión más realista del rendimiento de los productos .
+\ Se recomienda diseñar estrategias de recolección de datos que motiven a los compradores con experiencias "regulares" y "malas" a dejar su opinión. Al capturar la opinión de este segmento, la plataforma obtendría una base de datos más equilibrada, permitiendo identificar fallas sutiles en los productos que actualmente quedan ocultas bajo el alto promedio de calificaciones, pero que a largo plazo podrían afectar la retención de clientes, esto permitiría equilibrar el sesgo de positividad y obtener una visión más realista del rendimiento de los productos.
 
 \textbf{2.-}\ Se concluye que, contrario a la hipótesis de una menor rigurosidad por parte del consumidor ante los descuentos, existe una relación inversa leve entre el ahorro económico y la satisfacción percibida. Los datos demuestran que los productos con mayores descuentos presentan los niveles de satisfacción más bajos de la muestra. Este fenómeno sugiere que descuentos excesivamente agresivos podrían estar asociados a productos que no cumplen plenamente con las expectativas de calidad o que generan una percepción de menor valor real en el usuario. En definitiva, el descuento no actúa como un amortiguador de la crítica; por el contrario, los productos a precio completo o con rebajas mínimas son los que logran mantener los estándares de calificación más altos y consistentes.
 
 \textbf{Recomendación} 
 \ Se recomienda investigar por qué los productos con descuentos muy altos tienen las notas más bajas. Es necesario revisar si estos artículos presentan defectos o si la calidad es inferior a lo esperado. Al entender esto, se pueden evitar ofertas que aunque parecen atractivas por el precio, terminan generando clientes insatisfechos y dañando la imagen del proveedor.
 
-\textbf{3.-} Conclusion n del trabajo de investigación.\
+\textbf{3.-} Respondiendo la tercera pregunta de investigación, contrastando el gráfico de volumen de interacciones y dispersión, se concluye por definitiva que el precio actual no es un determinante para la excelencia del producto en cuanto a la calificación, pero si como un atenuador o filtro de confianza al igual que el sistema de reseñas de Amazon, ya que, el análisis bivariado nos demuestra que es posible llegar a ver calificaciones altas a lo largo de toda la distribución de precios, sin embargo, a medida que el precio va aumentando (por encima de 5000 rupias) la distribución se visualiza más compacta en el rango "Regular", eliminando por completo el umbral de los "Bajos". Por otra parte, en el posicionamiento de ventas (medido por interacciones) nos sugiere que una gran parte de los usuarios se sitúan en las compras económicas, teniendo en cuenta que en ese rango de precio las calificaciones son mucho más volátiles, es decir, se les otorga una mayor visualización o hay un mayor interés en esos productos a pesar de que el nivel de satisfacción no sea el más confiable, estoy indica que a la hora de adquirir un bien de un costo elevado, garantiza una experiencia como mínimo "Regular" para el usuario.\
 
-\textbf{Recomendación} Recomendación n del trabajo de investigación.\
+\textbf{Recomendación} Se recomienda a los vendedores y analístas del mercado, no utilizar el precio como un factor que lidera en ventas, sino como una herramienta que garantiza una reputación buena en sus productos. Dado a que el mayor volumen de interacciones está en la zona de los artículos económicos, se sugiere a las marcas un refuerzo en sus controles de calidad para así contrastar con una estabilidad en el rating de sus productos más uniforme. Para los productos de "Alta gama", es muy vital un enfásis en el marketing sobre la seguridad de compra, ya que los datos afirman que a la hora de pagar por un artículo caro, se garantiza una buena experiencia en los resultados de sus compradores.\
 
 \appendix
 \renewcommand{\thechapter}{\Alph{chapter}}
