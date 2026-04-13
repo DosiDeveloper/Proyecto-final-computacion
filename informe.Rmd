@@ -107,7 +107,9 @@ df_sin_atipicos <- df_limpio %>%
 
 \chapter*{Introducción}
 
-Introducción del trabajo de investigación
+Actualmente, el comercio electrónico ha tornado un rumbo distinto con respecto a las dinámicas de compra y venta de bienes, suplantando la interacción fisica de los objetos por un ecosistema basado en incentivos que actúan como mediador en las decisiones que pueda llegar a tomar el consumidor. En el entorno digital de ventas de Amazon, se moviliza bajo un flujo de datos donde el mismo usuario deberá, ante la imposibilidad de analizar un objeto, recurrir a indicadores de valor que sugieren reducir su incertidumbre.
+
+El costo de un producto termina siendo más que un simple valor monetario, se convierte en un ancla que define la expectativa de un usuario de muchas maneras. El presente trabajo pretende realizar un desglose de la idea de que a un mayor descuento garantiza una mayor calificación en el rating, por medio de un análisis cuantitativo en la base de datos de Amazon Sales, buscando revelar cómo las estrategias de precios y descuentos moldean la percepción de calidad, donde señales como el ahorro pueden ser tan influyentes (o engañosas) como la calidad de un producto mismo.
 
 \chapter{Planteamiento del Problema}
 
@@ -129,7 +131,11 @@ En razón a lo antes expuesto, la investigación propuesta busca dar respuesta a
 
 \section{Justificación}
 
-Justificación del trabajo de investigación\
+A pesar de la masividad del comercio electrónico, se halla una gran brecha en la compresión de como interactúan cognitivamente en el usuario las señales como el precio y los descuentos, caracterizado por la asimetría de información del entorno, el consumidor se encuentra dependiente a estos incentivos los cuales sirven como un filtro de información y evitar el riesgo de una mala compra.
+
+La investigación se ve justificada debido a querer comprender el hecho de que el descuento no solo es un simple ahorro de dinero, sino una señal de información, surgiendo el porqué de que ciertos niveles de precios pueden llegar a sesgar a críticas mas severas o complacientes en el usuario
+
+Finalmente, la práctica de herramientas de programación como R para la depuración y análisis de datos justifica el rigor metodológico para traducir una grande base de datos, en razones, decisiones estratégicas y tendencias comerciales.\
 
 \section{Objetivos}
  
@@ -156,23 +162,34 @@ Cuando desplazamos el análisis hacia el precio actual, sin sesgos por ofertas, 
 
 \section{Bases Teóricas}
 
-Resumen de las bases teoricas explicadas en el capitulo y su importancia\
+El análisis de satisfacción del consumidor en plataformas de e-commerce se rige bajo ciertas teorías psicológicas y económicas que buscan explicar la toma de decisiones en entornos "nublados" o de incertidumbre. Dichas bases teóricas le dan un sentido a que el comportamiento del consumidor no es anómalo o fuera de lo común, por el contrario, responden a sesgos cognitivos y estructuras de información planeadas por la plataforma que condicionan a los usuarios en el mercado. A continuación se describirán pilares teóricos que nutrirán los argumentos de este trabajo, y que guiarán el rumbo del informe.\
 
-\subsection{Definición 1}
+\subsection{El E-commerce como ecosistema de información}
 
-Descripción de la definición 1\
+El E-commerce es la práctica de comprar y vender productos a través de internet, consiste en la distribución, compra, venta, marketing y suministración de información por la plataforma. Caracterizándose por la comodidad y eficiencia, donde los compradores pueden explorar una gran variedad de productos desde la simpleza de su hogar. El E-commerce se centra en la sustitución de la experiencia física de ir a adquirir bienes, tendiendo a que los usuarios dependan totalmente de datos, en lo que respecta a los productos, que la plataforma proporciona o quiere que veas.
 
-\subsection{Definición 2}
+\subsection{La asimetría de información y mecanismos de señalización}
 
-Descripción de la definición 2\
+Es un femómeno económico, el cual aborda situaciones donde una parte de la transacción posee mayor o mejor información en comparación que la otra; por lo general esta disparidad genera un sesgo y desequilibrio en la toma de decisiones óptimas. Debido a esto, en este trabajo se hará prácticas descriptivas con la variable rating ya que es una especie de balanza entre lo que el vendedor sabe y lo que ignora el comprador.
 
-\subsection{Definición n}
+\subsection{El efecto anclaje y sesgos cognitivos}
 
-Descripción de la definición n\
+Cuando se refiere al efecto anclaje es un término que le designaron dos psicólogos hace aproximadamente 50 años, Amos Tversky y Daniel Kahneman. Con ese mismo nombre, querían hacer alusión al sesgo cognitivo que implica que la primera información que observe la persona queda "anclada" como un punto de referencia en sus pensamientos, lo cual influye en la toma de decisiones posteriores. En el contexto del estudio, a la hora de determinar el descuento de un producto el efecto anclaje se manifiesta al hacer énfasis en el nuevo precio, el comprador se quedará inconscientemente con la idea en la cabeza sin darle importancia a la calidad intrínseca del producto, siendo así un sesgo.
+
+\subsection{Teoría de la Desconfirmación de Expectativas}
+
+Esta teoría, fué desarrollada principalmente por Richard Oliver, sugiere que la satisfacción percibida del usuario resulta de una comparación inconsciente entre lo esperado y el desempeño percibido. Puede categorizarse de tres maneras:
+
+\begin{itemize}
+  \item{Confirmación: Cuando se obtiene lo que se esperaba exactamente del producto}
+  \item{Desconfirmación Positiva: Cuando el producto supera por completo las espectativas}
+   \item{Desconfirmación Negativa: Cuando el producto no cumple con lo esperado}
+\end{itemize}\
+Compaginando con el trabajo, la teoría se vuelve muy útil debido a que permite identificar las razones por las cuales el usuario puede verse afectado psicológicamente, en el sentido de que, un precio elevado corresponde a una mayor exigencia, haciendo que si el sujeto halla un error o no es lo que se esperaba, el producto resultará en una desconfirmación negativa más grave.
 
 
 \chapter{Marco Metódico}
-Acontinuación se detalla la metodologia utilzada para abordar el presente estudio. En este apartado se exponen de manera estructurada los procedimientos estadísticos, las técnicas de procesamiento de datos y los criterios de segmentación que permiten operativizar los conceptos discutidos previamente en el marco teórico.
+A continuación se detalla la metodologia utilzada para abordar el presente estudio. En este apartado se exponen de manera estructurada los procedimientos estadísticos, las técnicas de procesamiento de datos y los criterios de segmentación que permiten operativizar los conceptos discutidos previamente en el marco teórico.
  
 \section{Enfoque y Tipo de Investigación}
 
@@ -339,7 +356,7 @@ df_sin_atipicos$rango_satisfaccion <- factor(df_sin_atipicos$rango_satisfaccion,
 #creacion del grafico de dispersion
 ggplot(df_sin_atipicos, aes(x= actual_price, y= rating, color = rango_satisfaccion)) + geom_jitter(alpha = 1.0, size= 1.5) + theme_light() +
   scale_color_manual(values = c("Baja"= "#FF4500", "Regular"= "#EEB422", "Alta"= "#8B4513")) +
-  labs(title = "Dispersión entre el precio actual y el Rating",
+  labs(title = "Dispersion entre el precio actual y el Rating",
        x = "Precio Actual",
        y = "Rating") + 
   theme(legend.position = "bottom")
@@ -347,23 +364,23 @@ ggplot(df_sin_atipicos, aes(x= actual_price, y= rating, color = rango_satisfacci
 ```
 
 
-**Análisis:** En el gráfico se puede visualizar una concentración considerablemente alta en los valores que tienden a una calificación regular, por encima de los 4 puntos de satisfacción, y estan por debajo de un precio de 2.500. Ya habiendo calculado anteriormente los índices estadísticos descriptivos en base al Rating, sabemos que el promedio de satisfacción es de `r round(media_r,3)`, la desviación estándar es de aproximadamente `r round(desviacion_r,3)`, mediana de `r round(mediana_r,3)` y un coeficiente de variacion (CV) aproximadamente del `r round(cv_r,3)`, nos da a entender que la distribución presenta una leve asimetria negativa por la relación que tiene la media al ser menor que la mediana, sugiriendo que los valores estan comprimidos en el limite superior de la escala, al tener un CV tan pequeño y una media y mediana muy similares.
+**Análisis:** En el gráfico se puede visualizar que en el rango de "Alta" satisfacción, su distribución está a lo largo de todo el eje X, asumiendo que en ese subgrupo los precios varían mucho a comparación de los productos que abarcan el rango de "Regular". Siendo estos mismos productos económicos (considerablemente por debajo de los 2500) los más abundantes de su distribución, logrando calificaciones desde 4.5 a 5, lo que nos sugiere desde un principio que un precio muy elevado no es una condición necesaria para tener un rating de excelencia. A medida de que el precio actual va superando los 5000 se observa que los productos del rango "Bajo" desaparecen casi por completo, revelando que en ese umbral cuando los precios son bajos es presente el riesgo de que se pueda obtener un producto excelente o uno malo, y que a precios más altos la distribución se va comprimiendo más en la parte superior, llegando a tener como calificación mínima al menos de "Regular", desapareciendo las calificaciones bajas.
 
 \section{Análisis del volumen de interacción en base a los rangos de satisfacción}
 
 ```{r, echo=FALSE, fig.align='center', message=FALSE, warning=FALSE, out.width= "80%", fig.height=6}
 #se agrupa la cuenta de la interacción en cada rango de satisfacción
 
-volumen_interacción <- df_sin_atipicos %>% 
+volumen_interaccion <- df_sin_atipicos %>% 
 group_by(rango_satisfaccion) %>% 
-summarise(volumen_interacción = sum(rating_count))  
+summarise(volumen_interaccion = sum(rating_count))  
 
-#se hace un gráfico de columnas para visualizar el volumen de interacción
-ggplot(volumen_interacción, aes(x = rango_satisfaccion, y = volumen_interacción)) + geom_col(fill = "#FF9900", color = "white")  + scale_y_continuous(labels = label_number(big.mark = ".", decimal.mark = ",")) + theme_minimal() + labs(title = "Volumen de interacción entre cada rango de satisfacción", x = "Rango de satisfacción", y = "Interacciones")
+#se hace un gráfico de columnas para visualizar el volumen de interaccion
+ggplot(volumen_interaccion, aes(x = fct_reorder(rango_satisfaccion, volumen_interaccion), y= volumen_interaccion)) + geom_col(fill = "#FF9900", color = "white")  + scale_y_continuous(labels = label_number(big.mark = ".", decimal.mark = ",")) + theme_minimal() + labs(title = "Volumen de interacción entre cada rango de satisfacción", x = "Rango de satisfacción", y = "Interacciones")
 
 ```
 
-**Análisis:** En relación con el anterior gráfico de dispersión, en este podemos observar que la acumulación del rating en el rango "Regular" se debe a que la mayor cantidad de reseñas o interacciones las tiene el mismo. Desde una perspectiva descriptiva esto se puede ver como una nube que oculta lo que está tras ella, al condensarse tanta poblacion en un mismo rango alcanzando grandes volúmenes, todos los cálculos y parámetros van a tender a esos valores, manteniéndose más estables en la plataforma que otros, como lo pueden ser los que pertenecen a los rangos "Alto" y "Bajo", sugiriendo que estos productos pueden ser de un consumo menos "masivo" o que probablemente por el hecho de la permanencia de esos productos no han podido deslumbrar ante lo que los oculta.
+**Análisis:** En relación con el anterior gráfico de dispersión, en este podemos observar que la acumulación del rating en el rango "Regular" se debe a que la mayor cantidad de reseñas o interacciones las tiene el mismo. Desde una perspectiva descriptiva esto se puede ver como una nube que oculta lo que está tras ella, al condensarse tanta población en un mismo rango alcanzando grandes volúmenes, todos los cálculos y parámetros van a tender a esos valores, manteniéndose más estables en la plataforma que otros, como lo pueden ser los que pertenecen a los rangos "Alto" y "Bajo", sugiriendo que estos productos pueden ser de un consumo menos "masivo" o que probablemente por el hecho de la permanencia de esos productos no han podido deslumbrar ante lo que los oculta.
 
 \section{Satisfacción vs Precio actual}
 
@@ -381,7 +398,7 @@ ggplot(df_sin_atipicos, aes(x = rango_satisfaccion, y = actual_price, fill = ran
 ```
 **Análisis:** El diagrama de cajas nos permite visualizar cómo están distribuidos los costos asociados a cada rango de satisfacción. Un punto resaltante es el hecho de que la linea divisora (mediana) de la caja "Alta" está levemente por encima de la mediana de los demás, aunque la diferencia no es abismal nos quiere decir que la excelencia en Amazon se paga un poco más cara, sin embargo, se observa que la misma caja es más grande que las demás, es decir, los precios tienden a variar más entre lo barato y lo caro, por ende, en ese umbral de satisfacción el mercado no está tan estandarizado o no es tan uniforme en lo que respecta a precios de los productos.
 
-Por otra parte, la cantidad de datos elevados que se hallan en el umbral "Regular", se debe evidentemente a que ahí está la mayor concentración de reseñas, esto no quiere decir que esa distribución en específico predomine por ellos, por el contrario, la caja es la más comprimida hacia abajo en comparación de las otras dos, dando a entender que la inmensa mayoría de los productos se agrupan en lo barato, no obstante, existe un subgrupo de outliers en ese rango que a pesar de sus precios carísimos no logran pasar una calificación superior. Al contrastar la caja "Baja" y "Regular", vemos que son bastante similares, lo que cambia en este renglón es que los productos malos suelen ser en su mayoría de bajo costo, esto lo confirmamos debido a que no hay tantos outliers fuera de esa caja, lo cual tiene sentido, si alguien paga una cantidad de dinero muy alta y el producto es muy malo, la plataforma suele hacer que "desaparezca" o que no tenga visualización ante los usuarios de la plataforma
+Por otra parte, la cantidad de datos elevados que se hallan en el umbral "Regular", se debe evidentemente a que ahí está la mayor concentración de reseñas, esto no quiere decir que esa distribución en específico predomine por ellos, por el contrario, la caja es la más comprimida hacia abajo en comparación de las otras dos, dando a entender que la inmensa mayoría de los productos se agrupan en lo barato, no obstante, existe un subgrupo de outliers en ese rango que a pesar de sus precios carísimos no logran pasar una calificación superior. Al contrastar la caja "Baja" y "Regular", vemos que son bastante similares, lo que cambia en este renglón es que los productos malos suelen ser en su mayoría de bajo costo, esto lo confirmamos debido a que no hay tantos outliers fuera de esa caja, lo cual tiene sentido, si alguien paga una cantidad de dinero muy alta y el producto es muy malo, la plataforma suele hacer que "desaparezca" o que no tenga visualización ante los usuarios de la plataforma.
 
 
 \chapter{Conclusiones y Recomendaciones}
