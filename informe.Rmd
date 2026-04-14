@@ -107,9 +107,11 @@ df_sin_atipicos <- df_limpio %>%
 
 \chapter*{Introducción}
 
-Actualmente, el comercio electrónico ha tornado un rumbo distinto con respecto a las dinámicas de compra y venta de bienes, suplantando la interacción fisica de los objetos por un ecosistema basado en incentivos que actúan como mediador en las decisiones que pueda llegar a tomar el consumidor. En el entorno digital de ventas de Amazon, se moviliza bajo un flujo de datos donde el mismo usuario deberá, ante la imposibilidad de analizar un objeto, recurrir a indicadores de valor que sugieren reducir su incertidumbre.
+Actualmente, el comercio electrónico ha tornado un rumbo distinto con respecto a las dinámicas de compra y venta de bienes, suplantando la interacción fisica de los objetos por un ecosistema basado en incentivos que actúan como mediador en las decisiones que pueda llegar a tomar el consumidor. En el entorno digital de ventas de Amazon, se moviliza bajo un flujo de datos donde el mismo usuario deberá, ante la imposibilidad de analizar un producto, recurrir a indicadores de valor que sugieren reducir su incertidumbre.
 
-El costo de un producto termina siendo más que un simple valor monetario, se convierte en un ancla que define la expectativa de un usuario de muchas maneras. El presente trabajo pretende realizar un desglose de la idea de que a un mayor descuento garantiza una mayor calificación en el rating, por medio de un análisis cuantitativo en la base de datos de Amazon Sales, buscando revelar cómo las estrategias de precios y descuentos moldean la percepción de calidad, donde señales como el ahorro pueden ser tan influyentes (o engañosas) como la calidad de un producto mismo.
+El costo de un artículo termina siendo más que un simple valor monetario, se convierte en un ancla que define la expectativa de un usuario de muchas maneras. El presente trabajo pretende realizar un desglose de la idea de que a un mayor descuento garantiza una mayor calificación en el rating, por medio de un análisis cuantitativo en la base de datos de Amazon Sales, buscando revelar cómo las estrategias de precios y descuentos moldean la percepción de calidad, donde señales como el ahorro pueden ser tan influyentes (o engañosas) como la calidad de un producto mismo.
+
+Para alcanzar el objetivo planteado, el trabajo se ha estructurado de la siguiente manera: en el primer capítulo se presenta la situación problemática, objetivos y justificación; en el segundo se expone el marco referencial con las teorías que sustenta la investigación; en el tercer apartado se desarrolla el marco metódico, es decir, el paradigma que sustenta la acción transformadora; en el capítulo cuatro se expresan en gráficos los resultados del análisis de los mismos; y por último, el capítulo cinco, donde se presentan las conclusiones y recomendaciones sugeridas.
 
 \chapter{Planteamiento del Problema}
 
@@ -178,7 +180,7 @@ Cuando se refiere al efecto anclaje es un término que le designaron dos psicól
 
 \subsection{Teoría de la Desconfirmación de Expectativas}
 
-Esta teoría, fué desarrollada principalmente por Richard Oliver, sugiere que la satisfacción percibida del usuario resulta de una comparación inconsciente entre lo esperado y el desempeño percibido. Puede categorizarse de tres maneras:
+Esta teoría fué desarrollada principalmente por Richard Oliver, sugiere que la satisfacción percibida del usuario resulta de una comparación inconsciente entre lo esperado y el desempeño percibido. Puede categorizarse de tres maneras:
 
 \begin{itemize}
   \item{Confirmación: Cuando se obtiene lo que se esperaba exactamente del producto}
@@ -416,7 +418,7 @@ group_by(rango_satisfaccion) %>%
 summarise(volumen_interaccion = sum(rating_count))  
 
 #se hace un gráfico de columnas para visualizar el volumen de interaccion
-ggplot(volumen_interaccion, aes(x = fct_reorder(rango_satisfaccion, volumen_interaccion), y= volumen_interaccion)) + geom_col(fill = "#FF9900", color = "white")  + scale_y_continuous(labels = label_number(big.mark = ".", decimal.mark = ",")) + theme_minimal() + labs(title = "Volumen de interacción entre cada rango de satisfacción", x = "Rango de satisfacción", y = "Interacciones")
+ggplot(volumen_interaccion, aes(x = rango_satisfaccion, y= volumen_interaccion)) + geom_col(fill = "#FF9900", color = "white")  + scale_y_continuous(labels = label_number(big.mark = ".", decimal.mark = ",")) + theme_minimal() + labs(title = "Volumen de interacción entre cada rango de satisfacción", x = "Rango de satisfacción", y = "Interacciones")
 
 ```
 
@@ -457,6 +459,17 @@ Por otra parte, la cantidad de datos elevados que se hallan en el umbral "Regula
 \textbf{3.-} Respondiendo la tercera pregunta de investigación, contrastando el gráfico de volumen de interacciones y dispersión, se concluye por definitiva que el precio actual no es un determinante para la excelencia del producto en cuanto a la calificación, pero si como un atenuador o filtro de confianza al igual que el sistema de reseñas de Amazon, ya que, el análisis bivariado nos demuestra que es posible llegar a ver calificaciones altas a lo largo de toda la distribución de precios, sin embargo, a medida que el precio va aumentando (por encima de 5000 rupias) la distribución se visualiza más compacta en el rango "Regular", eliminando por completo el umbral de los "Bajos". Por otra parte, en el posicionamiento de ventas (medido por interacciones) nos sugiere que una gran parte de los usuarios se sitúan en las compras económicas, teniendo en cuenta que en ese rango de precio las calificaciones son mucho más volátiles, es decir, se les otorga una mayor visualización o hay un mayor interés en esos productos a pesar de que el nivel de satisfacción no sea el más confiable, indicando que a la hora de adquirir un bien de un costo elevado, garantiza una experiencia como mínimo "Regular" para el usuario.\
 
 \textbf{Recomendación} Se recomienda a los vendedores y analístas del mercado, no utilizar el precio elevado como un factor que lidera en ventas, sino como una herramienta que garantiza una reputación buena en sus productos. Dado a que el mayor volumen de interacciones está en la zona de los artículos económicos, se sugiere a las marcas un refuerzo en sus controles de calidad para así contrastar con una estabilidad en el rating de sus productos más uniforme. Para los artículos de "Alta gama", es muy vital un enfásis en el marketing sobre la seguridad de compra, ya que los datos afirman que a la hora de pagar por un producto caro, se garantiza una buena experiencia en los resultados de sus compradores.\
+
+\chapter{Bibliografía}
+
+\begin{itemize}
+\item{Elena Bello. (2024, 4 de octubre). ¿Qué es e-Commerce y cómo crear un comercio electrónico?. https://www.iebschool.com/hub/comercio-online-ecommerce/}
+\item{Payoneer Team. (2025, 8 de noviembre). E-commerce: qué es, beneficios y estrategias. https://www.payoneer.com/es/resources/business/guia-ecommerce/}
+\item{Andrew Bloomenthal. (2025, 31 de julio). Explicación de la información asimétrica en economía. https://www.investopedia.com/terms/a/asymmetricinformation.asp}
+\item{Mohn, Elizabeth. (2025). Asimetría de la información. https://www.ebsco.com/research-starters/social-sciences-and-humanities/information-asymmetry}
+\item{Isabel Rovira Salvador. (2018, 21 de marzo). Efecto anclaje: las características de este sesgo cognitivo. https://psicologiaymente.com/psicologia/efecto-anclaje}
+\item{Anuja Shukla, Anubhav Mishra, Yogesh K. Dwivedi. (2026, 14 de marzo). Expectation Confirmation Theory (ECT). https://open.ncl.ac.uk/theories/14/expectation-confirmation-theory/}
+\end{itemize}
 
 \appendix
 \renewcommand{\thechapter}{\Alph{chapter}}
