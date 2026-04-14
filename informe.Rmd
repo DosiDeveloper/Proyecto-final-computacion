@@ -33,8 +33,7 @@ output:
 
 # --- Resumen (Abstract) ---
 abstract: |
-   Este trabajo analiza como las estrategias de descuentos influyen en la percepción de calidad y en la polarización del discurso del consumidor en Amazon Sales. Mediante un enfoque cuantitativo de alcance descriptivo-correlacional, se analizó un conjunto de datos de ventas de la plataforma, el cual fue sometido a un riguroso proceso de limpieza y depuración de valores atípicos. El análisis y la visualización de resultados se fundamentaron en técnicas de estadística descriptiva, empleando diagramas de caja, gráficos de dispersión e histogramas para identificar patrones de comportamiento. Los hallazgos concluyen que      
-
+   Este trabajo analiza como las estrategias de descuentos influyen en la percepción de calidad y en la polarización del discurso del consumidor en Amazon Sales. Mediante un enfoque cuantitativo de alcance descriptivo-correlacional, se analizó un conjunto de datos de ventas de la plataforma, el cual fue sometido a un riguroso proceso de limpieza y depuración de valores atípicos. El análisis y la visualización de resultados se fundamentaron en técnicas de estadística descriptiva, empleando diagramas de caja, gráficos de dispersión e histogramas para identificar patrones de comportamiento. Los hallazgos concluyen que no existe una polarización crítica en el discurso del consumidor, sino un sesgo positivo marcado, se identificó una relación inversa entre el ahorro económico y la satisfacción ya que los productos con mayores descuentos presentaron niveles de satisfacción mas bajos y finalmente se determinó que el precio no es un factor relacionado a la calidad, sin embargo los productos con mayor costo desmostraron garantizar una experiencia mas satisfactoria mientras que en los productos económicos presentaron calificaciones mas variables a pesar de concentrar el mayor volumen de interacciones.
 ---
 
 ```{r setup, include=FALSE}
@@ -199,7 +198,7 @@ A continuación se detalla la metodologia utilzada para abordar el presente estu
 
 \section{Fuente de Datos}
 
-\ Para este estudio se utilizó el conjunto de datos denominado `Amazon_sales.csv`, el cual recopila información detallada sobre transacciones y valoraciones de usuarios en la plataforma. Para el desarrollo de los objetivos planteados, se han seleccionado variables de naturaleza numérica, tales como el precio original (`actual_price`), el precio con rebaja (`discounted_price`), el porcentaje de descuento aplicado(`discount_percentage`), la calificación otorgada (`rating`) y el volumen de participación (`rating_count`). 
+\ Para este estudio se utilizó el conjunto de datos denominado `Amazon_sales.csv`, el cual recopila información detallada sobre transacciones y valoraciones de usuarios en la plataforma. Para el desarrollo de los objetivos planteados, se han seleccionado variables de naturaleza numérica, tales como el precio original (actual_price), el precio con rebaja (discounted_price), el porcentaje de descuento aplicado(discount_percentage), la calificación otorgada (rating) y el volumen de participación (rating_count). 
 
 \section{Procesamiento y Análisis de datos}
 
@@ -242,14 +241,14 @@ total_registros <- nrow(df_sin_atipicos)
 
 # Creacion de  Data Frame con los resultados 
 tabla_resumen <- data.frame(
-  Métrica = c("Total de Productos", "Media", "Mediana", "Moda", "Desviación Estándar","Mínimo", "Máximo"),
+  Metrica = c("Total de Productos", "Media", "Mediana", "Moda", "Desviación Estándar","Mínimo", "Máximo"),
   Valor = c(total_registros, 
-            round(media_r, 3), 
-            round(mediana_r, 3), 
-            round(moda_r, 3),
-            round(desviacion_r, 3),
-            round(minimo_r, 3), 
-            round(maximo_r, 3))
+            round(media_r, 2), 
+            round(mediana_r, 2), 
+            round(moda_r, 2),
+            round(desviacion_r, 2),
+            round(minimo_r, 2), 
+            round(maximo_r, 2))
 )
 
 # Creacion de la tabla con los resultados de las estadisticas descriptivas
@@ -277,7 +276,9 @@ ggplot(df_sin_atipicos, aes(x = rating)) +
 
 ```
 
-**Análisis:** La calificación promedio de un producto es de `r round(media_r,3)` y su mediana de `r round(mediana_r,3)` mostrando una concentración en la parte superior de la escala. El histograma muestra una distribución unimodal con un ligero sesgo negativo, donde la mayor cantidad de productos se agrupa por encima de las 4 estrellas. El hecho que la desviación estandar sea tan baja confirma que existe un consenso generalizado sobre la calidad de los artículos, descartando la presencia de una división crítica o polarización en la percepción de los usuarios dentro de esta muestra.
+**Análisis:** La calificación promedio de un producto es de `r round(media_r,2)` y su mediana de `r round(mediana_r,2)` mostrando una concentración en la parte superior de la escala. El histograma muestra una distribución unimodal con un ligero sesgo negativo, donde la mayor cantidad de productos se agrupa por encima de las 4 estrellas. El hecho que la desviación estandar sea tan baja confirma que existe un consenso generalizado sobre la calidad de los artículos, descartando la presencia de una división crítica o polarización en la percepción de los usuarios dentro de esta muestra.
+
+\newpage
 
 \section{Comparación de Rating por Nivel de Descuento}
 
@@ -330,8 +331,8 @@ resumen_d %>%
 #Gráfico de cajas para comparar distribuciones
 ggplot(df_sin_atipicos, aes(x = rango_descuento, y = rating, fill = rango_descuento)) +
   geom_boxplot(alpha = 0.6, outlier.color = "red", outlier.alpha = 0.5) +
-  scale_fill_manual(values = c( "Sin Descuento (0%)" = "#e47911", "1% - 20%" = "#FF9900", 
-  "21% - 40%" = "#FFB300", "41% - 60%" = "#FFD814","61% - 80%" = "#FFE04F", "Más de 80%" = "#FFFF80" 
+  scale_fill_manual(values = c( "Sin Descuento (0%)" = "#e47911", "1% - 20%" = "#FF4500", 
+  "21% - 40%" = "#FF9900", "41% - 60%" = "#FFb300","61% - 80%" = "#FFD814", "Más de 80%" = "#FFE04F" 
   ))  + 
   labs(title = "Distribución del Rating por Intervalos de Descuento",
        x = "Porcentaje de Descuento",
@@ -341,21 +342,38 @@ ggplot(df_sin_atipicos, aes(x = rango_descuento, y = rating, fill = rango_descue
         axis.text.x = element_text(angle = 45, hjust = 1)) 
 
 ```
+\newpage
 
-**Análisis:** Se observa en la tabla y el gráfico de cajas, que hay una tendencia decreciente ligera pero constante en el rating promedio a medida que aumenta el porcentaje de descuento. Los productos sin descuento lideran la satisfacción con una media de `r round( resumen_d$Media[resumen_d$rango_descuento == "Sin Descuento (0%)"], 3)`, los rangos de descuento intermedios por otra parte presentan la mayor cantidad de valores atípicos y mayor desviación estándar, lo que refleja una opinión más crítica por parte de los compradores en este segmento. Contrario a la hipótesis de una menor rigurosidad a mayor descuento, donde se esperaría que el rating subiera porque el cliente esta satisfecho con el ahorro, los datos muestran que los productos con descuentos superiores al 80% tienen el promedio más bajo. Con el coeficiente de correlacion se puede comprobar entonces como el rating y el descuento presentan una relacion inversa. 
+**Análisis:** Se observa en la tabla y el gráfico de cajas, que hay una tendencia decreciente ligera pero constante en el rating promedio a medida que aumenta el porcentaje de descuento. Los productos sin descuento lideran la satisfacción con una media de `r round( resumen_d$Media[resumen_d$rango_descuento == "Sin Descuento (0%)"], 2)`, los rangos de descuento intermedios por otra parte presentan la mayor cantidad de valores atípicos y mayor desviación estándar, lo que refleja una opinión más crítica por parte de los compradores en este segmento. Contrario a la hipótesis de una menor rigurosidad a mayor descuento, donde se esperaría que el rating subiera porque el cliente esta satisfecho con el ahorro, los datos muestran que los productos con descuentos superiores al 80% tienen el promedio más bajo. Con el coeficiente de correlacion se puede comprobar entonces como el rating y el descuento presentan una relacion inversa. 
 
 \section{Gráfico de dispersión entre el precio actual y el rating}
 
 ```{r, echo=FALSE, fig.align='center', message=FALSE, warning=FALSE, out.width= "100%", fig.width=10, fig.height=7}
 
-#segmentación del rating en rangos de puntaje
+#segmentación del rating en rangos usando cuartiles
 df_sin_atipicos$rango_satisfaccion <- cut(
   df_sin_atipicos$rating, 
-  breaks = c(0, 1, 2, 3, 4, 5), 
+  breaks = quantile(df_sin_atipicos$rating, probs = seq(0,1, length.out = 6)), 
   labels = c("Muy malo", "Malo", "Regular", "Bueno", "Muy bueno"),
   include.lowest = TRUE,
   right = FALSE          
 )
+#Tabla de segmentacion
+tabla_segmentacion <- df_sin_atipicos %>%
+  group_by(rango_satisfaccion) %>%
+  summarise(
+    Intervalo = paste0("[", round(min(rating), 2), " - ", round(max(rating), 2), "]"),
+    Cantidad = n()
+  ) %>%
+  arrange(rango_satisfaccion)
+
+tabla_segmentacion %>%
+  kable(col.names = c("Rango de Satisfacción", "Intervalo de Rating", "Cantidad de Productos"),
+        caption = "Distribución de Productos por Rango de Satisfacción",
+        align = "clc") %>%
+  kable_styling(bootstrap_options = c("hover", "condensed"), 
+                full_width = FALSE, 
+                position = "center")
 
 #creacion del grafico de dispersion
 ggplot(df_sin_atipicos, aes(x = actual_price, y = rating, color = rango_satisfaccion)) +
@@ -363,9 +381,9 @@ ggplot(df_sin_atipicos, aes(x = actual_price, y = rating, color = rango_satisfac
   theme_light() +
   scale_color_manual(values = c(
     "Muy malo" = "#FFE04F", 
-    "Malo"     = "#FF8C00", 
-    "Regular"  = "#EEB422", 
-    "Bueno"    = "#FF4500", 
+    "Malo"     = "#EEB422", 
+    "Regular"  = "#FF4500", 
+    "Bueno"    = "#FF8C00", 
     "Muy bueno"= "#8B4513"
   )) +
   labs(
@@ -384,32 +402,6 @@ ggplot(df_sin_atipicos, aes(x = actual_price, y = rating, color = rango_satisfac
 \section{Análisis del volumen de interacción en base a los rangos de satisfacción}
 
 ```{r, echo=FALSE, fig.align='center', message=FALSE, warning=FALSE, out.width= "80%", fig.height=6}
-#Creacion de dataframe con rangos de satisfaccion
-resumen_satisfaccion <- df_sin_atipicos %>%
-  group_by(rango_satisfaccion) %>%
-  summarise(Cantidad = n()) %>%
-  ungroup() 
-
-# intervalos del rango
-resumen_satisfaccion <- resumen_satisfaccion %>%
-  mutate(Intervalo = case_when(
-    rango_satisfaccion == "Muy malo"  ~ "[0, 1)",
-    rango_satisfaccion == "Malo"      ~ "[1, 2)",
-    rango_satisfaccion == "Regular"   ~ "[2, 3)",
-    rango_satisfaccion == "Bueno"     ~ "[3, 4)",
-    rango_satisfaccion == "Muy bueno" ~ "[4, 5]",
-  )) %>%
-  select(rango_satisfaccion, Intervalo, Cantidad)
-
-#Tabla de rangos de satisfaccion
-resumen_satisfaccion %>%
-  kable(col.names = c("Rango de Satisfacción", "Intervalo de Rating", "Cantidad de Productos"),
-        caption = "Distribución de Productos por Rango de Satisfacción",
-        align = "clc") %>%
-  kable_styling(bootstrap_options = c("hover", "condensed"), 
-                full_width = FALSE, 
-                position = "center")
-
 
 #se agrupa la cuenta de la interacción en cada rango de satisfacción
 
@@ -418,7 +410,8 @@ group_by(rango_satisfaccion) %>%
 summarise(volumen_interaccion = sum(rating_count))  
 
 #se hace un gráfico de columnas para visualizar el volumen de interaccion
-ggplot(volumen_interaccion, aes(x = rango_satisfaccion, y= volumen_interaccion)) + geom_col(fill = "#FF9900", color = "white")  + scale_y_continuous(labels = label_number(big.mark = ".", decimal.mark = ",")) + theme_minimal() + labs(title = "Volumen de interacción entre cada rango de satisfacción", x = "Rango de satisfacción", y = "Interacciones")
+ggplot(volumen_interaccion, aes(x = fct_reorder(rango_satisfaccion, volumen_interaccion), y= volumen_interaccion)) + geom_col(fill = "#FF9900", color = "white")  + scale_y_continuous(labels = label_number(big.mark = ".", decimal.mark = ",")) + theme_minimal() + labs(title = "Volumen de interacción entre cada rango de satisfacción", x = "Rango de satisfacción", y = "Interacciones")
+
 
 ```
 
