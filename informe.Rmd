@@ -48,61 +48,6 @@ knitr::opts_chunk$set(
   out.extra = ""
 )
 ```
-```{r include=FALSE}
-# Cargar librerías necesarias
-library(tidyverse)
-library(knitr)
-library(kableExtra)
-library(scales)
-library(janitor)
-
-#Limpieza del dataframe
-df <- read.csv("11. Amazon Sales.csv", encoding = "UTF-8")
-df_limpio <- df %>%
-  janitor::clean_names() %>%
-    
-  #Seleccion de variables a utilizar para el estudio
-  select(product_id, product_name, category, discounted_price, 
-         actual_price, discount_percentage, rating, rating_count, review_title)%>%
-         
-  # Limpieza de simbolos y comas
-  mutate(discounted_price = as.numeric(gsub("[^0-9.]", "", discounted_price)),
-    actual_price = as.numeric(gsub("[^0-9.]", "", actual_price)),
-    rating = as.numeric(rating), 
-    rating_count = as.numeric(gsub(",", "",  rating_count)),
-  # Convercion de porcentaje (ej. 50%) a decimal (0.50)
-    discount_percentage = as.numeric(gsub("%", "", discount_percentage))/100
-    ) 
-  # Recalculo de porcentajes
-  df_limpio <- df_limpio %>%
-  mutate(discounted_price = actual_price - (actual_price*discount_percentage),
-         discounted_price = round(discounted_price, 0))
-  
-  #Verificacion e imputacion de NA's
-  
-  df_limpio <- df_limpio %>%
-  mutate(rating = replace_na(rating, mean(rating, na.rm = TRUE)), 
-         rating_count = replace_na(rating_count, mean(rating_count, na.rm = TRUE))) 
-  
-  
-  #Elimimacion de Outliers
-  # Calculo  de límites para 'actual_price' usando IQR
-Q1 <- quantile(df_limpio$actual_price, 0.25, na.rm = TRUE)
-Q3 <- quantile(df_limpio$actual_price, 0.75, na.rm = TRUE)
-IQR_val <- Q3 - Q1
-
-# Definicion de límites
-limite_inferior <- Q1 - 1.5 * IQR_val
-limite_superior <- Q3 + 1.5 * IQR_val
-
-# 2. Filtracion de datos
-df_sin_atipicos <- df_limpio %>%
-  filter(actual_price >= limite_inferior & actual_price <= limite_superior) 
-
-  
-```
-
-
 
 \chapter*{Introducción}
 
@@ -211,6 +156,61 @@ A continuación se detalla la metodologia utilzada para abordar el presente estu
   \item{Visualización: Se desarrollan histogramas para detectar la polarización de opiniones, diagramas de caja para segmentar la satisfacción por niveles de descuento y gráficos de dispersión que ilustran la densidad de la relación entre costo y calificación.}
   \item{Tabulación: Generación de tablas que resuman las estadisticas del rating, los rangos de descuento y las agrupaciones de satisfacción (Alta, Regular y Baja).}
 \end{itemize}
+
+```{r include=FALSE}
+# Cargar librerías necesarias
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(scales)
+library(janitor)
+
+#Limpieza del dataframe
+df <- read.csv("11. Amazon Sales.csv", encoding = "UTF-8")
+df_limpio <- df %>%
+  janitor::clean_names() %>%
+    
+  #Seleccion de variables a utilizar para el estudio
+  select(product_id, product_name, category, discounted_price, 
+         actual_price, discount_percentage, rating, rating_count, review_title)%>%
+         
+  # Limpieza de simbolos y comas
+  mutate(discounted_price = as.numeric(gsub("[^0-9.]", "", discounted_price)),
+    actual_price = as.numeric(gsub("[^0-9.]", "", actual_price)),
+    rating = as.numeric(rating), 
+    rating_count = as.numeric(gsub(",", "",  rating_count)),
+  # Convercion de porcentaje (ej. 50%) a decimal (0.50)
+    discount_percentage = as.numeric(gsub("%", "", discount_percentage))/100
+    ) 
+  # Recalculo de porcentajes
+  df_limpio <- df_limpio %>%
+  mutate(discounted_price = actual_price - (actual_price*discount_percentage),
+         discounted_price = round(discounted_price, 0))
+  
+  #Verificacion e imputacion de NA's
+  
+  df_limpio <- df_limpio %>%
+  mutate(rating = replace_na(rating, mean(rating, na.rm = TRUE)), 
+         rating_count = replace_na(rating_count, mean(rating_count, na.rm = TRUE))) 
+  
+  
+  #Elimimacion de Outliers
+  # Calculo  de límites para 'actual_price' usando IQR
+Q1 <- quantile(df_limpio$actual_price, 0.25, na.rm = TRUE)
+Q3 <- quantile(df_limpio$actual_price, 0.75, na.rm = TRUE)
+IQR_val <- Q3 - Q1
+
+# Definicion de límites
+limite_inferior <- Q1 - 1.5 * IQR_val
+limite_superior <- Q3 + 1.5 * IQR_val
+
+# 2. Filtracion de datos
+df_sin_atipicos <- df_limpio %>%
+  filter(actual_price >= limite_inferior & actual_price <= limite_superior) 
+
+  
+```
+
 
 
 \chapter{Análisis de Resultados}
@@ -350,22 +350,21 @@ ggplot(df_sin_atipicos, aes(x = rango_descuento, y = rating, fill = rango_descue
 
 ```{r, echo=FALSE, fig.align='center', message=FALSE, warning=FALSE, out.width= "100%", fig.width=10, fig.height=7}
 
-#segmentación del rating en rangos usando cuartiles
+#segmentación del rating en rangos 
 df_sin_atipicos$rango_satisfaccion <- cut(
   df_sin_atipicos$rating, 
-  breaks = quantile(df_sin_atipicos$rating, probs = seq(0,1, length.out = 6)), 
-  labels = c("Muy malo", "Malo", "Regular", "Bueno", "Muy bueno"),
-  include.lowest = TRUE,
-  right = FALSE          
+  breaks = c(1, 3, 4, 5), 
+  labels = c("Malo", "Regular", "Bueno"),
+  include.lowest = TRUE, 
+  right = FALSE
 )
+
 #Tabla de segmentacion
 tabla_segmentacion <- df_sin_atipicos %>%
-  group_by(rango_satisfaccion) %>%
-  summarise(
-    Intervalo = paste0("[", round(min(rating), 2), " - ", round(max(rating), 2), "]"),
-    Cantidad = n()
-  ) %>%
-  arrange(rango_satisfaccion)
+ group_by(rango_satisfaccion) %>%
+  summarise(Cantidad = n()) %>%
+  mutate(Intervalo = c("[1, 3)", "[3, 4)", "[4, 5)")) %>%
+  select(rango_satisfaccion, Intervalo, Cantidad)
 
 tabla_segmentacion %>%
   kable(col.names = c("Rango de Satisfacción", "Intervalo de Rating", "Cantidad de Productos"),
@@ -380,11 +379,9 @@ ggplot(df_sin_atipicos, aes(x = actual_price, y = rating, color = rango_satisfac
   geom_jitter(alpha = 1.0, size = 1.5) + 
   theme_light() +
   scale_color_manual(values = c(
-    "Muy malo" = "#FFE04F", 
-    "Malo"     = "#EEB422", 
-    "Regular"  = "#FF4500", 
-    "Bueno"    = "#FF8C00", 
-    "Muy bueno"= "#8B4513"
+    "Malo" = "#FFE04F", 
+    "Regular"  = "#FF8C00", 
+    "Bueno"    = "#8B4513"
   )) +
   labs(
     title = "Dispersión entre el precio actual y el Rating",
@@ -423,8 +420,7 @@ ggplot(volumen_interaccion, aes(x = fct_reorder(rango_satisfaccion, volumen_inte
 
 ggplot(df_sin_atipicos, aes(x = rango_satisfaccion, y = actual_price, fill = rango_satisfaccion)) +
   geom_boxplot(alpha = 0.7, outlier.color = "red") +
-  scale_fill_manual(values = c("Muy malo" = "#FF4500", "Malo" = "#FF8C00", "Regular" = "#EEB422", 
-  "Bueno" = "#FFE04F", "Muy bueno" = "#8B4513")) +
+  scale_fill_manual(values = c("Malo" = "#FFE04F", "Regular"  = "#FF4500", "Bueno"    = "#FF8C00")) +
   labs(title = "Variabilidad del Precio según Satisfacción",
        x = "Rango de Satisfacción",
        y = "Precio Actual") +
