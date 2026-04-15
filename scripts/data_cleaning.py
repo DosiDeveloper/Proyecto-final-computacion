@@ -1,8 +1,10 @@
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 
-
-df = pd.read_csv("11. Amazon Sales.csv")
+folder = Path("Data").resolve()
+df = pd.read_csv(folder / "Raw" / "11. Amazon Sales.csv")
 # No hay datos duplicados, pero se eliminan por si acaso
 df = df.drop_duplicates()
 
@@ -60,6 +62,6 @@ df["rating_group"] = pd.cut(
 
 
 if __name__ == "__main__":
-    df.to_csv("Cleaned Amazon Sales.csv", index=False)
+    df.to_csv(folder / "Clean" / "Cleaned Amazon Sales.csv", index=False)
     print(df.head())
     print(df.info())

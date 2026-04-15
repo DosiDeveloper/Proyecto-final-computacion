@@ -1,11 +1,12 @@
 import os
+from pathlib import Path
 import streamlit as st
 from streamlit_theme import st_theme
 import pandas as pd
 import plotly.io as pio
 
 from fragments import df_tab, graph_tab, resume_tab
-from data_cleaning import list_category, percentage_level, rating_label
+from scripts.data_cleaning import list_category, percentage_level, rating_label
 
 # config
 st.set_page_config(layout="wide", page_title="Análisis de Ventas Amazon",)
@@ -18,7 +19,7 @@ st.column_config.NumberColumn(format="localized")
 def load_dataset():
     try:
         load_df_clean = pd.read_csv(
-            os.path.abspath("Cleaned Amazon Sales.csv"))
+            Path("Data").resolve() / "Clean" / "Cleaned Amazon Sales.csv")
         load_df_clean["category"] = load_df_clean["category"].map(
             lambda x: eval(x) if isinstance(x, str) else x)
         load_df_clean["discount_percentage_group"] = load_df_clean["discount_percentage_group"].astype(

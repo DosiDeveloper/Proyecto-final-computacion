@@ -166,7 +166,7 @@ def df_tab(filtered_df: pd.DataFrame, df: pd.DataFrame):
             - Se recalcularon los precios con descuento a partir de los precios sin outliers""")
 
         st.link_button("Descargar el dataset sin limpiar",
-                       "https://github.com/DosiDeveloper/Proyecto-final-computacion/blob/master/11.%20Amazon%20Sales.pdf", icon=":material/release_alert:")
+                       "https://github.com/DosiDeveloper/Proyecto-final-computacion/blob/master/Data/Raw/11.%20Amazon%20Sales.csv", icon=":material/release_alert:")
         st.download_button("Descargar el dataset limpio",
                            df.to_csv().encode("utf-8"), icon=":material/info:", mime="text/csv", file_name="Cleaned Amazon Sales.csv")
         st.download_button("Descargar el dataset segun los filtros aplicados", icon=":material/download:", data=filtered_df.to_csv(
