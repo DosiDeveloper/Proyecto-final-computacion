@@ -1,0 +1,645 @@
+% --- INICIO DE PLANTILLA PERSONALIZADA ---
+\documentclass[oneside,11pt]{Latex/Classes/PhDthesisPSnPDF}
+
+% --- Paquetes Originales ---
+\usepackage{blindtext}
+\usepackage{actuarialangle} 
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{multirow, array}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{longtable}
+\usepackage{latexsym,amsmath,amssymb,amsfonts}
+\usepackage{enumitem}
+\usepackage{xparse}
+\usepackage{booktabs}
+\usepackage[round, sort, numbers]{natbib}  
+\usepackage{adjustbox}
+\usepackage[utf8]{inputenc}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+% Definición de colores
+\definecolor{miblue}{RGB}{68, 114, 196}
+
+% --- CAMBIO CRÍTICO 1: Usar \input para macros en el preámbulo ---
+% \include da problemas antes del begin document. \input es seguro.
+\input{Latex/Macros/MacroFile1}
+
+% --- Definiciones de seguridad (por si la clase falla al cargar alguna variable) ---
+\providecommand{\facultad}[1]{\def\lafacultad{#1}}
+\providecommand{\escudofacultad}[1]{\def\elescudo{#1}}
+\providecommand{\degree}[1]{\def\elgrado{#1}}
+\providecommand{\director}[1]{\def\eldirector{#1}}
+\providecommand{\lugar}[1]{\def\ellugar{#1}}
+\providecommand{\degreedate}[1]{\def\lafecha{#1}}
+
+% --- Configuración para bloques de código de R (Pandoc) ---
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                         DATOS (Conectados a RMarkdown)                       %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Análisis del uso de estrategias de descuentos y su influyencia en
+la percepción de calidad y la polarización del discurso del consumidor
+en Amazon Sales}
+\author{Douglas Barreto \\ Laura Montes \\ Alejandro Huerfano}
+
+% Lógica para Facultad: Si la defines en el YAML la usa, si no, usa la default
+
+\facultad{Facultad de Ciencias Económicas y Sociales \\ Escuela de
+Estadistica y Ciencias Actuariales}
+  \escudofacultad{Latex/Classes/Escudos/faces}
+
+\degree{Computación I}
+\director{Jesus Ochoa \\ Oliver Triveño}
+\degreedate{Abril 2026} 
+\lugar{Caracas}
+
+\portadatrue 
+
+% Metadatos PDF
+\keywords{}
+\subject{}
+
+% --- CORRECCIÓN PARA PANDOC NUEVO (Imágenes) ---
+\makeatletter
+\providecommand{\pandocbounded}[1]{#1}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                   DOCUMENTO                       %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                  PRÓLOGO                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frontmatter
+
+% Puedes agregar dedicatorias desde el YAML si quieres, o dejarlas fijas aquí
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                   ÍNDICES                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+\tableofcontents
+
+
+
+\cleardoublepage
+
+  \cleardoublepage       % Empieza en página derecha (estándar en tesis)
+  \chapter*{Resumen}     % Crea el título "Resumen" sin numeración (Capítulo *)
+  \addcontentsline{toc}{chapter}{Resumen} % (Opcional) Lo añade al índice
+  
+  Este trabajo analiza como las estrategias de descuentos influyen en la
+percepción de calidad y en la polarización del discurso del consumidor
+en Amazon Sales. Mediante un enfoque cuantitativo de alcance
+descriptivo-correlacional, se analizó un conjunto de datos de ventas de
+la plataforma, el cual fue sometido a un riguroso proceso de limpieza y
+depuración de valores atípicos. El análisis y la visualización de
+resultados se fundamentaron en técnicas de estadística descriptiva,
+empleando diagramas de caja, gráficos de dispersión e histogramas para
+identificar patrones de comportamiento. Los hallazgos concluyen que no
+existe una polarización crítica en el discurso del consumidor, sino un
+sesgo positivo marcado, se identificó una relación inversa entre el
+ahorro económico y la satisfacción ya que los productos con mayores
+descuentos presentaron niveles de satisfacción mas bajos y finalmente se
+determinó que el precio no es un factor relacionado a la calidad, sin
+embargo los productos con mayor costo desmostraron garantizar una
+experiencia mas satisfactoria mientras que en los productos económicos
+presentaron calificaciones mas variables a pesar de concentrar el mayor
+volumen de
+interacciones.             % Aquí se pega el texto que escribiste en el YAML
+  
+  \cleardoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                   CONTENIDO (El Corazón)          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mainmatter
+\def\baselinestretch{1.5}
+
+% --- CAMBIO CRÍTICO 2: Aquí RMarkdown inyecta todo tu texto ---
+\chapter*{Introducción}
+
+Actualmente, el comercio electrónico ha tornado un rumbo distinto con
+respecto a las dinámicas de compra y venta de bienes, suplantando la
+interacción fisica de los objetos por un ecosistema basado en incentivos
+que actúan como mediador en las decisiones que pueda llegar a tomar el
+consumidor. En el entorno digital de ventas de Amazon, se moviliza bajo
+un flujo de datos donde el mismo usuario deberá, ante la imposibilidad
+de analizar un producto, recurrir a indicadores de valor que sugieren
+reducir su incertidumbre.
+
+El costo de un artículo termina siendo más que un simple valor
+monetario, se convierte en un ancla que define la expectativa de un
+usuario de muchas maneras. El presente trabajo pretende realizar un
+desglose de la idea que a un mayor descuento garantiza una mayor
+calificación en el rating, por medio de un análisis cuantitativo en la
+base de datos de Amazon Sales, buscando revelar cómo las estrategias de
+precios y descuentos moldean la percepción de calidad, donde señales
+como el ahorro pueden ser tan influyentes (o engañosas) como la calidad
+de un producto mismo.
+
+Para alcanzar el objetivo planteado, el trabajo se ha estructurado de la
+siguiente manera: en el primer capítulo se presenta la situación
+problemática, objetivos y justificación; en el segundo se expone el
+marco referencial con las teorías que sustenta la investigación; en el
+tercer apartado se desarrolla el marco metódico, es decir, el paradigma
+que sustenta la acción transformadora; en el capítulo cuatro se expresan
+en gráficos los resultados del análisis de los mismos; y por último, el
+capítulo cinco, donde se presentan las conclusiones y recomendaciones
+sugeridas.
+
+\chapter{Planteamiento del Problema}
+
+En el ámbito del comercio electrónico o incluso en redes sociales, los
+criterios superficiales como el promedio de calificaciones en un
+producto, se asume convencionalmente como un indicador de éxito y
+satisfacción del usuario, sin embargo, el hecho de una calificación
+considerablemente ``buena'' ignora el sesgo intrínseco en las personas a
+la hora de puntuar.
+
+El análisis crítico de un consumidor a través de reseñas es deteriorado
+por un sesgo de selección, es decir, se ven altamente motivados a la
+interacción sincera únicamente cuando su experiencia con el producto fue
+muy gratificante, o por el contrario, muy deficiente, así ocultando el
+rendimiento real del producto. En este campo también se incluye el
+operamiento de estrategias de descuento, se asocia con cambios en la
+percepción del consumidor para su compra inmediata; se dice que a mayor
+descuento del producto genera mayor satisfacción en el usuario y un
+mayor umbral de interacción.
+
+El objetivo investigativo se centrará en un análisis comparativo a
+distintas distribuciones segmentadas del rating, con el fin de hallar
+patrones de comportamiento, siendo así, la identificación de anomalías
+con procedimientos estadísticos descriptivos; como dispersión en las
+calificaciones y frecuencia de términos críticos o interacciones como lo
+son las reseñas, permitiendo observar si el porcentaje del descuento y
+en el precio existe algún tipo de correlación, las cuáles en base a lo
+demostrado podría sugerir una discrepancia entre el rating y la crítica
+descriptiva.
+
+En razón a lo antes expuesto, la investigación propuesta busca dar
+respuesta a las siguientes interrogantes:\\
+
+\textbf{1.}~¿De qué manera se distribuyen las calificaciones de los
+usuarios y en qué medida esta distribución revela una polarización en la
+percepción del producto?
+
+\textbf{2.}~¿Existe una correlación significativa entre el porcentaje de
+descuento aplicado y el promedio de calificación que sugiera que los
+usuarios son menos exigentes al evaluar productos adquiridos a menor
+precio?
+
+\textbf{3.}~¿De qué manera el nivel de satisfacción del usuario
+condiciona el comportamiento del precio actual y el éxito en el
+posicionamiento de ventas de los productos?
+
+\section{Justificación}
+
+A pesar de la masividad del comercio electrónico, se halla una gran
+brecha en la compresión de como interactúan cognitivamente en el usuario
+las señales como el precio y los descuentos, caracterizado por la
+asimetría de información del entorno, el consumidor se encuentra
+dependiente a estos incentivos los cuales sirven como un filtro de
+información y evitar el riesgo de una mala compra.
+
+La investigación se ve justificada debido a que se busca comprender como
+el descuento no solo es un simple ahorro de dinero, sino una señal de
+información, surgiendo el porqué de que ciertos niveles de precios
+pueden llegar a sesgar a críticas mas severas o complacientes en el
+usuario
+
+Finalmente, la práctica de herramientas de programación como R para la
+depuración y análisis de datos justifica el rigor metodológico para
+traducir una grande base de datos, en razones, decisiones estratégicas y
+tendencias comerciales.\\
+
+\section{Objetivos}
+
+\subsection{Objetivo General}
+\begin{itemize}
+  \item{Evaluar como la estrategia de descuentos influyen en la percepción de calidad y en la polarización del discurso del consumidor en Amazon Sales}
+\end{itemize}
+
+\subsection{Objetivos Específicos}
+\begin{itemize}
+  \item{Describir la distribución de las calificaciones para identificar la presencia de polarización en las opiniones de los usuarios.}
+  \item{Comparar el promedio de rating en función de los rangos del porcentaje de descuento para determinar si a mayor descuento existe una tendencia a calificar con menor rigurosidad.}
+   \item{Establecer agrupaciones de satisfacción basadas en el rating para determinar cómo estas categorías influyen en la variabilidad del precio actual y en el posicionamiento de las ventas.}
+
+\end{itemize}
+
+\chapter{Marco Teórico}
+
+El riesgo de que un usuario de Amazon reciba un producto de mala calidad
+o defectuoso está presente. La asimetría de la información aborda
+situaciones en las que una de las dos partes (emisor y receptor) posee
+información que el otro desconoce; debido a este factor, el comprador se
+ve obligado a depender de reseñas que sirven como señalizadores que la
+misma empresa hace visibles para reducir la incertidumbre. Para superar
+esta asimetría, las señales deben garantizar que solo se envíe
+información que refleje atributos o capacidades reales del producto. En
+sintonía con las reseñas de Amazon, la prueba social es el fenómeno por
+el cual, si el comprador observa que muchos usuarios adquirieron el
+producto y otorgaron una buena puntuación, percibe que el riesgo de
+error es menor.
+
+No obstante, la fiabilidad de estas señales no opera por sí sola, sino
+que se ve apoyada en la percepción económica del usuario aplicada
+durante el proceso de compra. En este contexto, el efecto anclaje
+(anchoring) toma un papel fundamental, ya que es un sesgo cognitivo en
+el que la primera información que percibe una persona condiciona la toma
+de sus decisiones. Al mostrar un precio inicial tachado y hacer énfasis
+en el costo posterior al descuento, el producto se vuelve más llamativo,
+e impulsa la compra por una percepción de ahorro más que por el valor
+intrínseco del bien. La utilidad de la transacción puede llegar a
+dominar la percepción general, provocando que el usuario otorgue
+calificaciones elevadas no necesariamente por la excelencia del
+producto, sino como un reflejo del bienestar derivado del ahorro
+percibido.
+
+Cuando desplazamos el análisis hacia el precio actual, sin sesgos por
+ofertas, entra en juego el criterio de exigencia del usuario. Bajo este
+contexto, los productos con un mayor costo generan en el consumidor un
+rol más estricto; cualquier mínima discrepancia entre la calidad
+esperada y la obtenida se traduce en una penalización más severa en el
+rating, lo que conduce a una heterogeneidad de opiniones. De igual forma
+ocurre con los productos más económicos: el beneficio monetario hace que
+el usuario reduzca sus niveles de exigencia. En ambos casos, el juicio
+del consumidor se rige según la Teoría de la desconfirmación de
+expectativas.
+
+\section{Bases Teóricas}
+
+El análisis de satisfacción del consumidor en plataformas de e-commerce
+se rige bajo ciertas teorías psicológicas y económicas que buscan
+explicar la toma de decisiones en entornos ``nublados'' o de
+incertidumbre. Dichas bases teóricas le dan un sentido a que el
+comportamiento del consumidor no es anómalo o fuera de lo común, por el
+contrario, responden a sesgos cognitivos y estructuras de información
+planeadas por la plataforma que condicionan a los usuarios en el
+mercado. A continuación se describirán pilares teóricos que nutrirán los
+argumentos de este trabajo, y que guiarán el rumbo del informe.\\
+
+\subsection{El E-commerce como ecosistema de información}
+
+El E-commerce es la práctica de comprar y vender productos a través de
+internet, consiste en la distribución, compra, venta, marketing y
+suministración de información por la plataforma. Caracterizándose por la
+comodidad y eficiencia, donde los compradores pueden explorar una gran
+variedad de productos desde la simpleza de su hogar. El E-commerce se
+centra en la sustitución de la experiencia física de ir a adquirir
+bienes, tendiendo a que los usuarios dependan totalmente de datos, en lo
+que respecta a los productos, que la plataforma proporciona o quiere que
+veas.
+
+\subsection{La asimetría de información y mecanismos de señalización}
+
+Es un femómeno económico, el cual aborda situaciones donde una parte de
+la transacción posee mayor o mejor información en comparación que la
+otra; por lo general esta disparidad genera un sesgo y desequilibrio en
+la toma de decisiones óptimas. Debido a esto, en este trabajo se hará
+prácticas descriptivas con la variable rating ya que es una especie de
+balanza entre lo que el vendedor sabe y lo que ignora el comprador.
+
+\subsection{El efecto anclaje y sesgos cognitivos}
+
+Cuando se refiere al efecto anclaje es un término que le designaron dos
+psicólogos hace aproximadamente 50 años, Amos Tversky y Daniel Kahneman.
+Con ese mismo nombre, querían hacer alusión al sesgo cognitivo que
+implica que la primera información que observe la persona queda
+``anclada'' como un punto de referencia en sus pensamientos, lo cual
+influye en la toma de decisiones posteriores. En el contexto del
+estudio, a la hora de determinar el descuento de un producto el efecto
+anclaje se manifiesta al hacer énfasis en el nuevo precio, el comprador
+se quedará inconscientemente con la idea en la cabeza sin darle
+importancia a la calidad intrínseca del producto, siendo así un sesgo.
+
+\subsection{Teoría de la Desconfirmación de Expectativas}
+
+Esta teoría fué desarrollada principalmente por Richard Oliver, sugiere
+que la satisfacción percibida del usuario resulta de una comparación
+inconsciente entre lo esperado y el desempeño percibido. Puede
+categorizarse de tres maneras:
+
+\begin{itemize}
+  \item{Confirmación: Cuando se obtiene lo que se esperaba exactamente del producto}
+  \item{Desconfirmación Positiva: Cuando el producto supera por completo las espectativas}
+   \item{Desconfirmación Negativa: Cuando el producto no cumple con lo esperado}
+\end{itemize}
+
+\hfill\break
+Compaginando con el trabajo, la teoría se vuelve muy útil debido a que
+permite identificar las razones por las cuales el usuario puede verse
+afectado psicológicamente, en el sentido de que, un precio elevado
+corresponde a una mayor exigencia, haciendo que si el sujeto halla un
+error o no es lo que se esperaba, el producto resultará en una
+desconfirmación negativa más grave.
+
+\chapter{Marco Metódico}
+
+A continuación se detalla la metodologia utilzada para abordar el
+presente estudio. En este apartado se exponen de manera estructurada los
+procedimientos estadísticos, las técnicas de procesamiento de datos y
+los criterios de segmentación que permiten operativizar los conceptos
+discutidos previamente en el marco teórico.
+
+\section{Enfoque y Tipo de Investigación}
+
+~La investigación adopta un enfoque cuantitativo de tipo
+descriptivo-correlacional. El estudio está orientado a desglosar la
+interacción entre variables críticas como el precio y la satisfacción
+del cliente. Se busca determinar si existen patrones de comportamiento
+sistemáticos en la evaluación de productos, analizando cómo el incentivo
+económico del descuento altera la percepción de calidad del usuario.
+Este diseño permite observar la fuerza de asociación entre las métricas
+sin necesidad de establecer una relación de causa y efecto estricta.
+
+\section{Fuente de Datos}
+
+~Para este estudio se utilizó el conjunto de datos denominado
+\texttt{Amazon\_sales.csv}, el cual recopila información detallada sobre
+transacciones y valoraciones de usuarios en la plataforma. Para el
+desarrollo de los objetivos planteados, se han seleccionado variables de
+naturaleza numérica, tales como el precio original (actual\_price), el
+precio con rebaja (discounted\_price), el porcentaje de descuento
+aplicado(discount\_percentage), la calificación otorgada (rating) y el
+volumen de participación (rating\_count).
+
+\section{Procesamiento y Análisis de datos}
+
+~El tratamiento de la información se llevó a cabo mediante el lenguaje
+de programación R, empleando las librerías tidyverse, con especial
+énfasis en dplyr para la manipulación de datos y ggplot2 para la
+generación de evidencia visual. El proceso se realizó en las siguientes
+etapas:
+
+\begin{itemize}
+  \item {Limpieza de datos: Se procedio con la depuración de las variables, eliminando caracteres especiales de las columnas de moneda y gestionando registros con valores ausentes en las métricas de satisfacción. Se recalculó los porcentajes en la variable de descuento del precio y se filtraron los valores atipicos del precio actual para garantizar la integridad de los resultados. }
+  \item{Análisis Descriptivo: Se ejecutanron cálculos de tendencia central y dispersión, como la media, la mediana y la desviación estándar, con el fin de identificar la variabilidad del umbral de exigencia del consumidor frente a distintos niveles de precio.}
+  \item{Tipificación y Normalización: Se realizó la normalización de los histogramas para que el área bajo la curva equivalga a 1, transformando la frecuencia absoluta en densidad de probabilidad. Posteriormente, utilizando la media y la desviación estándar de las variables, se procedió con la tipificación de los datos para superponer la campana de Gauss sobre el histograma.}
+  \item{Visualización: Se desarrollaron histogramas para detectar la polarización de opiniones, diagramas de caja para segmentar la satisfacción por niveles de descuento y gráficos de dispersión que ilustran la densidad de la relación entre costo y calificación.}
+  \item{Tabulación: Generación de tablas que resuman las estadisticas del rating, los rangos de descuento y las agrupaciones de satisfacción (Malo, Regular y Bueno).}
+\end{itemize}
+
+\chapter{Análisis de Resultados}
+
+\small A continuación, se presenta la interpretación de los resultados
+alcanzados mediante la aplicación de las metodologías detalladas
+previamente. El análisis se centra en caracterizar la distribución de
+los datos y en identificar las relaciones estadísticas de mayor
+relevancia, proporcionando una base sólida para comprender la dinámica
+de las calificaciones y los precios en el conjunto de datos estudiado.
+
+\section{Polarización de Opiniones}
+
+\begin{longtable}[t]{lc}
+\caption{\label{tab:unnamed-chunk-2}Estadísticas Descriptivas del Rating de Productos}\\
+\toprule
+Estadístico & Resultado\\
+\midrule
+Total de Productos & 1252.000\\
+Media & 4.083\\
+Mediana & 4.100\\
+Moda & 4.100\\
+Desviación Estándar & 0.305\\
+\addlinespace
+Mínimo & 2.000\\
+Máximo & 5.000\\
+\bottomrule
+\end{longtable}
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{informe_files/figure-latex/unnamed-chunk-2-1} \end{center}
+
+\textbf{Análisis:} La calificación promedio de un producto es de 4.083 y
+su mediana de 4.1 mostrando una concentración en la parte superior de la
+escala. El histograma muestra una distribución unimodal con un ligero
+sesgo negativo, donde la mayor cantidad de productos se agrupa por
+encima de las 4 estrellas. El hecho que la desviación estandar sea tan
+baja confirma que existe un consenso generalizado sobre la calidad de
+los artículos, descartando la presencia de una división crítica o
+polarización en la percepción de los usuarios dentro de esta muestra.
+
+\newpage
+
+\section{Comparación de Rating por Nivel de Descuento}
+
+\textbf{Coeficiente de Correlación de Pearson:} -0.166
+
+\begin{longtable}[t]{lccccc}
+\caption{\label{tab:unnamed-chunk-3}Satisfacción por Intervalos de Descuento}\\
+\toprule
+Rango de Descuento & Productos & Media & Mediana & Moda & D.E.\\
+\midrule
+Sin Descuento (0\%) & 45 & 4.236 & 4.3 & 4.3 & 0.213\\
+1\% - 20\% & 113 & 4.152 & 4.2 & 4.1 & 0.243\\
+21\% - 40\% & 240 & 4.108 & 4.1 & 4.0 & 0.278\\
+41\% - 60\% & 450 & 4.067 & 4.1 & 4.1 & 0.328\\
+61\% - 80\% & 351 & 4.064 & 4.1 & 4.2 & 0.309\\
+\addlinespace
+Más de 80\% & 53 & 3.951 & 4.0 & 3.9 & 0.293\\
+\bottomrule
+\end{longtable}
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{informe_files/figure-latex/unnamed-chunk-3-1} \end{center}
+\newpage
+
+\textbf{Análisis:} Se observa en la tabla y el gráfico de cajas, que hay
+una tendencia decreciente ligera pero constante en el rating promedio a
+medida que aumenta el porcentaje de descuento. Los productos sin
+descuento lideran la satisfacción con una media de 4.236, los rangos de
+descuento intermedios por otra parte presentan la mayor cantidad de
+valores atípicos y mayor desviación estándar, lo que refleja una opinión
+más crítica por parte de los compradores en este segmento. Contrario a
+la hipótesis de una menor rigurosidad a mayor descuento, donde se
+esperaría que el rating subiera porque el cliente esta satisfecho con el
+ahorro, los datos muestran que los productos con descuentos superiores
+al 80\% tienen el promedio más bajo. Con el coeficiente de correlacion
+se puede comprobar entonces como el rating y el descuento presentan una
+relacion inversa.
+
+\section{Gráfico de dispersión entre el precio actual y el rating}
+
+\begin{longtable}[t]{clc}
+\caption{\label{tab:unnamed-chunk-4}Distribución de Productos por Rango de Satisfacción}\\
+\toprule
+Rango de Satisfacción & Intervalo de Rating & Cantidad de Productos\\
+\midrule
+Malo & {}[1, 3) & 10\\
+Regular & {}[3, 4) & 486\\
+Bueno & {}[4, 5) & 756\\
+\bottomrule
+\end{longtable}
+
+\begin{center}\includegraphics[width=1\linewidth,]{informe_files/figure-latex/unnamed-chunk-4-1} \end{center}
+
+\textbf{Análisis:} En el gráfico se puede visualizar que en el rango de
+``Bueno'', su distribución es bastante uniforme a lo largo de todo el
+eje X, sugiriendo que el precio no es un punto decisivo para alcanzar la
+excelencia en cuanto a rating se hable, ya que podemos observar que hay
+una densidad de puntos marrones notable en los productos inferiores o
+iguales a 2500 rupias, siendo estos mismos los más abundantes de su
+distribución. Por otra parte, analizando los productos calificados como
+``Malo'', se concentran exclusivamente por debajo de las 2500 rupias; a
+medida de que el precio actual va superando las 5000 rupias, desaparecen
+casi por completo, revelando que en ese umbral cuando los precios son
+económicos es presente el riesgo de que se pueda obtener un producto
+excelente o uno deficiente, y que a precios más altos la distribución se
+va comprimiendo más en la parte superior, estabilizando la expectativa
+del consumidor en un nivel aceptable o superior.
+
+\section{Análisis del volumen de interacción en base a los rangos de satisfacción}
+
+\begin{center}\includegraphics[width=0.8\linewidth,]{informe_files/figure-latex/unnamed-chunk-5-1} \end{center}
+
+\textbf{Análisis:} En relación con el anterior gráfico de dispersión, en
+este podemos observar que la acumulación del rating en el rango
+``Bueno'' se debe a que la mayor cantidad de reseñas o interacciones las
+tiene el mismo. Desde una perspectiva descriptiva esto se puede ver como
+una nube que oculta lo que está tras ella, al condensarse tanta
+población en un mismo rango alcanzando grandes volúmenes, todos los
+cálculos y parámetros van a tender a esos valores, manteniéndose más
+estables en la plataforma que otros, como lo pueden ser los que
+pertenecen a los rangos ``Regular'' y ``Malo'', sugiriendo que estos
+productos pueden ser de un consumo menos ``masivo'' o que probablemente
+por el hecho de la permanencia de esos productos no han podido
+deslumbrar ante lo que los oculta.
+
+\section{Satisfacción vs Precio actual}
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{informe_files/figure-latex/unnamed-chunk-6-1} \end{center}
+
+\textbf{Análisis:} El diagrama de cajas nos permite visualizar cómo
+están distribuidos los costos asociados a cada rango de satisfacción,
+presentando homogeneidad en los precios centrales, pero una gran
+desigualdad en los extremos. Un punto resaltante es el hecho de que la
+linea divisora (mediana) de las cajas ``Malo'', ``Regular'' y ``Bueno''
+se sitúan en un nivel similar, dando a entender que el precio típico de
+un producto no varía tanto independientemente en el umbral de
+satisfacción en el que se halle.
+
+Por otra parte, analizando los renglones de la caja perteneciente a
+``Bueno'', observamos la presencia de una acumulación de outliers de
+artículos caros, esto demuestra que aunque la gran mayoría de los
+productos excelentes son económicos, hay un subgrupo que sin importar su
+costo, siguen demostrando ser óptimos en su desempeño, ofreciendo una
+garantía ``Buena'' en sus reseñas.
+
+Por último, el rango ``Regular'', al ser la caja más amplia, indica que
+el mercado es menos uniforme, donde los precios tienden a variar
+significativamente entre lo barato y lo caro sin haber un patrón
+estandarizado.
+
+\chapter{Conclusiones y Recomendaciones}
+
+\textbf{1.-}~Dando respuesta a la primera interrogante de la
+investigacion tras analizar la distribución de las calificaciones en el
+conjunto de datos de Amazon Sales, se concluye que no existe una
+polarización crítica en el discurso del consumidor, sino un marcado
+sesgo positivo como se pudo observar en la acumulación de puntajes en el
+extremo superior del histograma. Esto demuestra que el sistema de
+reseñas de Amazon actúa como un filtro de confianza más que como un
+espacio de crítica exhaustiva. Este sugiere la presencia de un sesgo de
+selección, donde los usuarios que deciden participar en el sistema de
+calificaciones son mayoritariamente aquellos cuya expectativa fue
+satisfecha o superada, omitiendo registrar experiencias mediocres o
+negativas que generarían una distribución más equitativa o bimodal.
+
+\textbf{Recomendación} ~Se recomienda diseñar estrategias de recolección
+de datos que motiven a los compradores con experiencias ``regulares'' y
+``malas'' a dejar su opinión. Al capturar la opinión de este segmento,
+la plataforma obtendría una base de datos más equilibrada, permitiendo
+identificar fallas sutiles en los productos que actualmente quedan
+ocultas bajo el alto promedio de calificaciones, pero que a largo plazo
+podrían afectar la retención de clientes, esto permitiría equilibrar el
+sesgo de positividad y obtener una visión más realista del rendimiento
+de los productos.
+
+\textbf{2.-}~Se concluye que, contrario a la hipótesis de una menor
+rigurosidad por parte del consumidor ante los descuentos, existe una
+relación inversa leve entre el ahorro económico y la satisfacción
+percibida. Los datos demuestran que los productos con mayores descuentos
+presentan los niveles de satisfacción más bajos de la muestra. Este
+fenómeno sugiere que descuentos excesivamente agresivos podrían estar
+asociados a productos que no cumplen plenamente con las expectativas de
+calidad o que generan una percepción de menor valor real en el usuario.
+En definitiva, el descuento no actúa como un amortiguador de la crítica;
+por el contrario, los productos a precio completo o con rebajas mínimas
+son los que logran mantener los estándares de calificación más altos y
+consistentes.
+
+\textbf{Recomendación} ~Se recomienda investigar por qué los productos
+con descuentos muy altos tienen las notas más bajas. Es necesario
+revisar si estos artículos presentan defectos o si la calidad es
+inferior a lo esperado. Al entender esto, se pueden evitar ofertas que
+aunque parecen atractivas por el precio, terminan generando clientes
+insatisfechos y dañando la imagen del proveedor.
+
+\textbf{3.-} Respondiendo la tercera pregunta de investigación,
+contrastando el gráfico de volumen de interacciones y dispersión, se
+concluye por definitiva que el precio actual no es un determinante para
+la excelencia del producto en cuanto a la calificación, pero si como un
+atenuador o filtro de confianza al igual que el sistema de reseñas de
+Amazon, ya que el análisis bivariado nos demuestra que es posible llegar
+a ver calificaciones altas a lo largo de toda la distribución de
+precios, sin embargo, a medida que el precio va aumentando (por encima
+de 5000 rupias) la distribución se visualiza más compacta en el rango
+``Regular'', eliminando por completo el umbral de los ``Malos''. Por
+otra parte, en el posicionamiento de ventas (medido por interacciones)
+nos sugiere que una gran parte de los usuarios se sitúan en las compras
+económicas, teniendo en cuenta que en ese rango de precio las
+calificaciones son mucho más volátiles, es decir, se les otorga una
+mayor visualización o hay un mayor interés en esos productos a pesar de
+que el nivel de satisfacción no sea el más confiable, indicando que a la
+hora de adquirir un bien de un costo elevado, garantiza una experiencia
+como mínimo ``Regular'' para el usuario.\\
+
+\textbf{Recomendación} Se recomienda a los vendedores y analistas del
+mercado, no utilizar el precio elevado como un factor que lidera en
+ventas, sino como una herramienta que garantiza una reputación buena en
+sus productos. Dado a que el mayor volumen de interacciones está en la
+zona de los artículos económicos, se sugiere a las marcas un refuerzo en
+sus controles de calidad para así contrastar con una estabilidad en el
+rating de sus productos más uniforme. Para los artículos de ``Alta
+gama'', es muy vital un enfásis en el marketing sobre la seguridad de
+compra, ya que los datos afirman que a la hora de pagar por un producto
+caro, se garantiza una buena experiencia en los resultados de sus
+compradores.\\
+
+\chapter{Bibliografía}
+
+\begin{itemize}
+\item{Elena Bello. (2024, 4 de octubre). ¿Qué es e-Commerce y cómo crear un comercio electrónico?. https://www.iebschool.com/hub/comercio-online-ecommerce/}
+\item{Payoneer Team. (2025, 8 de noviembre). E-commerce: qué es, beneficios y estrategias. https://www.payoneer.com/es/resources/business/guia-ecommerce/}
+\item{Andrew Bloomenthal. (2025, 31 de julio). Explicación de la información asimétrica en economía. https://www.investopedia.com/terms/a/asymmetricinformation.asp}
+\item{Mohn, Elizabeth. (2025). Asimetría de la información. https://www.ebsco.com/research-starters/social-sciences-and-humanities/information-asymmetry}
+\item{Isabel Rovira Salvador. (2018, 21 de marzo). Efecto anclaje: las características de este sesgo cognitivo. https://psicologiaymente.com/psicologia/efecto-anclaje}
+\item{Anuja Shukla, Anubhav Mishra, Yogesh K. Dwivedi. (2026, 14 de marzo). Expectation Confirmation Theory (ECT). https://open.ncl.ac.uk/theories/14/expectation-confirmation-theory/}
+\end{itemize}
+
+\appendix
+\renewcommand{\thechapter}{\Alph{chapter}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                   REFERENCIAS                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Mantenemos la estructura natbib de tu plantilla
+\renewcommand{\bibname}{Lista de Referencias}
+\bibliographystyle{apalike} 
+\bibliography{bibliografia.bib} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                   APÉNDICES                       %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
