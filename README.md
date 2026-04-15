@@ -19,6 +19,9 @@ Evaluar cómo la estrategia de descuentos influyen en la percepción de calidad 
 * Describir la distribución de las calificaciones para identificar la presencia de polarización en las opiniones de los usuarios.
 * Comparar el promedio de rating en función de los rangos del porcentaje de descuento para determinar si a mayor descuento existe una tendencia a calificar con menor rigurosidad.
 * Establecer agrupaciones de satisfacción basadas en el rating para determinar cómo estas categorías influyen en la variabilidad del precio actual y en el posicionamiento de las ventas.
+ 
+[Deploy del dashboard](https://dashboard-amzon-sales.streamlit.app/)
 
 ---
-[Deploy del dashboard](https://dashboard-amzon-sales.streamlit.app/)
+## Disclaimer
+Este proyecto no está afiliado a Amazon ni cuenta con su respaldo.
