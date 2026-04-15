@@ -5,8 +5,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import scipy.stats as stats
 
-amazon_palette = ['#00A8E1', '#ff9900',
-                  '#f3ece1', '#12130F', '#232f3e', '#f2f2f2']
+amazon_palette = ['#00A8E1', '#ff9900', '#232f3e']
 
 
 @st.fragment
@@ -31,16 +30,17 @@ def resume_tab(filtered_df: pd.DataFrame, df: pd.DataFrame, rating_filter):
             if rating_filter != []:
                 only_cat_selected = filtered_df.query(
                     "rating_group in @rating_filter")["rating_group"].cat.remove_unused_categories()
-                only_cat_selected.sort_values(inplace=True)
-                fig1 = px.funnel(y=only_cat_selected.cat.remove_unused_categories().unique().tolist(),
-                                 x=only_cat_selected.cat.reorder_categories(rating_filter).value_counts()[
-                    :len(rating_filter)],
-                    title="Conteo de productos por grupo de rating seleccionados", color_discrete_sequence=amazon_palette)
+                print(only_cat_selected.cat.reorder_categories(rating_filter).value_counts(ascending=True)[
+                    :len(rating_filter)])
+                fig1 = px.funnel(y=rating_filter,
+                                 x=only_cat_selected.cat.reorder_categories(rating_filter).value_counts(ascending=True)[
+                                     :len(rating_filter)],
+                                 title="Conteo de productos por grupo de rating seleccionados", color_discrete_sequence=amazon_palette)
             else:
-                fig1 = px.funnel(y=filtered_df["rating_group"].cat.categories.to_list(), x=filtered_df["rating_group"].value_counts(
-                ), title="Conteo de productos por grupo de rating", color_discrete_sequence=amazon_palette)
+                fig1 = px.funnel(y=filtered_df["rating_group"].cat.categories.tolist(), x=filtered_df["rating_group"].value_counts(
+                    ascending=True), title="Conteo de productos por grupo de rating", color_discrete_sequence=amazon_palette)
 
-            fig1.update_traces(textposition="inside",
+            fig1.update_traces(textposition="outside",
                                textinfo="percent total+value")
             fig1.update_layout(yaxis_title="Grupo de rating")
             st.plotly_chart(fig1)
@@ -63,13 +63,14 @@ def resume_tab(filtered_df: pd.DataFrame, df: pd.DataFrame, rating_filter):
         with col2:
             st.markdown(
                 "Top 10 productos con mejor rating :small_red_triangle:")
-            top_rated = df.sort_values(
+            top_rated = filtered_df.sort_values(
                 "rating", ascending=False).head(10)
             st.dataframe(top_rated[["product_name", "rating"]].rename(columns={
                 "product_name": "Nombre del producto",
                 "rating": "Rating"
             }))
-
+        st.link_button("Descargar el informe del proyecto",
+                   "https://github.com/DosiDeveloper/Proyecto-final-computacion/blob/master/informe.pdf", icon=":material/info:")
 
 @st.fragment
 def graph_tab(filtered_df: pd.DataFrame):
@@ -83,34 +84,20 @@ def graph_tab(filtered_df: pd.DataFrame):
             "rating": "Rating",
             "rating_count": "Conteo de rating",
             "about_product": "Descripción del producto",
+            "discount_percentage_group": "Grupo de porcentaje de descuento",
+            "rating_group": "Grupo de rating"
         })
-        select_dist_item = st.multiselect("Selecciona dos o una variable para graficar", [
-            "Porcentaje de descuento", "Rating", "Precio real (INR)", "Precio con descuento (INR)", "Conteo de rating"], default=["Porcentaje de descuento", "Rating"], placeholder="Selecciona dos variables", max_selections=2)
-        if len(select_dist_item) == 0:
-            st.warning(
-                "Selecciona al menos una variable para mostrar su distribución, dispersión y correlación")
-            return
-        if len(select_dist_item) == 1:
-            fig = go.Figure()
-            fig.add_trace(go.Histogram(
-                x=local_df[select_dist_item[0]], histnorm="probability density", name=select_dist_item[0], marker_color=amazon_palette[0]))
-            x_curve = np.linspace(local_df[select_dist_item[0]].min(
-            ), local_df[select_dist_item[0]].max(), 100)
-            y_curve = stats.norm.pdf(x_curve, np.mean(
-                local_df[select_dist_item[0]]), np.std(local_df[select_dist_item[0]]))
-            fig.add_trace(go.Scatter(x=x_curve, y=y_curve,
-                          mode='lines', name='Normal Curve'))
-            fig.update_yaxes(showticklabels=False)
-            fig.update_layout(
-                title_text=f"Distribución de {select_dist_item[0]}", xaxis_title_text=select_dist_item[0], showlegend=False)
 
-            fig_box = go.Figure(go.Box(
-                x=local_df[select_dist_item[0]], name=select_dist_item[0], marker_color=amazon_palette[0]))
-
-            st.plotly_chart(fig)
-            st.plotly_chart(fig_box)
-            return
-
+        select_dist_item = st.selectbox("Selecciona dos variables para mostrar su distribución, dispersión y correlación", [
+                                        "Porcentaje de descuento y Rating", "Precio real (INR) y Rating", "Conteo de rating y Rating", "Precio con descuento (INR) y Rating"], placeholder="Selecciona pares de variables")
+        select_segment_item = None
+        if st.checkbox("Mostrar segmentos en el gráfico de dispersión"):
+            select_segment_item = st.selectbox("Selecciona una segmentacion para mostrar", [
+                "Grupo de porcentaje de descuento",
+                "Grupo de rating"
+            ], placeholder="Selecciona una variable")
+        select_dist_item = select_dist_item.split(
+            " y ") if select_dist_item else []
         for item in select_dist_item:
             fig1 = go.Figure(go.Histogram(
                 x=local_df[item], name=item, marker_color=amazon_palette[0], histnorm="probability density"))
@@ -123,16 +110,19 @@ def graph_tab(filtered_df: pd.DataFrame):
             fig1.update_yaxes(showticklabels=False)
             fig1.update_layout(
                 title_text=f"Distribución de {item}", xaxis_title_text=item, showlegend=False)
-            fig1_box = go.Figure(go.Box(
-                x=local_df[item], name=item, marker_color=amazon_palette[0]))
+            fig1_box = px.box(
+                x=local_df[item], title=f"Boxplot de {item}", color=local_df[select_segment_item] if select_segment_item else None, color_discrete_sequence=px.colors.qualitative.Plotly if select_segment_item else amazon_palette)
             fig1_box.update_layout(
                 title_text=f"Boxplot de {item}", xaxis_title_text=item)
-
             st.plotly_chart(fig1)
             st.plotly_chart(fig1_box)
 
-        st.plotly_chart(px.scatter(x=local_df[select_dist_item[1]], y=local_df[select_dist_item[0]], title=f"Relacion entre {select_dist_item[1]} y {select_dist_item[0]}",
-                        color_discrete_sequence=amazon_palette, trendline_color_override="#ff9900", trendline="ols").update_layout(xaxis_title=select_dist_item[1], yaxis_title=select_dist_item[0]))
+        fig_scatter = px.scatter(x=local_df[select_dist_item[1]], y=local_df[select_dist_item[0]], title=f"Relación entre {select_dist_item[1]} y {select_dist_item[0]}",
+                                 trendline_color_override="#ff9900", trendline=None if select_segment_item else "ols", color=local_df[select_segment_item] if select_segment_item else None, color_discrete_sequence=px.colors.qualitative.Plotly if select_segment_item else amazon_palette)
+        fig_scatter.update_layout(
+            xaxis_title=select_dist_item[1], yaxis_title=select_dist_item[0])
+        st.plotly_chart(fig_scatter)
+
         with st.expander(label=f"Más información sobre el gráfico", icon=":material/thumb_up:"):
             st.markdown(
                 f"#### En el gráfico se muestra la correlación entre el rating y el porcentaje de descuento")
@@ -150,7 +140,7 @@ def graph_tab(filtered_df: pd.DataFrame):
 
 
 @st.fragment
-def df_tab(filtered_df: pd.DataFrame):
+def df_tab(filtered_df: pd.DataFrame, df: pd.DataFrame):
     st.header("Tabla")
     st.dataframe(filtered_df[["product_name", "category", "discounted_price", "discount_percentage", "actual_price", "rating", "rating_count", "about_product"]].rename(columns={
         "product_name": "Nombre del producto",
@@ -162,3 +152,22 @@ def df_tab(filtered_df: pd.DataFrame):
         "rating_count": "Conteo de rating",
         "about_product": "Descripción del producto",
     }))
+
+    with st.expander(label="¿Cómo se hizo la limpieza de datos?", icon=":material/info:"):
+        st.markdown(
+            """
+            - Se eliminaron las columnas img_link, product_link, review_id, user_name, user_id, review_title y review_content dado que no aportaban información relevante para el análisis y actualmente no existen en el server de Amazon
+            - Se parsearon los precios eliminando el símbolo de rupia y las comas para convertirlos a tipo float
+            - Se parsearon los porcentajes de descuento eliminando el símbolo de porcentaje para convertirlos a tipo int
+            - Se parsearon los ratings convirtiendo los valores no numéricos a NaN y luego rellenando esos NaN con la mediana de los ratings
+            - Se parsearon los conteos de rating eliminando las comas, convirtiendo los valores no numéricos a NaN y luego rellenando esos NaN con la mediana de los conteos de rating
+            - Se parsearon las categorías dividiendo las cadenas por los caracteres '|' o ',' para convertirlas a listas
+            - Se eliminaron los outliers del precio real utilizando el método del rango intercuartílico (IQR)
+            - Se recalcularon los precios con descuento a partir de los precios sin outliers""")
+
+        st.link_button("Descargar el dataset sin limpiar",
+                       "https://github.com/DosiDeveloper/Proyecto-final-computacion/blob/master/11.%20Amazon%20Sales.pdf", icon=":material/release_alert:")
+        st.download_button("Descargar el dataset limpio",
+                           df.to_csv().encode("utf-8"), icon=":material/info:", mime="text/csv", file_name="Cleaned Amazon Sales.csv")
+        st.download_button("Descargar el dataset segun los filtros aplicados", icon=":material/download:", data=filtered_df.to_csv(
+            index=False), file_name="Cleaned and Filtered Amazon Sales.csv", mime="text/csv")
