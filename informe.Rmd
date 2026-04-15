@@ -243,12 +243,12 @@ total_registros <- nrow(df_sin_atipicos)
 tabla_resumen <- data.frame(
   Metrica = c("Total de Productos", "Media", "Mediana", "Moda", "Desviación Estándar","Mínimo", "Máximo"),
   Valor = c(total_registros, 
-            round(media_r, 2), 
-            round(mediana_r, 2), 
-            round(moda_r, 2),
-            round(desviacion_r, 2),
-            round(minimo_r, 2), 
-            round(maximo_r, 2))
+            round(media_r, 3), 
+            round(mediana_r, 3), 
+            round(moda_r, 3),
+            round(desviacion_r, 3),
+            round(minimo_r, 3), 
+            round(maximo_r, 3))
 )
 
 # Creacion de la tabla con los resultados de las estadisticas descriptivas
@@ -276,7 +276,7 @@ ggplot(df_sin_atipicos, aes(x = rating)) +
 
 ```
 
-**Análisis:** La calificación promedio de un producto es de `r round(media_r,2)` y su mediana de `r round(mediana_r,2)` mostrando una concentración en la parte superior de la escala. El histograma muestra una distribución unimodal con un ligero sesgo negativo, donde la mayor cantidad de productos se agrupa por encima de las 4 estrellas. El hecho que la desviación estandar sea tan baja confirma que existe un consenso generalizado sobre la calidad de los artículos, descartando la presencia de una división crítica o polarización en la percepción de los usuarios dentro de esta muestra.
+**Análisis:** La calificación promedio de un producto es de `r round(media_r,3)` y su mediana de `r round(mediana_r,3)` mostrando una concentración en la parte superior de la escala. El histograma muestra una distribución unimodal con un ligero sesgo negativo, donde la mayor cantidad de productos se agrupa por encima de las 4 estrellas. El hecho que la desviación estandar sea tan baja confirma que existe un consenso generalizado sobre la calidad de los artículos, descartando la presencia de una división crítica o polarización en la percepción de los usuarios dentro de esta muestra.
 
 \newpage
 
@@ -309,15 +309,15 @@ resumen_d <- df_sin_atipicos %>%
   group_by(rango_descuento) %>%
   summarize(
     N = n(),
-    Media = round(mean(rating), 2),
-    Mediana = round(median(rating), 2),
+    Media = round(mean(rating), 3),
+    Mediana = round(median(rating), 3),
     Moda = moda2(rating),
-    Desv_Est = round(sd(rating), 2)
+    Desv_Est = round(sd(rating), 3)
   )
 
 # Calculo de la  correlación
 cor_val <- cor(df_sin_atipicos$rating, df_sin_atipicos$discount_percentage, method = "pearson")
-cat("**Coeficiente de Correlación de Pearson:** ", round(cor_val, 2))
+cat("**Coeficiente de Correlación de Pearson:** ", round(cor_val, 3))
 
 # Tabla resumen de estadisticas 
 resumen_d %>%
@@ -344,7 +344,7 @@ ggplot(df_sin_atipicos, aes(x = rango_descuento, y = rating, fill = rango_descue
 ```
 \newpage
 
-**Análisis:** Se observa en la tabla y el gráfico de cajas, que hay una tendencia decreciente ligera pero constante en el rating promedio a medida que aumenta el porcentaje de descuento. Los productos sin descuento lideran la satisfacción con una media de `r round( resumen_d$Media[resumen_d$rango_descuento == "Sin Descuento (0%)"], 2)`, los rangos de descuento intermedios por otra parte presentan la mayor cantidad de valores atípicos y mayor desviación estándar, lo que refleja una opinión más crítica por parte de los compradores en este segmento. Contrario a la hipótesis de una menor rigurosidad a mayor descuento, donde se esperaría que el rating subiera porque el cliente esta satisfecho con el ahorro, los datos muestran que los productos con descuentos superiores al 80% tienen el promedio más bajo. Con el coeficiente de correlacion se puede comprobar entonces como el rating y el descuento presentan una relacion inversa. 
+**Análisis:** Se observa en la tabla y el gráfico de cajas, que hay una tendencia decreciente ligera pero constante en el rating promedio a medida que aumenta el porcentaje de descuento. Los productos sin descuento lideran la satisfacción con una media de `r round( resumen_d$Media[resumen_d$rango_descuento == "Sin Descuento (0%)"], 3)`, los rangos de descuento intermedios por otra parte presentan la mayor cantidad de valores atípicos y mayor desviación estándar, lo que refleja una opinión más crítica por parte de los compradores en este segmento. Contrario a la hipótesis de una menor rigurosidad a mayor descuento, donde se esperaría que el rating subiera porque el cliente esta satisfecho con el ahorro, los datos muestran que los productos con descuentos superiores al 80% tienen el promedio más bajo. Con el coeficiente de correlacion se puede comprobar entonces como el rating y el descuento presentan una relacion inversa. 
 
 \section{Gráfico de dispersión entre el precio actual y el rating}
 
