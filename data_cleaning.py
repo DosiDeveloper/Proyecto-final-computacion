@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 
@@ -5,7 +6,7 @@ df = pd.read_csv("11. Amazon Sales.csv")
 # No hay datos duplicados, pero se eliminan por si acaso
 df = df.drop_duplicates()
 
-# Eliminacion de las columnas img_link y product_link dado que existen actualmente en el server de Amazon
+# Eliminación de las columnas img_link y product_link dado que existen actualmente en el server de Amazon
 df = df.drop(columns=["img_link", "product_link", "review_id",
              "user_name", "user_id", "review_title", "review_content"])
 
@@ -30,7 +31,7 @@ df["rating_count"] = df["rating_count"].str.replace(",", "").fillna(
 df["category"] = df["category"].str.split(r"[|,]", regex=True)
 
 
-# eliminando outlier
+# eliminando outliers
 q1_actual_price = df["actual_price"].quantile(.25)
 q3_actual_price = df["actual_price"].quantile(.75)
 iqr_actual_price = q3_actual_price - q1_actual_price
@@ -46,5 +47,19 @@ df["category"].apply(lambda x: list_category.update(x))
 df["discounted_price"] = df["actual_price"] - \
     (df["actual_price"] * (df["discount_percentage"]/100))
 
+# segmentación de rating y descuento
+percentage_level = ["Sin descuento", "1-20%",
+                    "21-40%", "41-60%", "61-80%", "81-100%"]
+
+rating_label = ["Malo", "Regular", "Bueno"]
+
+df["discount_percentage_group"] = pd.cut(
+    df["discount_percentage"], bins=[-1, 0, 20, 40, 60, 80, np.inf], labels=percentage_level)
+df["rating_group"] = pd.cut(
+    df["rating"], [1, 3, 4, 5], labels=rating_label)
+
+
 if __name__ == "__main__":
     df.to_csv("Cleaned Amazon Sales.csv", index=False)
+    print(df.head())
+    print(df.info())
