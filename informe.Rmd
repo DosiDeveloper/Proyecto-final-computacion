@@ -1,6 +1,6 @@
 ---
 # --- Metadatos Básicos ---
-title: "Análisis del uso de estrategias de descuentos  y su influyencia en la percepción de calidad y en la polarización del discurso del consumidor en Amazon Sales "
+title: "Análisis del uso de estrategias de descuentos y su influyencia en la percepción de calidad y la polarización del discurso del consumidor en Amazon Sales "
 author:
    - Douglas Barreto
    - Laura Montes
@@ -53,7 +53,7 @@ knitr::opts_chunk$set(
 
 Actualmente, el comercio electrónico ha tornado un rumbo distinto con respecto a las dinámicas de compra y venta de bienes, suplantando la interacción fisica de los objetos por un ecosistema basado en incentivos que actúan como mediador en las decisiones que pueda llegar a tomar el consumidor. En el entorno digital de ventas de Amazon, se moviliza bajo un flujo de datos donde el mismo usuario deberá, ante la imposibilidad de analizar un producto, recurrir a indicadores de valor que sugieren reducir su incertidumbre.
 
-El costo de un artículo termina siendo más que un simple valor monetario, se convierte en un ancla que define la expectativa de un usuario de muchas maneras. El presente trabajo pretende realizar un desglose de la idea de que a un mayor descuento garantiza una mayor calificación en el rating, por medio de un análisis cuantitativo en la base de datos de Amazon Sales, buscando revelar cómo las estrategias de precios y descuentos moldean la percepción de calidad, donde señales como el ahorro pueden ser tan influyentes (o engañosas) como la calidad de un producto mismo.
+El costo de un artículo termina siendo más que un simple valor monetario, se convierte en un ancla que define la expectativa de un usuario de muchas maneras. El presente trabajo pretende realizar un desglose de la idea que a un mayor descuento garantiza una mayor calificación en el rating, por medio de un análisis cuantitativo en la base de datos de Amazon Sales, buscando revelar cómo las estrategias de precios y descuentos moldean la percepción de calidad, donde señales como el ahorro pueden ser tan influyentes (o engañosas) como la calidad de un producto mismo.
 
 Para alcanzar el objetivo planteado, el trabajo se ha estructurado de la siguiente manera: en el primer capítulo se presenta la situación problemática, objetivos y justificación; en el segundo se expone el marco referencial con las teorías que sustenta la investigación; en el tercer apartado se desarrolla el marco metódico, es decir, el paradigma que sustenta la acción transformadora; en el capítulo cuatro se expresan en gráficos los resultados del análisis de los mismos; y por último, el capítulo cinco, donde se presentan las conclusiones y recomendaciones sugeridas.
 
@@ -72,7 +72,7 @@ En razón a lo antes expuesto, la investigación propuesta busca dar respuesta a
 
   \textbf{2.}\ ¿Existe una correlación significativa entre el porcentaje de descuento aplicado y el promedio de calificación que sugiera que los usuarios son menos exigentes al evaluar productos adquiridos a menor precio?
   
-\textbf{3.}\ ¿De qué manera el nivel de satisfacción del usuario, segmentado por rangos de calificación, condiciona el comportamiento del precio actual y el éxito en el posicionamiento de ventas de los productos?
+\textbf{3.}\ ¿De qué manera el nivel de satisfacción del usuario condiciona el comportamiento del precio actual y el éxito en el posicionamiento de ventas de los productos?
 
 
 \section{Justificación}
@@ -150,11 +150,11 @@ A continuación se detalla la metodologia utilzada para abordar el presente estu
 \ El tratamiento de la información se llevó a cabo mediante el lenguaje de programación R, empleando las librerías tidyverse, con especial énfasis en dplyr para la manipulación de datos y ggplot2 para la generación de evidencia visual. El proceso se realizó en las siguientes etapas:
 
 \begin{itemize}
-  \item {Limpieza de datos: Se procede con la depuración de las variables, eliminando caracteres especiales de las columnas de moneda y gestionando registros con valores ausentes en las métricas de satisfacción. Se recalcula los porcentajes en la variable de descuento del precio y se filtran los valores atipicos del precio actual para garantizar la integridad de los resultados. }
-  \item{Análisis Descriptivo: Se ejecutan cálculos de tendencia central y dispersión, como la media, la mediana y la desviación estándar, con el fin de identificar la variabilidad del umbral de exigencia del consumidor frente a distintos niveles de precio.}
-  \item{Tipificación y Normalización: Se realiza la normalización de los histogramas para que el área bajo la curva equivalga a 1, transformando la frecuencia absoluta en densidad de probabilidad. Posteriormente, utilizando la media y la desviación estándar de las variables, se procede con la tipificación de los datos para superponer la campana de Gauss sobre el histograma.}
-  \item{Visualización: Se desarrollan histogramas para detectar la polarización de opiniones, diagramas de caja para segmentar la satisfacción por niveles de descuento y gráficos de dispersión que ilustran la densidad de la relación entre costo y calificación.}
-  \item{Tabulación: Generación de tablas que resuman las estadisticas del rating, los rangos de descuento y las agrupaciones de satisfacción (Alta, Regular y Baja).}
+  \item {Limpieza de datos: Se procedio con la depuración de las variables, eliminando caracteres especiales de las columnas de moneda y gestionando registros con valores ausentes en las métricas de satisfacción. Se recalculó los porcentajes en la variable de descuento del precio y se filtraron los valores atipicos del precio actual para garantizar la integridad de los resultados. }
+  \item{Análisis Descriptivo: Se ejecutanron cálculos de tendencia central y dispersión, como la media, la mediana y la desviación estándar, con el fin de identificar la variabilidad del umbral de exigencia del consumidor frente a distintos niveles de precio.}
+  \item{Tipificación y Normalización: Se realizó la normalización de los histogramas para que el área bajo la curva equivalga a 1, transformando la frecuencia absoluta en densidad de probabilidad. Posteriormente, utilizando la media y la desviación estándar de las variables, se procedió con la tipificación de los datos para superponer la campana de Gauss sobre el histograma.}
+  \item{Visualización: Se desarrollaron histogramas para detectar la polarización de opiniones, diagramas de caja para segmentar la satisfacción por niveles de descuento y gráficos de dispersión que ilustran la densidad de la relación entre costo y calificación.}
+  \item{Tabulación: Generación de tablas que resuman las estadisticas del rating, los rangos de descuento y las agrupaciones de satisfacción (Malo, Regular y Bueno).}
 \end{itemize}
 
 ```{r include=FALSE}
@@ -309,10 +309,10 @@ resumen_d <- df_sin_atipicos %>%
   group_by(rango_descuento) %>%
   summarize(
     N = n(),
-    Media = round(mean(rating), 3),
-    Mediana = round(median(rating), 3),
+    Media = round(mean(rating), 2),
+    Mediana = round(median(rating), 2),
     Moda = moda2(rating),
-    Desv_Est = round(sd(rating), 3)
+    Desv_Est = round(sd(rating), 2)
   )
 
 # Calculo de la  correlación
